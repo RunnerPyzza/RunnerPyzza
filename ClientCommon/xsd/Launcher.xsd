@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+          targetNamespace="RunnerPyzza"
+          xmlns="RunnerPyzza" 
+          elementFormDefault="qualified">
+  <xs:element name="scriptChain">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="program" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="main">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="name">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:whiteSpace value="preserve"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="baseCommand">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:whiteSpace value="preserve"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="order" type="xs:integer"/>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="option" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="alias" type="xs:string"/>
+                    <xs:element name="value" type="xs:string"/>
+                    <xs:element name="separator" default=" ">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value=" "/>
+                          <xs:enumeration value="="/>
+                          <xs:enumeration value=""/>
+                          <xs:whiteSpace value="preserve"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="delimiter" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="cpu" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="numCPU">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:integer">
+                          <xs:minInclusive value="1"/>
+                        </xs:restriction>
+                      </xs:simpleType>      
+                    </xs:element>
+                    <xs:element name="kind" default="inside">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="inside"/>
+                            <xs:enumeration value="prefix"/>
+                          </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="cmdCPU" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
