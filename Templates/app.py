@@ -57,8 +57,16 @@ def getOptions():
 # Log setup
 
 # create logger
-# Name shown
-logger = logging.getLogger('XXXXXXXXXXXXX')
+# without any name, so it's root
+logger = logging.getLogger()
+
+# Set root log level
+if options.quiet:
+    logger.setLevel(logging.WARN)
+elif options.debug:
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 # create console handler
 ch = logging.StreamHandler()
@@ -71,7 +79,7 @@ else:
     ch.setLevel(logging.INFO)
 
 # create formatter for console handler
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - (message)s',
+formatter = logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s',
                             '%H:%M:%S')
 # add formatter to console handler
 ch.setFormatter(formatter)
@@ -88,7 +96,7 @@ if options.debug:
 else:
     fh.setLevel(logging.INFO)
 # create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - (message)s',
+formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] - %(message)s',
                             '%Y-%m-%d %H:%M:%S')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
