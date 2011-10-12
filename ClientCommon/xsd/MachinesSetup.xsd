@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+          targetNamespace="RunnerPyzza"
+          xmlns="RunnerPyzza" 
+          elementFormDefault="qualified">
+  <xs:element name="machinesSetup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="machine" minOccurs="1" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="hostname" type="xs:string"/>
+              <xs:element name="user" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

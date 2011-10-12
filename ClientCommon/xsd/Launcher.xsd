@@ -68,6 +68,17 @@
                       </xs:simpleType>
                     </xs:element>
                     <xs:element name="cmdCPU" type="xs:string"/>
+                    <xs:element name="separator" default=" ">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value=" "/>
+                          <xs:enumeration value="="/>
+                          <xs:enumeration value=""/>
+                          <xs:whiteSpace value="preserve"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="delimiter" type="xs:string"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>

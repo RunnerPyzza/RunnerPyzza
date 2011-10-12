@@ -7,7 +7,7 @@
 
 # To update this file:
 # 1- sudo easy_install generateDS
-# 2- generateDS.py -o ScriptChainXML.py xsd/Launcher.xsd
+# 2- generateDS.py -o ScriptChainXML.py --use-old-getter-setter xsd/Launcher.xsd
 # 3- ???
 # 4- profit
 
@@ -922,10 +922,12 @@ class separator(GeneratedsSuper):
 class cpuType(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, numCPU=None, kind='inside', cmdCPU=None):
+    def __init__(self, numCPU=None, kind='inside', cmdCPU=None, separator=' ', delimiter=None):
         self.numCPU = numCPU
         self.kind = kind
         self.cmdCPU = cmdCPU
+        self.separator = separator
+        self.delimiter = delimiter
     def factory(*args_, **kwargs_):
         if cpuType.subclass:
             return cpuType.subclass(*args_, **kwargs_)
@@ -938,6 +940,10 @@ class cpuType(GeneratedsSuper):
     def setKind(self, kind): self.kind = kind
     def getCmdcpu(self): return self.cmdCPU
     def setCmdcpu(self, cmdCPU): self.cmdCPU = cmdCPU
+    def getSeparator(self): return self.separator
+    def setSeparator(self, separator): self.separator = separator
+    def getDelimiter(self): return self.delimiter
+    def setDelimiter(self, delimiter): self.delimiter = delimiter
     def export(self, outfile, level, namespace_='', name_='cpuType', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -962,11 +968,19 @@ class cpuType(GeneratedsSuper):
         if self.cmdCPU is not None:
             showIndent(outfile, level)
             outfile.write('<%scmdCPU>%s</%scmdCPU>\n' % (namespace_, self.gds_format_string(quote_xml(self.cmdCPU).encode(ExternalEncoding), input_name='cmdCPU'), namespace_))
+        if self.separator is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sseparator>%s</%sseparator>\n' % (namespace_, self.gds_format_string(quote_xml(self.separator).encode(ExternalEncoding), input_name='separator'), namespace_))
+        if self.delimiter is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sdelimiter>%s</%sdelimiter>\n' % (namespace_, self.gds_format_string(quote_xml(self.delimiter).encode(ExternalEncoding), input_name='delimiter'), namespace_))
     def hasContent_(self):
         if (
             self.numCPU is not None or
             self.kind is not None or
-            self.cmdCPU is not None
+            self.cmdCPU is not None or
+            self.separator is not None or
+            self.delimiter is not None
             ):
             return True
         else:
@@ -988,6 +1002,12 @@ class cpuType(GeneratedsSuper):
         if self.cmdCPU is not None:
             showIndent(outfile, level)
             outfile.write('cmdCPU=%s,\n' % quote_python(self.cmdCPU).encode(ExternalEncoding))
+        if self.separator is not None:
+            showIndent(outfile, level)
+            outfile.write('separator=%s,\n' % quote_python(self.separator).encode(ExternalEncoding))
+        if self.delimiter is not None:
+            showIndent(outfile, level)
+            outfile.write('delimiter=%s,\n' % quote_python(self.delimiter).encode(ExternalEncoding))
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -1012,6 +1032,14 @@ class cpuType(GeneratedsSuper):
             cmdCPU_ = child_.text
             cmdCPU_ = self.gds_validate_string(cmdCPU_, node, 'cmdCPU')
             self.cmdCPU = cmdCPU_
+        elif nodeName_ == 'separator':
+            separator_ = child_.text
+            separator_ = self.gds_validate_string(separator_, node, 'separator')
+            self.separator = separator_
+        elif nodeName_ == 'delimiter':
+            delimiter_ = child_.text
+            delimiter_ = self.gds_validate_string(delimiter_, node, 'delimiter')
+            self.delimiter = delimiter_
 # end class cpuType
 
 
