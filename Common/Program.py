@@ -46,6 +46,22 @@ class Program(object):
         Returns the program command line
         '''
         return self._cmd
+    def msg(self):
+        '''
+        Returns a dictionary representation of the object
+        To be sent to the server
+        '''
+        d = {}
+        d['type'] = 'program'
+        # Values dictionary
+        d1 = {}
+        d1['cmd'] = self._cmd
+        d1['ncpu'] = self._ncpu
+        d1['order'] = self._order
+        # Put all together
+        d['values'] = d1
+        
+        return d
     def getCpu(self):
         return self._ncpu
     def setCpu(self,ncpu):

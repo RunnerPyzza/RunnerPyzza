@@ -51,6 +51,22 @@ class Machine(object):
             return ':'.join([self._hostname,self._user])
         else:
             return ':'.join([self._hostname,self._user,self._password])
+    def msg(self):
+        '''
+        Returns a dictionary representation of the object
+        To be sent to the server
+        '''
+        d = {}
+        d['type'] = 'machine'
+        # Values dictionary
+        d1 = {}
+        d1['hostname'] = self._hostname
+        d1['user'] = self._user
+        d1['password'] = self._password
+        # Put all together
+        d['values'] = d1
+        
+        return d
     def getHostname(self):
         return self._hostname
     def getUser(self):
