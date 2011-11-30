@@ -43,11 +43,13 @@ class JSON(object):
         '''
         Returns the JSON encoded version of the object
         '''
+        logging.debug('Encoding: %s'%obj)
         return json.dumps(obj)
     def decode(self,msg):
         '''
         Returns the JSON deecoded version of the object
         '''
+        logging.debug('Decoding: %s'%msg)
         return json.loads(msg)
 
 ################################################################################
