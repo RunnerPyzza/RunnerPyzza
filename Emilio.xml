@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scriptChain xmlns="RunnerPyzza"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="RunnerPyzza Launcher.xsd">
+  <program>
+    <main>
+      <name>List directory</name>
+      <baseCommand>date</baseCommand>
+      <order>1</order>
+    </main>
+    <option>
+      <alias></alias>
+      <value> </value>
+      <separator></separator>
+      <delimiter></delimiter>
+    </option>
+  </program>
+  <program>
+    <main>
+      <name>List directory</name>
+      <baseCommand>date</baseCommand>
+      <order>1</order>
+    </main>
+    <option>
+      <alias></alias>
+      <value> </value>
+      <separator></separator>
+      <delimiter></delimiter>
+    </option>
+  </program>
+</scriptChain>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<machinesSetup xmlns="RunnerPyzza"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="RunnerPyzza MachinesSetup.xsd">
+  <machine>
+    <name>isaac</name>
+    <hostname>isaac</hostname>
+    <user>potenzae</user>
+  </machine>
+  <machine>
+    <name>isaac</name>
+    <hostname>isaac</hostname>
+    <user>potenzae</user>
+  </machine>
+</machinesSetup>
