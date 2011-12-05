@@ -74,7 +74,7 @@ class ScriptChain(GenericHandler):
         logging.debug(('Parsing ScriptChain xml'))
         
         # Parse
-        from ClientCommon import ScriptChainXML as SCXml
+        from RunnerPyzza.ClientCommon import ScriptChainXML as SCXml
         doc = SCXml.parsexml_(self._inXML)
         rootNode = doc.getroot()
         rootTag, rootClass = SCXml.get_root_tag(rootNode)
@@ -128,7 +128,7 @@ class ScriptChain(GenericHandler):
         if not self._scriptChain:
             self.parse()
             
-        from Common import Program as PRG
+        from RunnerPyzza.Common import Program as PRG
         for program in self._scriptChain.getProgram():
             name = program.getMain().getName()
             cmd = program.getMain().getBasecommand()
@@ -186,7 +186,7 @@ class MachinesSetup(GenericHandler):
         logging.debug(('Parsing MachinesSetup xml'))
         
         # Parse
-        from ClientCommon import MachinesSetupXML as MSXml
+        from RunnerPyzza.ClientCommon import MachinesSetupXML as MSXml
         doc = MSXml.parsexml_(self._inXML)
         rootNode = doc.getroot()
         rootTag, rootClass = MSXml.get_root_tag(rootNode)
@@ -205,7 +205,7 @@ class MachinesSetup(GenericHandler):
         if not self._machinesSetup:
             self.parse()
         
-        from Common import Machine as MCH
+        from RunnerPyzza.Common import Machine as MCH
         
         for machine in self._machinesSetup.getMachine():
             self.machines.append(MCH.Machine(machine.name,
