@@ -55,6 +55,7 @@ class Program(object):
         d['type'] = 'program'
         # Values dictionary
         d1 = {}
+        d1['name'] = self.name
         d1['cmd'] = self._cmd
         d1['ncpu'] = self._ncpu
         d1['order'] = self._order

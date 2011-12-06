@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Machine
+System
 
 Common package
 
@@ -33,11 +33,12 @@ logger = logging.getLogger('System')
 
 class System(object):
     '''
-    Class System
+    System messages
     '''
-    def __init__(self,cmd):
-        self.cmd = cmd
- 
+    def __init__(self,msg):
+        self.cmd = msg
+    def __str__(self):
+        return self.msg
     def msg(self):
         '''
         Returns a dictionary representation of the object
@@ -47,7 +48,7 @@ class System(object):
         d['type'] = 'system'
         # Values dictionary
         d1 = {}
-        d1['msg'] = self.cmd
+        d1['msg'] = self.msg
         # Put all together
         d['values'] = d1
 
