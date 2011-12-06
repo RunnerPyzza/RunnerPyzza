@@ -27,7 +27,7 @@ import Queue
 import paramiko
 from RunnerPyzza.Common.JSON import JSON
 from RunnerPyzza.Common.System import System
-from RunnerPyzza.Common.PyzzaProtocol import PyzzaProtocol
+from RunnerPyzza.Common.Protocol import Protocol
 
 ################################################################################
 # Log setup

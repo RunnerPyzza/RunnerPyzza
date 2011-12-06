@@ -41,15 +41,29 @@ class Protocol():
 	'''
 	Pyzza protocol interpreter
 	'''
-	_conversions = {"system":_getSystem,
-					"machine":_getMachine,
-					"program":_getProgram}
 	def __init__(self, msg = ''):
 		self._clean()
 		from JSON import JSON
 		self._msgHandler = JSON()
 		if msg != '':
 			self._interpretate(msg)
+	def _getSystem(self):
+		from System import System
+		self.obj = System(self.d["msg"])
+	def _getMachine(self):
+		from Machine import Machine
+		m = Machine(self.d["hostname"], self.d["user"])
+		m.setPassword(self.d["password"], encode = False)
+		self.obj = m
+	def _getProgram(self):
+		from Program import Program
+		p = Program(self.d["name"], self.d["cmd"])
+		p.setCpu(self.d["ncpu"])
+		p.setOrder(self.d["order"])
+		self.obj = p
+	_conversions = {"system":_getSystem,
+					"machine":_getMachine,
+					"program":_getProgram}
 	def _clean(self):
 		self.msg = None
 		self.type = None
@@ -68,20 +82,6 @@ class Protocol():
 			self.type = self.d["type"]
 			self._convert()
 		except:self._clean()
-	def _getSystem(self):
-		from System import System
-		self.obj = System(self.d["msg"])
-	def _getMachine(self):
-		from Machine import Machine
-		m = Machine(self.d["hostname"], self.d["user"])
-		m.setPassword(self.d["password"], encode = False)
-		self.obj = m
-	def _getProgram(self):
-		from Program import Program
-		p = Program(self.d["name"], self.d["cmd"])
-		p.setCpu(self.d["ncpu"])
-		p.setOrder(self.d["order"])
-		self.obj = p
 	def interpretate(self,msg):
 		'''
 		Push and translate a new message
