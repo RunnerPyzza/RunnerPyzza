@@ -36,11 +36,11 @@ class Program(object):
     Class Program
     Stores the raw command and the number of CPUs it should use
     '''
-    def __init__(self,name,cmd):
+    def __init__(self,name,cmd,ncpu = 1,order = 1):
         self.name = name
         self._cmd = cmd
-        self._ncpu = 1
-        self._order = 1
+        self._ncpu = ncpu
+        self._order = order
     def __str__(self):
         '''
         Returns the program command line
@@ -63,6 +63,8 @@ class Program(object):
         d['values'] = d1
         
         return d
+    def getCmd(self):
+        return self._cmd
     def getCpu(self):
         return self._ncpu
     def setCpu(self,ncpu):

@@ -37,9 +37,9 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] - %(mess
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
-from Common.JSON import JSON
+from RunnerPyzza.Common.JSON import JSON
 msgHandler = JSON()
-from LauncherManager.XMLHandler import ScriptChain
+from RunnerPyzza.LauncherManager.XMLHandler import ScriptChain
 
 f=open(sys.argv[1])
 h = ScriptChain(''.join(f.readlines()))
@@ -58,7 +58,7 @@ for prg in h.getPrograms():
     print server_data
     time.sleep(0.3)
    
-from LauncherManager.XMLHandler import MachinesSetup
+from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup
 import getpass
 m = MachinesSetup(sys.argv[2])
 for i in m.getMachines():
