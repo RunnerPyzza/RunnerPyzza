@@ -60,6 +60,7 @@ class Machine(object):
         d['type'] = 'machine'
         # Values dictionary
         d1 = {}
+        d1["name"] = self.name
         d1['hostname'] = self._hostname
         d1['user'] = self._user
         d1['password'] = self._password
