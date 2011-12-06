@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-System
+Machine
 
 Common package
 
@@ -17,7 +17,7 @@ __email__ = "emilio.potenza@iasma.it"
 __status__ = "Development"
 
 ################################################################################
-# Imports
+# Imports 
 
 import logging
 
@@ -33,12 +33,11 @@ logger = logging.getLogger('System')
 
 class System(object):
     '''
-    System messages
+    Class System
     '''
-    def __init__(self,msg):
-        self.cmd = msg
-    def __str__(self):
-        return self.msg
+    def __init__(self,cmd):
+        self.cmd = cmd
+ 
     def msg(self):
         '''
         Returns a dictionary representation of the object
@@ -48,7 +47,7 @@ class System(object):
         d['type'] = 'system'
         # Values dictionary
         d1 = {}
-        d1['msg'] = self.msg
+        d1['msg'] = self.cmd
         # Put all together
         d['values'] = d1
 
