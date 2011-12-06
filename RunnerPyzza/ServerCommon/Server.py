@@ -191,7 +191,7 @@ class Server():
 		    	client_data = client_socket.recv(1024)
 			###
 			# PyzzaProtocoll 
-			PP=PyzzaProtocol(client_data)
+			PP=Protocol(client_data)
 			#
 			###		
 			if PP.type=="system":
