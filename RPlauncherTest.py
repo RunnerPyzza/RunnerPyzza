@@ -3,6 +3,7 @@ import logging
 import socket
 import sys
 import time
+from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
 
 # Variables Server - Client comunication
 port = 4123
@@ -14,7 +15,7 @@ logger.setLevel(logging.DEBUG)
 
 # create console handler
 ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+ch.setLevel(logging.INFO)
 
 # create formatter for console handler
 formatter = logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s',
@@ -71,6 +72,31 @@ for mch in m.getMachines():
     server_data = client_socket.recv(1024)
     print server_data
     time.sleep(0.3)
+
+client_socket.send('{"values": {"msg" : "quit"}, "type" : "system"}')
+time.sleep(1)
+client_socket.close()
+print "done"
+
+
+time.sleep(3)
+print "--->ResultS"
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket.connect((host_server, port))
+client_socket.send('{"values": {"msg" : "result"}, "type" : "system"}')
+
+
+iPP=iProtocol()
+server_data = client_socket.recv(1024)
+print iPP.interpretate(server_data)
+time.sleep(0.3)
+
+client_socket.send('{"values": {"msg" : "1"}, "type" : "system"}')
+
+iPP=iProtocol()
+server_data = client_socket.recv(1024)
+print iPP.interpretate(server_data)
+time.sleep(0.3)
 
 client_socket.send('{"values": {"msg" : "quit"}, "type" : "system"}')
 time.sleep(1)

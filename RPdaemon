@@ -43,17 +43,16 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 # create console handler
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+#ch = logging.StreamHandler()
+#ch.setLevel(logging.DEBUG)
 
 # create formatter for console handler
-formatter = logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s',
-                            '%H:%M:%S')
+#formatter = logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s','%H:%M:%S')
 # add formatter to console handler
-ch.setFormatter(formatter)
+#ch.setFormatter(formatter)
 
 # add console handler to logger
-logger.addHandler(ch)
+#logger.addHandler(ch)
 
 # create file handler
 fh = logging.FileHandler('RPdaemon.log')
@@ -62,12 +61,11 @@ fh = logging.FileHandler('RPdaemon.log')
 fh.setLevel(logging.DEBUG)
 
 # create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] - %(message)s',
-                            '%Y-%m-%d %H:%M:%S')
+formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] - %(message)s','%Y-%m-%d %H:%M:%S')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
-logger = logging.getLogger('RPdaemon.log')
+logger = logging.getLogger('RPdaemon')
 
 # Questa ci serve per memorizzare il file .pid
 LOG_DIR = '/tmp'    
@@ -266,13 +264,18 @@ if __name__ == '__main__':
 	## passiamo ad occuparci del lato server.
 	# Apriamo la connessione con DBus e "attacchiamoci" al bus della sessione.
 	session_bus = dbus.SystemBus() #dbus.SessionBus() # Per un demone di sistema va sostituito con dbus.SystemBus()
-	try:
+	
+        
+        #try:
 	# Creiamo, inizializziamo e "attacchiamo" l'oggetto a DBus
-	    bus_name = dbus.service.BusName('org.RunnerPyzza', bus=session_bus)
-	    object = Demone(bus_name)
-	except Exception, e:
-	    print "Errore ", e
-	# Ora non resta che avviare il loop principale
+	bus_name = dbus.service.BusName('org.RunnerPyzza', bus=session_bus)
+	object = Demone(bus_name)
+	#except Exception, e:
+        #print "Errore ", e
+	
+        
+        
+        # Ora non resta che avviare il loop principale
 	mainloop = gobject.MainLoop()
 	mainloop.run()
 	# Il demone e' pronto e gia' freme nell'attesa di

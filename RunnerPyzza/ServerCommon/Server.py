@@ -52,6 +52,7 @@ class WorkerJob(threading.Thread):
 			self.queue.put(p.getCmd())
 			
 		#####################
+                self.job=job
 		self.machines=job.machines
 		self.connections=[]
 		self.threads = []
@@ -62,9 +63,9 @@ class WorkerJob(threading.Thread):
 		for host in self.machines:
 			client = paramiko.SSHClient()
 			client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-                        #print "---------------------",host.getPassword()
 			client.connect(host.getHostname(), username=host.getUser(), password=host.getPassword())
 			self.connections.append(client)
+                        logging.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
 
 
 	def _workFun(self,host, conn, queue):
@@ -76,21 +77,24 @@ class WorkerJob(threading.Thread):
 					break	
 				#self.raw_notify("%s> Command in queue start"%(host[0]),command)
 				with self.outlock:
-					print "... %s ==> %s"%(host.getHostname(),command)
+					logging.info("... %s ==> %s"%(host.getHostname(),command))
 				stdin, stdout, stderr = conn.exec_command(command)
 
 				stdin.close()
 				for line in stdout.read().splitlines():
 					with self.outlock:
-						print """\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line) 
+						logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
+                                                self.job.stdout=self.job.stdout+"""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line)
+
 				for line in stderr.read().splitlines():
 					with self.outlock:
-						"""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line) 		
+                                                logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
+						self.job.stderr=self.job.stderr+"""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line) 		
 				#self.raw_notify("%s> Command in queue done"%(host.getHostname()),command)
 				queue.task_done()
 			except KeyboardInterrupt:
 				print "do quit thread"
-				self.do_quit(None)
+				self._quit(None)
 				break
 			except Exception as e:
 				print e	
@@ -102,12 +106,15 @@ class WorkerJob(threading.Thread):
 		return 
 
 	def run(self):
-		'''Connect'''
+                logging.info("Job %s: is now running"%(self.name))
+                '''
+                Connect
+                '''
 		self._connect()
-		#print self.hosts
-		#print self.connections
-		#print self.queue
-		"""start Execute commands queue on all hosts in the list"""
+                logging.debug("Job %s: all the machine is now correctly connected"%(self.name))
+		"""
+                Execute commands queue on all hosts in the list
+                """
 		try:		
 			for host, conn in zip(self.machines, self.connections):
 				self.queue.put("break")
@@ -115,11 +122,14 @@ class WorkerJob(threading.Thread):
 				t.setDaemon(True)		
 				t.start()
 				self.threads.append(t)
+                                logging.info("Job %s: start thread on %s"%(self.name,host))
 			self.queue.join()
 		except KeyboardInterrupt:
-			print "do quit"
+			logging.info("Job %s: KeyboardInterrupt"%(self.name))
 			self._quit()
-		self._quit()		
+		self._quit()
+                self.job.done=True
+                logging.info("Job %s: Done!"%(self.name))
 
 class WorkerManager():
 	'''
@@ -135,11 +145,12 @@ class WorkerManager():
 		#START-JOB
 	def startJob(self,name):
 		self.test(name)
+                
 	def test(self,name):
 		job=self._jobs[name]
-		print job.name
-		print job.machines
-		print job.programs
+                logging.debug("TEST - JOB %s"%(job.name))
+                logging.debug("TEST - JOB %s"%(job.machines))
+                logging.debug("TEST - JOB %s"%(job.programs))
 		j=WorkerJob(job)
 		j.start()
 
@@ -151,6 +162,10 @@ class Job():
 		self.name = jobID
 		self.machines = []
 		self.programs = []
+                self.done=False
+                self.stdout=""
+                self.stderr=""
+                
 		
 		
 
@@ -164,6 +179,7 @@ class Server():
 		self.msgHandler = JSON()
 		####
 		# Create a server
+                logging.info("Start RunnerPyzza Server")
 		host = ""
 		server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -171,27 +187,26 @@ class Server():
 		server_socket.listen(5)
 		#
 		####
-		logging.debug("Server - Waiting for client on port %s"%(port))
 		quit=False
 		while not quit:
+                        logging.info("Server is now waiting for client on port %s"%(port))
 			#Attendi la connessione del lanciatore...
 			client_socket, address = server_socket.accept()
-			logging.debug("Server - Connection from %s %s"%(address))
+			logging.info("Server : Connection requenst from %s %s"%(address))
 			####
 			# Create a new job
 			self.jobCounter+=1
 			job=Job(self.jobCounter)
-			#
+                        logging.info("Server : Initialize Job %s"%(self.jobCounter))
+                        ####
 			####
-			###
 			# PyzzaProtocol
 			iPP=iProtocol()
 			oPP=oProtocol()
-			#
-			###
+                        ####
 			ok = System("ok")
 			ok = oPP.interpretate(ok)
-			print ok
+                        #
 			while 1:
 				logging.debug("...waiting ")
 				client_data = client_socket.recv(1024)
@@ -202,11 +217,21 @@ class Server():
 				###		
 				if iPP.type=="system":
 					if iPP.obj.body == "quit":
-						logging.debug("\n Bye Bye !!\n")
 						client_socket.close()
+                                                from time import sleep
+                                                sleep(1)
+                                                logging.info("Server : Connection close from %s %s"%(address))
 						break
+                                        elif iPP.obj.body == "result":
+                                                client_socket.send(ok)
+                                                jobID = client_socket.recv(1024)
+                                                iPPjobID=iProtocol()
+                                                iPPjobID.interpretate(jobID)
+                                                job= self.manager.getJob( int(iPPjobID.obj.body) )
+                                                client_socket.send( oPP.interpretate( System(job.stdout) ) )
+                                                client_socket.send( oPP.interpretate( System(job.stderr) ) )      
 					else:
-						logging.debug("\n ?? \n%s"%(client_data))
+						logging.warning("\n ?? \n%s"%(client_data))
 					
 				elif iPP.type == "machine":	
 					logging.debug("Machine :%s"%(client_data))
@@ -223,6 +248,7 @@ class Server():
 					client_socket.send( oPP.interpretate( System("fail") ) )
 			####
 			# Append to the main queue and start the job
+                        logging.info("Server : Append job %s to queue manager"%(self.jobCounter))
 			self.manager.addJob(job)
 			self.manager.startJob(job.name)
 			#
