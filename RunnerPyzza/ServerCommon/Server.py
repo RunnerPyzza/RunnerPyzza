@@ -62,8 +62,7 @@ class WorkerJob(threading.Thread):
 		for host in self.machines:
 			client = paramiko.SSHClient()
 			client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-                        
-                        print "---------------------",host.getPassword()
+                        #print "---------------------",host.getPassword()
 			client.connect(host.getHostname(), username=host.getUser(), password=host.getPassword())
 			self.connections.append(client)
 
