@@ -108,6 +108,13 @@ class DemoneSignal():
         self.name=name
         pass
     
+    def restart(self):
+        '''
+        Stop and Start
+        '''
+        self.stop()
+        self.start()
+    
     def terminate(self):
         '''
         Questo metodo gestisce i segnali ricevuti, in questo caso 
@@ -116,8 +123,8 @@ class DemoneSignal():
         try:
             # Esegue tutte le operazioni necessarie alla corretta
             # chiusura dell'applicazione
-            logging.error("Daemon Signal Terminate: Fammi vedere se ti attivi")
-            print >>sys.stdout, "Daemon Signal Terminate:  Fammi vedere se ti attivi"
+            logging.error("Daemon Signal Terminate: Ancora Incompleto")
+            print >>sys.stdout, "Daemon Signal Terminate:  Ancora Incompleto"
             # Cancella il file .pid
             os.remove(os.path.join(LOG_DIR, 'RunnerPyzza.pid'))
         except Exception as inst:
@@ -130,7 +137,6 @@ class DemoneSignal():
         
         logging.info("RPdaemon is now terminate!")
         print >>sys.stdout,"RPdaemon is now terminate!"
-        sys.exit(0)
         
     def status(self):
         '''
@@ -216,6 +222,7 @@ class DemoneSignal():
                     raise os.error, args      ## lancia un'eccezione...
             else:
                 os.kill(pid, signal.SIGTERM)  ##....altrimenti invia un SIGTERM
+                self.terminate()              ## e termina in sicurezza il server
                 return 0                      ## al demone
         return -1
 
@@ -241,15 +248,15 @@ if __name__ == '__main__':
 	quelli definiti in precedenza.
         '''
 	if len(sys.argv) != 2:
-	    sys.stderr.write("Usage: %s [start|stop|status]\n" % call_name)
+	    sys.stderr.write("Usage: %s [start|stop|status|restart]\n" % call_name)
 	    sys.exit(1)
 	else:
 	    ## STOP ##
 	    if sys.argv[1] == 'stop':
 		# "Stoppa" il demone
 		s = DS.stop()
-		if s == 1:     ## se il demone non e' attivo stampa un avviso...
-		    logging.info("%s: daemon is not running\n" % call_name)
+		if s == -1:     ## se il demone non e' attivo stampa un avviso...
+		    logging.info("%s: daemon is not running" % call_name)
 		    sys.stdout.write("%s: daemon is not running\n" % call_name)
 		    sys.exit(1) ## ...e esci.
 		logging.info("%s: stopped.\n" % call_name)
@@ -260,10 +267,10 @@ if __name__ == '__main__':
 		# Stampa lo stato del demone.... beh, questa e' facile, no?
 		s = DS.status()
 		if s == -1:
-		    logging.info("%s: daemon is not running\n" % call_name)
+		    logging.info("%s: daemon is not running" % call_name)
 		    sys.stdout.write("%s: daemon is not running\n" % call_name)
 		else:
-		    logging.debug("%s: daemon [%d] is running\n" % (call_name, s))
+		    logging.debug("%s: daemon [%d] is running" % (call_name, s))
 		    sys.stdout.write("%s: daemon [%d] is running\n" % (call_name, s))
 		sys.exit(0)
 	    ## START ##
@@ -272,16 +279,32 @@ if __name__ == '__main__':
 		# gia' stato caricato in memoria.
 		s = DS.status()
 		if s != -1:
-		    logging.info("%s: daemon [%d] is already running\n" % (call_name, s))
+		    logging.info("%s: daemon [%d] is already running" % (call_name, s))
 		    sys.stdout.write("%s: daemon [%d] is already running\n" % (call_name, s))
 		    sys.exit(1)
-                logging.info("%s: daemon starting...\n" % (call_name))
+                logging.info("%s: daemon starting..." % (call_name))
 		sys.stdout.write("%s: daemon starting...\n" % (call_name))
                 DS.start()
                 DS.status()
+            elif sys.argv[1] == 'restart':
+		# riavviamo il demone, verificando prima che non sia
+		# gia' stato caricato in memoria.
+		s = DS.status()
+		if s == -1:
+		    logging.info("%s: daemon is not running" % (call_name))
+		    sys.stdout.write("%s: daemon is not running\n" % (call_name))
+                    logging.info("%s: daemon starting..." % (call_name))
+                    sys.stdout.write("%s: daemon starting...\n" % (call_name))
+                    DS.start()
+                    DS.status()
+                else:
+                    logging.info("%s: daemon re-starting..." % (call_name))
+                    sys.stdout.write("%s: daemon re-starting...\n" % (call_name))
+                    DS.restart()
+                    DS.status()
             else:
                 ## e qui ricordiamo all'utente come funziona il nostro demone....
-                sys.stderr.write("Usage: %s [start|stop|status]\n" % call_name)
+                sys.stderr.write("Usage: %s [start|stop|status|restart]\n" % call_name)
                 sys.exit(1)
 	 
 	## Terminata la parte "infernale", ovvero quella relativa al demone,
