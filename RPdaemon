@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Runner Pizza worker Daemon
+Runner Pyzza worker Daemon
 
 Dbus Daemon
 
