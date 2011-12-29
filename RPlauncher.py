@@ -188,7 +188,14 @@ def main():
         result = System("result")
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.connect((options.RPdaemon, int(options.port)))
+        
+        ###
+        #INIT -->
+        # 
+        ###
+        
         for prg in h.getPrograms():
+            
             #send command
             client_socket.send(oPP.interpretate(prg))
             #wait answers

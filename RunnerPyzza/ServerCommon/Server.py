@@ -184,7 +184,7 @@ class Job():
                 self.done = False
                 self.stdout = Queue.Queue()
                 self.stderr = Queue.Queue()
-                
+                self.isNFS = True                
 		
 		
 
