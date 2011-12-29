@@ -103,8 +103,8 @@ class OrderPyzza(PyzzaTalk):
                  tag = 'Generic', local = False):
         PyzzaTalk.__init__(self, server, port)
         self.connect()
-        self.machines = []
-        self.programs = []
+        self.machines = machines
+        self.programs = programs
         self.tag = tag
         self.local = local
         self.jobID = None
@@ -128,6 +128,7 @@ class OrderPyzza(PyzzaTalk):
         if self.getMessage().body == 'fail':
             return False
         self.jobID = self.getMessage().ID
+        self.send(System('ok'))
         
         if self.local:
             self.send(System('local',True))

@@ -213,8 +213,8 @@ class Server():
         
         self.iPP=iProtocol()
 	self.oPP=oProtocol()
-        self.ok = System("ok")
-        self.fail = System("fail")
+        self.ok = self.oPP.interpretate(System("ok"))
+        self.fail = self.oPP.interpretate(System("fail"))
         
         quit=False
 	while not quit:
@@ -251,7 +251,7 @@ class Server():
             #
             ####
     
-    def _recvAKW(self, client_data):
+    def _recvAKW(self, client_socket):
         client_data = client_socket.recv(1024)
         self.iPP.interpretate(client_data)
         if self.iPP.type=="system":
@@ -269,7 +269,7 @@ class Server():
         if self.iPP.type=="system":
             if self.iPP.obj.body == "tag":
                 client_socket.send(self.ok)
-                jobID = self.iPP.ID + "_" + jobID
+                jobID = self.iPP.obj.ID + "_" + jobID
                 client_socket.send(self.oPP.interpretate(System("jobID",jobID)))
                 self._recvAKW(client_socket)
             else:
@@ -288,7 +288,7 @@ class Server():
         if self.iPP.type == "system":
             if self.iPP.obj.body == "local":
                 client_socket.send(self.ok)
-                if self.iPP.ID == True:
+                if self.iPP.obj.ID == True:
                     client_data = client_socket.recv(1024)
                     self.iPP.interpretate(client_data)
                     if self.iPP.type == "system":
@@ -317,7 +317,7 @@ class Server():
                 job.machines.append(self.iPP.obj)
                 client_socket.send(self.ok)
 
-            elif iPP.type == "program":	
+            elif self.iPP.type == "program":	
                 logging.debug("Program :%s"%(client_data))
                 job.programs.append(self.iPP.obj)
                 client_socket.send(self.ok)
@@ -334,7 +334,7 @@ class Server():
         ###
         ####
         # Append to the main queue and start the job
-        logging.info("Server : Append job %s to queue manager"%(self.jobCounter))
+        logging.info("Server : Append job %s to queue manager"%(jobID))
         self.manager.addJob(job)
         self.manager.startJob(job.name)
         #
