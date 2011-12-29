@@ -43,7 +43,7 @@ logger = logging.getLogger('Protocol')
 ################################################################################
 # Classes
 
-class Protocol():
+class Protocol(object):
 	'''
 	Base class for the PyzzaProtocol
 	'''
@@ -85,7 +85,7 @@ class iProtocol(Protocol):
 	def _getSystem(self):
 		from System import System
 		dval = self.d["values"]
-		self.obj = System(dval["msg"])
+		self.obj = System(dval["msg"],dval["ID"])
 	def _getMachine(self):
 		from Machine import Machine
 		dval = self.d["values"]
