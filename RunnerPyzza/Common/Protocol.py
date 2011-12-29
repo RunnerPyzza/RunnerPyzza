@@ -43,7 +43,7 @@ logger = logging.getLogger('Protocol')
 ################################################################################
 # Classes
 
-class Protocol():
+class Protocol(object):
 	'''
 	Base class for the PyzzaProtocol
 	'''
