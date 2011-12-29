@@ -18,18 +18,17 @@ __status__ = "Development"
 
 ################################################################################
 # Imports
-
-import sys
-import logging
-from optparse import OptionParser, OptionGroup
-import socket
-import time
-from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
+from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza
 from RunnerPyzza.Common.JSON import JSON
+from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
 from RunnerPyzza.Common.System import System
-from RunnerPyzza.LauncherManager.XMLHandler import ScriptChain
-from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup
+from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup, ScriptChain
+from optparse import OptionParser, OptionGroup
 import getpass
+import logging
+import socket
+import sys
+import time
 
 ################################################################################
 # Read options
@@ -180,49 +179,12 @@ def main():
                 i.setPassword(getpass.getpass('RPlauncher: Password for machine "%s" (user %s): '%(i.name,i.getUser())))
 
         logging.info("RPlauncher: open cominication with daemon...")
-        # Client comunication
-        iPP = iProtocol()
-        oPP = oProtocol()
-        ok = System("ok")
-        quit = System("quit")
-        result = System("result")
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((options.RPdaemon, int(options.port)))
-        
-        ###
-        #INIT -->
-        # 
-        ###
-        
-        for prg in h.getPrograms():
-            
-            #send command
-            client_socket.send(oPP.interpretate(prg))
-            #wait answers
-            server_data = client_socket.recv(1024)
-            if iPP.interpretate(server_data).body != 'ok':
-                logger.error('Program comunication is not "ok" ...')
-                logger.error(iPP.interpretate(server_data))
-                logger.error('Stopping RPlauncher...')
-                launcherQuit(client_socket, oPP.interpretate(quit))
-            #wait a little bit
-            time.sleep(0.1)
-
-        for mch in m.getMachines():
-            #send command
-            client_socket.send(oPP.interpretate(mch))
-            #wait answers
-            server_data = client_socket.recv(1024)
-            if iPP.interpretate(server_data).body != 'ok':
-                logger.error('Machine comunication is not "ok" ...')
-                logger.error(iPP.interpretate(server_data))
-                logger.error('Stopping RPlauncher...')
-                launcherQuit(client_socket, oPP.interpretate(quit))
-            #wait a little bit
-            time.sleep(0.1)
-        
-        logging.info("Cominication done! You may ask for results")
-        launcherQuit(client_socket, oPP.interpretate(quit))
+        order = OrderPyzza(options.RPdaemon, options.port, machines = m.getMachines(), programs = h.getPrograms(),
+                 tag = 'Margherita', local = False)
+        if not order.launchOrder():
+            logging.warning('Pyzza not ordered!')
+        else:
+            logging.warning('Pyzza ordered with id %s'%order.jobID)
     
     ############################################################
     if options.function == "read":
