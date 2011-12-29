@@ -35,8 +35,9 @@ class System(object):
     '''
     System messages
     '''
-    def __init__(self,body):
+    def __init__(self,body,jobID = None):
         self.body = body
+        self.jobID = jobID
     def __str__(self):
         return self.body
     def msg(self):
@@ -49,6 +50,7 @@ class System(object):
         # Values dictionary
         d1 = {}
         d1['msg'] = self.body
+        d1['jobID'] = self.jobID
         # Put all together
         d['values'] = d1
 
