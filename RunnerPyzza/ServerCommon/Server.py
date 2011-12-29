@@ -26,6 +26,7 @@ from getpass import getpass
 import threading 	
 import Queue
 import paramiko
+import time
 from RunnerPyzza.Common.JSON import JSON
 from RunnerPyzza.Common.System import System
 from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
@@ -189,6 +190,158 @@ class Job():
 		
 
 class Server():
+    '''
+    RunnerPyzza daemon server (RPdaemon)
+    '''
+    def __init__ (self,port):
+        #try:
+        # run server
+        #except:
+        # restart server
+	self.manager = WorkerManager()
+	self.msgHandler = JSON()
+        ####
+        # Create a server
+        logging.info("Start RunnerPyzza Server")
+        host = ""
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server_socket.bind((host, port))
+        server_socket.listen(5)
+        #
+        ####
+        
+        self.iPP=iProtocol()
+	self.oPP=oProtocol()
+        self.ok = System("ok")
+        self.fail = System("fail")
+        
+        quit=False
+	while not quit:
+            logging.info("Server is now waiting for client on port %s"%(port))
+            # Attendi la connessione del lanciatore...
+            client_socket, address = server_socket.accept()
+            logging.info("Server : Connection requenst from %s %s"%(address))
+            ####
+            # Connection Mode [init,status,results,clean]
+            # read
+            client_data = client_socket.recv(1024)
+            self.iPP.interpretate(client_data)
+            if self.iPP.type=="system":
+		if self.iPP.obj.body == "init":
+                    client_socket.send(self.ok)
+                    self._initJob(client_socket)
+                    
+                elif self.iPP.obj.body == "status":
+                    client_socket.send(self.ok)
+                    self._statusJob(client_socket)
+                    
+                elif self.iPP.obj.body == "results":
+                    client_socket.send(self.ok)
+                    self._resultsJob(client_socket)
+                    
+                elif self.iPP.obj.body == "clean":
+                    client_socket.send(self.ok)
+                    self._cleanJob(client_socket)
+                    
+                else:
+                    client_socket.send(self.fail)
+            else:
+                client_socket.send(self.fail)
+            #
+            ####
+    
+    def _recvAKW(self, client_data):
+        client_data = client_socket.recv(1024)
+        self.iPP.interpretate(client_data)
+        if self.iPP.type=="system":
+            if self.iPP.obj.body == "ok":
+                pass
+            else:
+                pass
+        
+    def _initJob(self, client_socket):
+        ###
+        #set jobID
+        jobID = time.strftime('%Y%m%d_%H%M%S')
+        client_data = client_socket.recv(1024)
+        self.iPP.interpretate(client_data)
+        if self.iPP.type=="system":
+            if self.iPP.obj.body == "tag":
+                client_socket.send(self.ok)
+                jobID = self.iPP.ID + "_" + jobID
+                client_socket.send(self.oPP.interpretate(System("jobID",jobID)))
+                self._recvAKW(client_socket)
+            else:
+                client_socket.send(self.fail)
+        else:
+            client_socket.send(self.fail)
+        job=Job(jobID)
+        logging.info("Server : Initialize Job %s"%(jobID))
+        #
+        ###
+        
+        ###
+        #set local
+        client_data = client_socket.recv(1024)
+        self.iPP.interpretate(client_data)
+        if self.iPP.type == "system":
+            if self.iPP.obj.body == "local":
+                client_socket.send(self.ok)
+                if self.iPP.ID == True:
+                    client_data = client_socket.recv(1024)
+                    self.iPP.interpretate(client_data)
+                    if self.iPP.type == "system":
+                        if self.iPP.obj.body == "Copydone":
+                            client_socket.send(self.ok)
+                            pass
+                        else:
+                            client_socket.send(self.fail)
+                    else:
+                        client_socket.send(self.fail)
+                else:
+                   pass 
+            else:
+                client_socket.send(self.fail)
+        else:
+            client_socket.send(self.fail)
+        #
+        ###
+        ###
+        # machine program -->save = break while
+        while 1:
+            client_data = client_socket.recv(1024)
+            self.iPP.interpretate(client_data)
+            if self.iPP.type == "machine":	
+                logging.debug("Machine :%s"%(client_data))
+                job.machines.append(self.iPP.obj)
+                client_socket.send(self.ok)
+
+            elif iPP.type == "program":	
+                logging.debug("Program :%s"%(client_data))
+                job.programs.append(self.iPP.obj)
+                client_socket.send(self.ok)
+            
+            elif self.iPP.type == "system":
+                if self.iPP.obj.body == "save":
+                    logging.debug("Save %s"%(jobID))
+                    client_socket.send(self.ok)
+                    break
+            else:
+                logging.debug("FAIL :%s"%(client_data))
+                client_socket.send(self.fail)
+        #
+        ###
+        ####
+        # Append to the main queue and start the job
+        logging.info("Server : Append job %s to queue manager"%(self.jobCounter))
+        self.manager.addJob(job)
+        self.manager.startJob(job.name)
+        #
+        ####        
+        
+    
+class Server2():
 	'''
     RunnerPyzza daemon server (RPdaemon)
     '''
