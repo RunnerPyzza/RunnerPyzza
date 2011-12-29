@@ -93,14 +93,15 @@ class Demone(dbus.service.Object):
     @dbus.service.method('org.RunnerPyzza.runserver')
 
     def runserver(self):
-        while True:
+        Server(self.port)
+        """while True:
             try:
                 Server(self.port)
             except Exception, e:
                 logging.warning(e)
             finally:
                 logging.warning("Stop Daemon Server")
-                break
+                break"""
 
 
 class DemoneSignal():
@@ -312,12 +313,12 @@ if __name__ == '__main__':
 	# Apriamo la connessione con DBus e "attacchiamoci" al bus della sessione.
 	session_bus = dbus.SystemBus() #dbus.SessionBus() # Per un demone di sistema va sostituito con dbus.SystemBus()
 	
-        '''try:'''
-	# Creiamo, inizializziamo e "attacchiamo" l'oggetto a DBus
-	bus_name = dbus.service.BusName('org.RunnerPyzza', bus=session_bus)
-	object = Demone(bus_name)
-	'''except Exception, e:
-            print "Errore ", e'''
+        #try:
+        # Creiamo, inizializziamo e "attacchiamo" l'oggetto a DBus
+        bus_name = dbus.service.BusName('org.RunnerPyzza', bus=session_bus)
+        object = Demone(bus_name)
+	#except Exception, e:
+        #    print "Errore ", e
 	
         # Ora non resta che avviare il loop principale
 	mainloop = gobject.MainLoop()

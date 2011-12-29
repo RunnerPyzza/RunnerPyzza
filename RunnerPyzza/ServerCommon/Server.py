@@ -21,6 +21,7 @@ __status__ = "Development"
 
 import logging
 import socket
+import sys
 from getpass import getpass
 import threading 	
 import Queue
@@ -43,13 +44,25 @@ logger = logging.getLogger('Server')
 class WorkerJob(threading.Thread):
 	def __init__ (self,job):
 		threading.Thread.__init__(self)
-		self.name=job.name
-		self.thread_stop=False
-		self.programs=job.programs
+		self.name = job.name
+		self.thread_stop = False
+		self.programs = job.programs
+                self.listOFqueue = []
 		###TEST CONVERSION###
-		self.queue=Queue.Queue()
-		for p in job.programs:
-			self.queue.put(p.getCmd())
+                #order from 0 to infinite
+                order = 0
+                while True:
+                    queue = Queue.Queue()
+                    for p in job.programs:
+                        if int(p.getOrder()) == order:
+                            queue.put(p.getCmd())
+                    if queue.empty():
+                        break
+                    else:
+                        self.listOFqueue.append(queue)
+                    order += 1
+                print self.listOFqueue
+                    
 			
 		#####################
                 self.job=job
@@ -84,12 +97,15 @@ class WorkerJob(threading.Thread):
 				for line in stdout.read().splitlines():
 					with self.outlock:
 						logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
-                                                self.job.stdout=self.job.stdout+"""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line)
-
+                                                #self.job.stdout=self.job.stdout+"""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line)
+                                                self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
+                                                print """\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line)
 				for line in stderr.read().splitlines():
 					with self.outlock:
                                                 logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
-						self.job.stderr=self.job.stderr+"""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line) 		
+						#self.job.stderr=self.job.stderr+"""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line)
+                                                self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
+                                                print """\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line)
 				#self.raw_notify("%s> Command in queue done"%(host.getHostname()),command)
 				queue.task_done()
 			except KeyboardInterrupt:
@@ -115,18 +131,21 @@ class WorkerJob(threading.Thread):
 		"""
                 Execute commands queue on all hosts in the list
                 """
-		try:		
-			for host, conn in zip(self.machines, self.connections):
-				self.queue.put("break")
-				t = threading.Thread(target=self._workFun, args=(host,conn, self.queue))
-				t.setDaemon(True)		
-				t.start()
-				self.threads.append(t)
-                                logging.info("Job %s: start thread on %s"%(self.name,host))
-			self.queue.join()
-		except KeyboardInterrupt:
-			logging.info("Job %s: KeyboardInterrupt"%(self.name))
-			self._quit()
+                for step,queue in enumerate(self.listOFqueue):
+                    print step , queue
+                    # update global queue
+                    try:		
+                            for host, conn in zip(self.machines, self.connections):
+                                    queue.put("break")
+                                    t = threading.Thread(target=self._workFun, args=(host,conn, queue))
+                                    t.setDaemon(True)		
+                                    t.start()
+                                    self.threads.append(t)
+                                    logging.info("Job %s: start thread on %s"%(self.name,host))
+                            queue.join()
+                    except KeyboardInterrupt:
+                            logging.info("Job %s: KeyboardInterrupt"%(self.name))
+                            self._quit()
 		self._quit()
                 self.job.done=True
                 logging.info("Job %s: Done!"%(self.name))
@@ -162,9 +181,9 @@ class Job():
 		self.name = jobID
 		self.machines = []
 		self.programs = []
-                self.done=False
-                self.stdout=""
-                self.stderr=""
+                self.done = False
+                self.stdout = Queue.Queue()
+                self.stderr = Queue.Queue()
                 
 		
 		
@@ -228,8 +247,23 @@ class Server():
                                                 iPPjobID=iProtocol()
                                                 iPPjobID.interpretate(jobID)
                                                 job= self.manager.getJob( int(iPPjobID.obj.body) )
-                                                client_socket.send( oPP.interpretate( System(job.stdout) ) )
-                                                client_socket.send( oPP.interpretate( System(job.stderr) ) )      
+                                                stdout = '' 
+                                                while not job.stdout.empty():
+                                                    stdout = stdout + job.stdout.get()
+                                                stderr = '' 
+                                                while not job.stderr.empty():
+                                                    stderr = stderr + job.stderr.get()
+                                                
+                                                
+                                                
+                                                client_socket.send( oPP.interpretate( System(stdout) ) )
+                                                client_socket.send( oPP.interpretate( System(stderr) ) ) 
+                                                
+                                                client_socket.close()
+                                                from time import sleep
+                                                sleep(1)
+                                                logging.info("Server : Connection close from %s %s"%(address))
+                                                sys.exit()
 					else:
 						logging.warning("\n ?? \n%s"%(client_data))
 					

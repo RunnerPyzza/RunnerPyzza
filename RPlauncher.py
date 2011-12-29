@@ -248,6 +248,8 @@ def main():
         server_data = client_socket.recv(1024)
         logging.info("Results of job %s"%(options.job))
         print iPP.interpretate(server_data)
+        server_data = client_socket.recv(1024)
+        print iPP.interpretate(server_data)
         time.sleep(0.1)
 
         launcherQuit(client_socket, oPP.interpretate(quit))

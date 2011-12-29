@@ -7,6 +7,32 @@
     <main>
       <name>List directory</name>
       <baseCommand>date</baseCommand>
+      <order>0</order>
+    </main>
+    <option>
+      <alias></alias>
+      <value> </value>
+      <separator></separator>
+      <delimiter></delimiter>
+    </option>
+  </program>
+  <program>
+    <main>
+      <name>List directory</name>
+      <baseCommand>rm emilio.test</baseCommand>
+      <order>0</order>
+    </main>
+    <option>
+      <alias></alias>
+      <value> </value>
+      <separator></separator>
+      <delimiter></delimiter>
+    </option>
+  </program>
+  <program>
+    <main>
+      <name>List directory</name>
+      <baseCommand>ls emilio.test</baseCommand>
       <order>1</order>
     </main>
     <option>
@@ -19,8 +45,21 @@
   <program>
     <main>
       <name>List directory</name>
-      <baseCommand>date</baseCommand>
-      <order>1</order>
+      <baseCommand>touch emilio.test</baseCommand>
+      <order>2</order>
+    </main>
+    <option>
+      <alias></alias>
+      <value> </value>
+      <separator></separator>
+      <delimiter></delimiter>
+    </option>
+  </program>
+    <program>
+    <main>
+      <name>List directory</name>
+      <baseCommand>ls emilio.test</baseCommand>
+      <order>3</order>
     </main>
     <option>
       <alias></alias>
