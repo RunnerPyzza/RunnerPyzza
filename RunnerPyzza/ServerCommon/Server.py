@@ -27,6 +27,7 @@ import threading
 import Queue
 import paramiko
 import time
+from time import sleep
 from RunnerPyzza.Common.JSON import JSON
 from RunnerPyzza.Common.System import System
 from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
@@ -49,6 +50,7 @@ class WorkerJob(threading.Thread):
 		self.thread_stop = False
 		self.programs = job.programs
                 self.listOFqueue = []
+                
 		###TEST CONVERSION###
                 #order from 0 to infinite
                 order = 0
@@ -77,12 +79,13 @@ class WorkerJob(threading.Thread):
 		for host in self.machines:
 			client = paramiko.SSHClient()
 			client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+                        print host.getHostname(), host.getUser(), host.getPassword()
 			client.connect(host.getHostname(), username=host.getUser(), password=host.getPassword())
 			self.connections.append(client)
                         logging.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
 
 
-	def _workFun(self,host, conn, queue):
+	def _workFun(self,host, conn, queue, step):
 		while True:
 			try:
 				command=queue.get()
@@ -92,10 +95,14 @@ class WorkerJob(threading.Thread):
 				#self.raw_notify("%s> Command in queue start"%(host[0]),command)
 				with self.outlock:
 					logging.info("... %s ==> %s"%(host.getHostname(),command))
-				stdin, stdout, stderr = conn.exec_command(command)
-
-				stdin.close()
-				for line in stdout.read().splitlines():
+                                
+                                chan = conn.get_transport().open_session()
+                                chan.exec_command(command)
+                                stdout = chan.makefile("rb", 1024)
+                                stderr = chan.makefile_stderr("rb", 1024)
+                                #stdin, stdout, stderr = conn.exec_command(command)
+				#stdin.close()
+                                for line in stdout.read().splitlines():
 					with self.outlock:
 						logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
                                                 #self.job.stdout=self.job.stdout+"""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line)
@@ -107,8 +114,17 @@ class WorkerJob(threading.Thread):
 						#self.job.stderr=self.job.stderr+"""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line)
                                                 self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
                                                 print """\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line)
-				#self.raw_notify("%s> Command in queue done"%(host.getHostname()),command)
+                                exit_status = chan.exit_status
+                                chan.close() 
 				queue.task_done()
+                                
+                                with self.outlock:
+                                    self.job.status.put("%s||"%step + command + "||%s"%exit_status)
+                                    print "%s||"%step + command + "||%s"%exit_status
+                                    if exit_status != 0:
+                                        self.job.status_error = True
+                                        self.job.error.put("%s||"%step + command + "||%s"%exit_status)
+                                
 			except KeyboardInterrupt:
 				print "do quit thread"
 				self._quit(None)
@@ -138,7 +154,7 @@ class WorkerJob(threading.Thread):
                     try:		
                             for host, conn in zip(self.machines, self.connections):
                                     queue.put("break")
-                                    t = threading.Thread(target=self._workFun, args=(host,conn, queue))
+                                    t = threading.Thread(target=self._workFun, args=(host, conn, queue, step))
                                     t.setDaemon(True)		
                                     t.start()
                                     self.threads.append(t)
@@ -185,7 +201,10 @@ class Job():
                 self.done = False
                 self.stdout = Queue.Queue()
                 self.stderr = Queue.Queue()
-                self.isNFS = True                
+                self.isNFS = True
+                self.status = Queue.Queue()
+                self.error = Queue.Queue()
+                self.status_error = False
 		
 		
 
@@ -216,6 +235,7 @@ class Server():
         self.ok = self.oPP.interpretate(System("ok"))
         self.fail = self.oPP.interpretate(System("fail"))
         
+        
         quit=False
 	while not quit:
             logging.info("Server is now waiting for client on port %s"%(port))
@@ -232,10 +252,27 @@ class Server():
                     client_socket.send(self.ok)
                     self._initJob(client_socket)
                     
-                elif self.iPP.obj.body == "status":
-                    client_socket.send(self.ok)
-                    self._statusJob(client_socket)
+                elif self.iPP.obj.body == "start":
                     
+                    try:
+                        self._startJob(self.iPP.obj.ID)
+                        client_socket.send(self.ok)
+                    except Exception, e:
+                        logging.error("Start Job Error: %s"%e)
+                        client_socket.send(self.fail)
+                        raise e
+                    
+                elif self.iPP.obj.body == "status":
+                    try:
+                        client_socket.send(self.ok)
+                        sleep(0.5)
+                        self._statusJob(self.iPP.obj.ID, client_socket)
+                        
+                    except Exception, e:
+                        logging.error("Status Job Error: %s"%e)
+                        client_socket.send(self.fail)
+                        raise e
+                        
                 elif self.iPP.obj.body == "results":
                     client_socket.send(self.ok)
                     self._resultsJob(client_socket)
@@ -248,8 +285,65 @@ class Server():
                     client_socket.send(self.fail)
             else:
                 client_socket.send(self.fail)
-            #
-            ####
+            
+            client_data = client_socket.recv(1024)		
+            if self.iPP.type=="system":
+                if self.iPP.obj.body == "quit":
+                    client_socket.close()
+                    sleep(1)
+                    logging.info("Server : Connection close from %s %s"%(address))
+                else:
+                    client_socket.close()
+                    sleep(1)
+                    logging.info("Server : FORCE Connection close from %s %s"%(address))
+            else:
+                client_socket.close()
+                sleep(1)
+                logging.info("Server : FORCE Connection close from %s %s"%(address))
+                #
+                ####
+                
+    def _statusJob(self, id, client_socket):
+        print "---"
+        
+        job = self.manager.getJob(id)
+        print job.name
+        if job.status.empty():
+            print "empty"
+            queued = self.oPP.interpretate(System("queued"))
+            client_socket.send(queued)
+        else:
+            print "not empty"
+            if job.status_error:
+                print "error"
+                stderr = ""
+                tmp = Queue.Queue()
+                while True:
+                    line = job.error.get()
+                    stderr = stderr + line + "\n"
+                    tmp.put(line)
+                    if job.error.empty():
+                        break
+                job.error = tmp
+                error = self.oPP.interpretate( System("error", stderr))
+                print error
+                client_socket.send(error)
+                print "errordone"
+            elif job.done:
+                print "done"
+                done = self.oPP.interpretate(System("done"))
+                client_socket.send(done)
+            else:
+                print "runnig"
+                running = self.oPP.interpretate(System("running", job.status.get()))
+                client_socket.send(running)
+        print "ok"
+        self._recvAKW(client_socket)
+            
+            
+    def _startJob(self, id):
+        self.manager.startJob(id)
+        
     
     def _recvAKW(self, client_socket):
         client_data = client_socket.recv(1024)
@@ -336,110 +430,12 @@ class Server():
         # Append to the main queue and start the job
         logging.info("Server : Append job %s to queue manager"%(jobID))
         self.manager.addJob(job)
-        self.manager.startJob(job.name)
+                
         #
         ####        
         
     
-class Server2():
-	'''
-    RunnerPyzza daemon server (RPdaemon)
-    '''
-	def __init__ (self,port):
-		self.jobCounter = 0
-		self.manager = WorkerManager()
-		self.msgHandler = JSON()
-		####
-		# Create a server
-                logging.info("Start RunnerPyzza Server")
-		host = ""
-		server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-		server_socket.bind((host, port))
-		server_socket.listen(5)
-		#
-		####
-		quit=False
-		while not quit:
-                        logging.info("Server is now waiting for client on port %s"%(port))
-			#Attendi la connessione del lanciatore...
-			client_socket, address = server_socket.accept()
-			logging.info("Server : Connection requenst from %s %s"%(address))
-			####
-			# Create a new job
-			self.jobCounter+=1
-			job=Job(self.jobCounter)
-                        logging.info("Server : Initialize Job %s"%(self.jobCounter))
-                        ####
-			####
-			# PyzzaProtocol
-			iPP=iProtocol()
-			oPP=oProtocol()
-                        ####
-			ok = System("ok")
-			ok = oPP.interpretate(ok)
-                        #
-			while 1:
-				logging.debug("...waiting ")
-				client_data = client_socket.recv(1024)
-				###
-				# PyzzaProtocoll IN
-				iPP.interpretate(client_data)
-				#
-				###		
-				if iPP.type=="system":
-					if iPP.obj.body == "quit":
-						client_socket.close()
-                                                from time import sleep
-                                                sleep(1)
-                                                logging.info("Server : Connection close from %s %s"%(address))
-						break
-                                        elif iPP.obj.body == "result":
-                                                client_socket.send(ok)
-                                                jobID = client_socket.recv(1024)
-                                                iPPjobID=iProtocol()
-                                                iPPjobID.interpretate(jobID)
-                                                job= self.manager.getJob( int(iPPjobID.obj.body) )
-                                                stdout = '' 
-                                                while not job.stdout.empty():
-                                                    stdout = stdout + job.stdout.get()
-                                                stderr = '' 
-                                                while not job.stderr.empty():
-                                                    stderr = stderr + job.stderr.get()
-                                                
-                                                
-                                                
-                                                client_socket.send( oPP.interpretate( System(stdout) ) )
-                                                client_socket.send( oPP.interpretate( System(stderr) ) ) 
-                                                
-                                                client_socket.close()
-                                                from time import sleep
-                                                sleep(1)
-                                                logging.info("Server : Connection close from %s %s"%(address))
-                                                sys.exit()
-					else:
-						logging.warning("\n ?? \n%s"%(client_data))
-					
-				elif iPP.type == "machine":	
-					logging.debug("Machine :%s"%(client_data))
-					job.machines.append(iPP.obj)
-					client_socket.send(ok)
-	
-				elif iPP.type == "program":	
-					logging.debug("Program :%s"%(client_data))
-					job.programs.append(iPP.obj)
-					client_socket.send(ok)
-	
-				else:
-					logging.debug("FAIL :%s"%(client_data))
-					client_socket.send( oPP.interpretate( System("fail") ) )
-			####
-			# Append to the main queue and start the job
-                        logging.info("Server : Append job %s to queue manager"%(self.jobCounter))
-			self.manager.addJob(job)
-			self.manager.startJob(job.name)
-			#
-			####
+
 					
 ################################################################################
 # Methods

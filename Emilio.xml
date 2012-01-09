@@ -19,7 +19,7 @@
   <program>
     <main>
       <name>List directory</name>
-      <baseCommand>rm emilio.test</baseCommand>
+      <baseCommand>ls</baseCommand>
       <order>0</order>
     </main>
     <option>
@@ -32,7 +32,7 @@
   <program>
     <main>
       <name>List directory</name>
-      <baseCommand>ls emilio.test</baseCommand>
+      <baseCommand>pwd</baseCommand>
       <order>1</order>
     </main>
     <option>

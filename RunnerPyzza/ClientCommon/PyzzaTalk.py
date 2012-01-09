@@ -50,7 +50,7 @@ class PyzzaTalk(object):
             self.socket.connect( (self.server, self.port) )
         except Exception, e:
             logging.warning('Connection error! %s'
-                            %(e.message))
+                            %(e))
             logging.warning('Could not connect to % on port %s'
                             %(self.server, self.port))
             raise e
@@ -61,12 +61,14 @@ class PyzzaTalk(object):
         Automatically converted with the PyzzaProtocol
         True if it worked, False otherwise
         '''
+        if hasattr(obj, 'body'):
+            logging.warning('--> %s'%obj.body)
         msg = self.oprtcl.interpretate(obj)
         try:
             self.socket.send( str(msg) )
         except Exception, e:
             logging.warning('Send error! %s'
-                            %(e.message))
+                            %(e))
             raise e
     
     def getMessage(self):
@@ -78,10 +80,15 @@ class PyzzaTalk(object):
         try:
             msg = self.socket.recv(1024)
             obj = self.iprtcl.interpretate(msg)
+            if hasattr(obj, 'body'):
+                logging.warning('<-- %s'%obj.body)
+            else:
+                print obj
+                print msg
             return obj
         except Exception, e:
             logging.warning('Receive error! %s'
-                            %(e.message))
+                            %(e))
             raise e
     
     def close(self):
@@ -154,5 +161,88 @@ class OrderPyzza(PyzzaTalk):
                 return False
         
         self.send(System('save',self.jobID))
+        
+        self.close()
         return True
         
+class OvenPyzza(PyzzaTalk):
+    '''
+    Start the desired job
+    Put the pyzza in the oven
+    '''
+    def __init__(self, server, port, jobID):
+        PyzzaTalk.__init__(self, server, port)
+        self.connect()
+        self.jobID = jobID
+    
+    def putInTheOven(self):
+        '''
+        Perform all the steps to put the pyzza in the oven
+        '''
+        self.send(System('start',self.jobID))
+        if self.getMessage().body == 'fail':
+            return False
+            
+        self.close()
+        return True
+        
+class CheckPyzza(PyzzaTalk):
+    '''
+    Check the desired job status
+    Check the pyzza in the oven: is it ready or burned?
+    '''
+    def __init__(self, server, port, jobID):
+        PyzzaTalk.__init__(self, server, port)
+        self.connect()
+        self.jobID = jobID
+        
+        self.status = None
+        self.step = None
+    
+    def isReady(self):
+        if self.status == 'done':
+            return True
+        else:
+            return False
+            
+    def isCooking(self):
+        if self.status == 'running':
+            return True
+        else:
+            return False
+            
+    def isWaiting(self):
+        if self.status == 'queued':
+            return True
+        else:
+            return False
+    
+    def isBurned(self):
+        if self.status == 'error':
+            return True
+        else:
+            return False
+            
+    def getLastSlice(self):
+        return self.step.split('||')
+            
+    def inspectErrors(self):
+        errors = []
+        for error in self.step.splitlines():
+            errors.append(error.split('||'))
+        return errors
+            
+    def checkTheOven(self):
+        '''
+        Perform all the steps to check the pyzza in the oven
+        '''
+        self.send(System('status',self.jobID))
+        if self.getMessage().body == 'fail':
+            return False
+        statusmsg = self.getMessage()
+        self.status = statusmsg.body
+        self.step = statusmsg.ID
+        self.send(System('ok'))
+
+        self.close()
+        return True
