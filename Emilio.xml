@@ -5,7 +5,7 @@
   xsi:schemaLocation="RunnerPyzza Launcher.xsd">
   <program>
     <main>
-      <name>List directory</name>
+      <name>What day is today?</name>
       <baseCommand>date</baseCommand>
       <order>0</order>
     </main>
@@ -44,8 +44,8 @@
   </program>
   <program>
     <main>
-      <name>List directory</name>
-      <baseCommand>touch emilio.test</baseCommand>
+      <name>Working directory</name>
+      <baseCommand>pwd</baseCommand>
       <order>2</order>
     </main>
     <option>
@@ -57,8 +57,8 @@
   </program>
     <program>
     <main>
-      <name>List directory</name>
-      <baseCommand>ls emilio.test</baseCommand>
+      <name>Hostname</name>
+      <baseCommand>hostname</baseCommand>
       <order>3</order>
     </main>
     <option>
