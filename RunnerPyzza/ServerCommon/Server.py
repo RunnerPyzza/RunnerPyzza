@@ -184,9 +184,9 @@ class WorkerManager():
                 
     def test(self,name):
         job=self._jobs[name]
-                logging.debug("TEST - JOB %s"%(job.name))
-                logging.debug("TEST - JOB %s"%(job.machines))
-                logging.debug("TEST - JOB %s"%(job.programs))
+        logging.debug("TEST - JOB %s"%(job.name))
+        logging.debug("TEST - JOB %s"%(job.machines))
+        logging.debug("TEST - JOB %s"%(job.programs))
         j=WorkerJob(job)
         j.start()
 
@@ -198,13 +198,13 @@ class Job():
         self.name = jobID
         self.machines = []
         self.programs = []
-                self.done = False
-                self.stdout = Queue.Queue()
-                self.stderr = Queue.Queue()
-                self.isNFS = True
-                self.status = Queue.Queue()
-                self.error = Queue.Queue()
-                self.status_error = False
+        self.done = False
+        self.stdout = Queue.Queue()
+        self.stderr = Queue.Queue()
+        self.isNFS = True
+        self.status = Queue.Queue()
+        self.error = Queue.Queue()
+        self.status_error = False
         
         
 
@@ -217,8 +217,8 @@ class Server():
         # run server
         #except:
         # restart server
-    self.manager = WorkerManager()
-    self.msgHandler = JSON()
+        self.manager = WorkerManager()
+        self.msgHandler = JSON()
         ####
         # Create a server
         logging.info("Start RunnerPyzza Server")
@@ -231,13 +231,13 @@ class Server():
         ####
         
         self.iPP=iProtocol()
-    self.oPP=oProtocol()
+        self.oPP=oProtocol()
         self.ok = self.oPP.interpretate(System("ok"))
         self.fail = self.oPP.interpretate(System("fail"))
         
         
         quit=False
-    while not quit:
+        while not quit:
             logging.info("Server is now waiting for client on port %s"%(port))
             # Attendi la connessione del lanciatore...
             client_socket, address = server_socket.accept()
@@ -248,10 +248,10 @@ class Server():
             client_data = client_socket.recv(1024)
             self.iPP.interpretate(client_data)
             if self.iPP.type=="system":
-        if self.iPP.obj.body == "init":
+                if self.iPP.obj.body == "init":
                     client_socket.send(self.ok)
                     self._initJob(client_socket)
-                    
+                        
                 elif self.iPP.obj.body == "start":
                     
                     try:
@@ -272,15 +272,15 @@ class Server():
                         logging.error("Status Job Error: %s"%e)
                         client_socket.send(self.fail)
                         raise e
-                        
+                            
                 elif self.iPP.obj.body == "results":
                     client_socket.send(self.ok)
                     self._resultsJob(client_socket)
-                    
+                        
                 elif self.iPP.obj.body == "clean":
                     client_socket.send(self.ok)
                     self._cleanJob(client_socket)
-                    
+                        
                 else:
                     client_socket.send(self.fail)
             else:
@@ -394,7 +394,7 @@ class Server():
                     else:
                         client_socket.send(self.fail)
                 else:
-                   pass 
+                    pass 
             else:
                 client_socket.send(self.fail)
         else:
