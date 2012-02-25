@@ -17,7 +17,7 @@ import logging
 
 # create logger
 # Name shown
-logger = logging.getLogger('Program')
+logger = logging.getLogger('RunnerPyzza.Program')
 
 ################################################################################
 # Classes

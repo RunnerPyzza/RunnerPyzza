@@ -29,7 +29,7 @@ import logging
 
 # create logger
 # Name shown
-logger = logging.getLogger('Protocol')
+logger = logging.getLogger('RunnerPyzza.Protocol')
 
 ################################################################################
 # Classes

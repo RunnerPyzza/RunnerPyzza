@@ -18,7 +18,7 @@ __credits__ = ["Emilio Potenza"]
 ################################################################################
 # Log setup
 
-logger = logging.getLogger('PyzzaTalk')
+logger = logging.getLogger('RunnerPyzza.PyzzaTalk')
 
 ################################################################################
 # Classes

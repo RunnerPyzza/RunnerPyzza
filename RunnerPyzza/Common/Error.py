@@ -15,7 +15,7 @@ import logging
 ################################################################################
 # Log setup
 
-logger = logging.getLogger('Error')
+logger = logging.getLogger('RunnerPyzza.Error')
 
 class Error(object):
     pass

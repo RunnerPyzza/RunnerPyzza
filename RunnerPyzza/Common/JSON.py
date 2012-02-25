@@ -18,7 +18,7 @@ import json
 
 # create logger
 # Name shown
-logger = logging.getLogger('JSON')
+logger = logging.getLogger('RunnerPyzza.JSON')
 
 ################################################################################
 # Classes

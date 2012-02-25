@@ -28,7 +28,7 @@ from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
 
 # create logger
 # Name shown
-logger = logging.getLogger('Server')
+logger = logging.getLogger('RunnerPyzza.Server')
 
 
 ################################################################################

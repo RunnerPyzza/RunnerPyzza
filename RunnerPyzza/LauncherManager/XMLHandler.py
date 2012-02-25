@@ -17,7 +17,7 @@ import logging
 
 # create logger
 # Name shown
-logger = logging.getLogger('XMLHandler')
+logger = logging.getLogger('RunnerPyzza.XMLHandler')
 
 ################################################################################
 # Classes
