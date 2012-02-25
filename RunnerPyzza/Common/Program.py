@@ -27,11 +27,12 @@ class Program(object):
     Class Program
     Stores the raw command and the number of CPUs it should use
     '''
-    def __init__(self,name,cmd,ncpu = 1,order = 1):
+    def __init__(self,name,cmd,ncpu = 1,order = 1, canFail = False):
         self.name = name
         self._cmd = cmd
         self._ncpu = ncpu
         self._order = order
+        self._canFail = canFail
         
     def __str__(self):
         '''
@@ -52,6 +53,7 @@ class Program(object):
         d1['cmd'] = self._cmd
         d1['ncpu'] = self._ncpu
         d1['order'] = self._order
+        d1['canFail'] = self._canFail
         # Put all together
         d['values'] = d1
         
@@ -71,6 +73,14 @@ class Program(object):
     
     def setOrder(self,order):
         self._order = int(order)
+        
+    def getCanFail(self):
+        return self._canFail
+        
+    def setCanFail(self,canFail):
+        self._canFail = bool(canFail)
+    
+    
 
 ################################################################################
 # Methods

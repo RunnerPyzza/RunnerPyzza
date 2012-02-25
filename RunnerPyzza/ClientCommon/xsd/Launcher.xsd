@@ -27,6 +27,7 @@
                       </xs:simpleType>
                     </xs:element>
                     <xs:element name="order" type="xs:integer"/>
+                    <xs:element name="canFail" type="xs:boolean"/>
                   </xs:all>
                 </xs:complexType>
               </xs:element>

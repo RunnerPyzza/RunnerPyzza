@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 
 #
-# Generated Tue Oct 11 15:33:26 2011 by generateDS.py version 2.6a.
+# Generated Sat Feb 25 16:51:32 2012 by generateDS.py version 2.7b.
 #
 
 # To update this file:
@@ -165,6 +165,8 @@ except ImportError, exp:
                     if class_obj2 is not None:
                         class_obj1 = class_obj2
             return class_obj1
+        def gds_build_any(self, node, type_name=None):
+            return None
 
 
 #
@@ -485,11 +487,11 @@ class programType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='', name_='programType'):
         pass
     def exportChildren(self, outfile, level, namespace_='', name_='programType', fromsubclass_=False):
-        if self.main:
+        if self.main is not None:
             self.main.export(outfile, level, namespace_, name_='main', )
         for option_ in self.option:
             option_.export(outfile, level, namespace_, name_='option')
-        if self.cpu:
+        if self.cpu is not None:
             self.cpu.export(outfile, level, namespace_, name_='cpu')
     def hasContent_(self):
         if (
@@ -558,10 +560,11 @@ class programType(GeneratedsSuper):
 class mainType(GeneratedsSuper):
     subclass = None
     superclass = None
-    def __init__(self, name=None, baseCommand=None, order=None):
+    def __init__(self, name=None, baseCommand=None, order=None, canFail=None):
         self.name = name
         self.baseCommand = baseCommand
         self.order = order
+        self.canFail = canFail
     def factory(*args_, **kwargs_):
         if mainType.subclass:
             return mainType.subclass(*args_, **kwargs_)
@@ -574,6 +577,8 @@ class mainType(GeneratedsSuper):
     def setBasecommand(self, baseCommand): self.baseCommand = baseCommand
     def getOrder(self): return self.order
     def setOrder(self, order): self.order = order
+    def getCanfail(self): return self.canFail
+    def setCanfail(self, canFail): self.canFail = canFail
     def export(self, outfile, level, namespace_='', name_='mainType', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -598,11 +603,15 @@ class mainType(GeneratedsSuper):
         if self.order is not None:
             showIndent(outfile, level)
             outfile.write('<%sorder>%s</%sorder>\n' % (namespace_, self.gds_format_integer(self.order, input_name='order'), namespace_))
+        if self.canFail is not None:
+            showIndent(outfile, level)
+            outfile.write('<%scanFail>%s</%scanFail>\n' % (namespace_, self.gds_format_boolean(self.gds_str_lower(str(self.canFail)), input_name='canFail'), namespace_))
     def hasContent_(self):
         if (
             self.name is not None or
             self.baseCommand is not None or
-            self.order is not None
+            self.order is not None or
+            self.canFail is not None
             ):
             return True
         else:
@@ -624,6 +633,9 @@ class mainType(GeneratedsSuper):
         if self.order is not None:
             showIndent(outfile, level)
             outfile.write('order=%d,\n' % self.order)
+        if self.canFail is not None:
+            showIndent(outfile, level)
+            outfile.write('canFail=%s,\n' % self.canFail)
     def build(self, node):
         self.buildAttributes(node, node.attrib, [])
         for child in node:
@@ -648,6 +660,16 @@ class mainType(GeneratedsSuper):
                 raise_parse_error(child_, 'requires integer: %s' % exp)
             ival_ = self.gds_validate_integer(ival_, node, 'order')
             self.order = ival_
+        elif nodeName_ == 'canFail':
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
+                ival_ = False
+            else:
+                raise_parse_error(child_, 'requires boolean')
+            ival_ = self.gds_validate_boolean(ival_, node, 'canFail')
+            self.canFail = ival_
 # end class mainType
 
 
@@ -1150,10 +1172,88 @@ class kind(GeneratedsSuper):
         pass
 # end class kind
 
+
+USAGE_TEXT = """
+Usage: python <Parser>.py [ -s ] <in_xml_file>
+"""
+
+def usage():
+    print USAGE_TEXT
+    sys.exit(1)
+
+
 def get_root_tag(node):
     tag = Tag_pattern_.match(node.tag).groups()[-1]
     rootClass = globals().get(tag)
     return tag, rootClass
+
+
+def parse(inFileName):
+    doc = parsexml_(inFileName)
+    rootNode = doc.getroot()
+    rootTag, rootClass = get_root_tag(rootNode)
+    if rootClass is None:
+        rootTag = 'scriptChain'
+        rootClass = scriptChain
+    rootObj = rootClass.factory()
+    rootObj.build(rootNode)
+    # Enable Python to collect the space used by the DOM.
+    doc = None
+    sys.stdout.write('<?xml version="1.0" ?>\n')
+    rootObj.export(sys.stdout, 0, name_=rootTag, 
+        namespacedef_='')
+    return rootObj
+
+
+def parseString(inString):
+    from StringIO import StringIO
+    doc = parsexml_(StringIO(inString))
+    rootNode = doc.getroot()
+    rootTag, rootClass = get_root_tag(rootNode)
+    if rootClass is None:
+        rootTag = 'scriptChain'
+        rootClass = scriptChain
+    rootObj = rootClass.factory()
+    rootObj.build(rootNode)
+    # Enable Python to collect the space used by the DOM.
+    doc = None
+    sys.stdout.write('<?xml version="1.0" ?>\n')
+    rootObj.export(sys.stdout, 0, name_="scriptChain",
+        namespacedef_='')
+    return rootObj
+
+
+def parseLiteral(inFileName):
+    doc = parsexml_(inFileName)
+    rootNode = doc.getroot()
+    rootTag, rootClass = get_root_tag(rootNode)
+    if rootClass is None:
+        rootTag = 'scriptChain'
+        rootClass = scriptChain
+    rootObj = rootClass.factory()
+    rootObj.build(rootNode)
+    # Enable Python to collect the space used by the DOM.
+    doc = None
+    sys.stdout.write('#from ScriptChainXMLNew import *\n\n')
+    sys.stdout.write('import ScriptChainXMLNew as model_\n\n')
+    sys.stdout.write('rootObj = model_.rootTag(\n')
+    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
+    sys.stdout.write(')\n')
+    return rootObj
+
+
+def main():
+    args = sys.argv[1:]
+    if len(args) == 1:
+        parse(args[0])
+    else:
+        usage()
+
+
+if __name__ == '__main__':
+    #import pdb; pdb.set_trace()
+    main()
+
 
 __all__ = [
     "baseCommand",

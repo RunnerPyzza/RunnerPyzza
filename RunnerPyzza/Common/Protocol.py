@@ -97,6 +97,7 @@ class iProtocol(Protocol):
 		p = Program(dval["name"], dval["cmd"])
 		p.setCpu(dval["ncpu"])
 		p.setOrder(dval["order"])
+		p.setCanFail(dval['canFail'])
 		self.obj = p
 	
 	_conversions = {"system":_getSystem,

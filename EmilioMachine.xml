@@ -4,9 +4,9 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="RunnerPyzza MachinesSetup.xsd">
   <machine>
-    <name>lamora</name>
-    <hostname>192.168.0.88</hostname>
-    <user>emilio</user>
+    <name>bazzilab</name>
+    <hostname>150.217.45.168</hostname>
+    <user>mgalardini</user>
   </machine>
   <machine>
     <name>galactus</name>
