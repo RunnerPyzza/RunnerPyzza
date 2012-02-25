@@ -8,16 +8,7 @@ Server object running on Runner Pyzza daemon (RPdaemon)
 """
 
 __author__ = "Emilio Potenza"
-__copyright__ = "Copyright 2011, RunnerPyzza"
 __credits__ = ["Marco Galardini"]
-__license__ = "GPL"
-__version__ = "0.1"
-__maintainer__ = "Emilio Potenza"
-__email__ = "emilio.potenza@iasma.it"
-__status__ = "Development"
-
-#################################################################################
-# Imports ##
 
 import logging
 import socket

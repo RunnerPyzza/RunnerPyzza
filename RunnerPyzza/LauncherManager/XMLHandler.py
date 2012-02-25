@@ -8,16 +8,7 @@ High-level methods to handle the various xml related to Launcher
 """
 
 __author__ = "Marco Galardini"
-__copyright__ = "Copyright 2011, RunnerPyzza"
 __credits__ = ["Emilio Potenza"]
-__license__ = "GPL"
-__version__ = "0.1"
-__maintainer__ = "Marco Galardini"
-__email__ = "marco.galardini@unifi.it"
-__status__ = "Development"
-
-################################################################################
-# Imports
 
 import logging
 
@@ -43,6 +34,7 @@ class GenericHandler(object):
             self._inXML.write(inXML)
             self._inXML.seek(0)
             logging.debug('XML string passed as input')
+            
     def send(self):
         pass
 
@@ -57,6 +49,7 @@ class ScriptChain(GenericHandler):
         GenericHandler.__init__(self,inXML)
         self._scriptChain = None
         self.programs = []
+        
     def __str__(self):
         '''
         Returns a simple string that can be used as a shell script
@@ -67,6 +60,7 @@ class ScriptChain(GenericHandler):
         for prg in self.programs:
             prg_list.append(str(prg))
         return '\n'.join(prg_list)
+    
     def parse(self):
         '''
         Calls the XML parser and stores the parsed object for further analysis
@@ -86,6 +80,7 @@ class ScriptChain(GenericHandler):
 
         # Store the object
         self._scriptChain = rootObj
+        
     def _assembleOption(self,option):
         '''
         Assembles the options elements
@@ -107,6 +102,7 @@ class ScriptChain(GenericHandler):
                            alias,
                            delimit+option.getValue()+delimit    
                            ])
+        
     def _assembleCpu(self,cpu):
         '''
         Assembles the cpus elements
@@ -121,6 +117,7 @@ class ScriptChain(GenericHandler):
         else:
             sep = cpu.getSeparator()
         return cpu.getCmdcpu()+sep+delimit+str(cpu.getNumcpu())+delimit
+    
     def createCommands(self):
         '''
         Iterates over the programs and creates a series of commands object
@@ -159,6 +156,7 @@ class ScriptChain(GenericHandler):
         self.programs = sorted(self.programs, key=lambda p: p.getOrder())
         
         logging.debug('Parsed %d programs'%len(self.programs))
+        
     def getPrograms(self):
         if self.programs == []:
             self.createCommands()
@@ -169,6 +167,7 @@ class MachinesSetup(GenericHandler):
         GenericHandler.__init__(self,inXML)
         self._machinesSetup = None
         self.machines = []
+        
     def __str__(self):
         '''
         Returns a simple string that represents the machine
@@ -179,6 +178,7 @@ class MachinesSetup(GenericHandler):
         for mch in self.machines:
             mch_list.append(str(mch))
         return '\n'.join(mch_list)
+    
     def parse(self):
         '''
         Calls the XML parser and stores the parsed object for further analysis
@@ -198,6 +198,7 @@ class MachinesSetup(GenericHandler):
 
         # Store the object
         self._machinesSetup = rootObj
+        
     def createMachines(self):
         '''
         Iterates over the machines and creates a series of machines object
@@ -218,6 +219,7 @@ class MachinesSetup(GenericHandler):
                               machine.getUser()))
         
         logging.debug('Parsed %d machines'%len(self.machines))
+        
     def getMachines(self):
         if self.machines == []:
             self.createMachines()

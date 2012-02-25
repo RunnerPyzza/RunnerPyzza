@@ -8,16 +8,7 @@ Objects that represent a machine
 """
 
 __author__ = "Marco Galardini"
-__copyright__ = "Copyright 2011, RunnerPyzza"
 __credits__ = ["Emilio Potenza"]
-__license__ = "GPL"
-__version__ = "0.1"
-__maintainer__ = "Marco Galardini"
-__email__ = "marco.galardini@unifi.it"
-__status__ = "Development"
-
-################################################################################
-# Imports
 
 import logging
 
@@ -42,6 +33,7 @@ class Machine(object):
         self._hostname = hostname
         self._user = user
         self._password = None
+        
     def __str__(self):
         '''
         Returns the machine string - if the password has not been set returns
@@ -51,6 +43,7 @@ class Machine(object):
             return ':'.join([self._hostname,self._user])
         else:
             return ':'.join([self._hostname,self._user,self._password])
+        
     def msg(self):
         '''
         Returns a dictionary representation of the object
@@ -68,6 +61,7 @@ class Machine(object):
         d['values'] = d1
         
         return d
+    
     def getHostname(self):
         return self._hostname
     

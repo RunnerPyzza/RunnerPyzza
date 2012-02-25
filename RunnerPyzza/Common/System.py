@@ -8,16 +8,7 @@ Objects that represent a System message
 """
 
 __author__ = "Emilio Potenza"
-__copyright__ = "Copyright 2011, RunnerPyzza"
 __credits__ = ["Marco Galardini"]
-__license__ = "GPL"
-__version__ = "0.1"
-__maintainer__ = "Marco Galardini"
-__email__ = "emilio.potenza@iasma.it"
-__status__ = "Development"
-
-################################################################################
-# Imports 
 
 import logging
 
@@ -38,8 +29,10 @@ class System(object):
     def __init__(self,body,ID = None):
         self.body = body
         self.ID = ID
+        
     def __str__(self):
         return self.body
+    
     def msg(self):
         '''
         Returns a dictionary representation of the object

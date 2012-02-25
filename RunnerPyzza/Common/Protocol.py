@@ -20,16 +20,7 @@ times as it likes
 """
 
 __author__ = "Marco Galardini"
-__copyright__ = "Copyright 2011, RunnerPyzza"
 __credits__ = ["Emilio Potenza"]
-__license__ = "GPL"
-__version__ = "0.1"
-__maintainer__ = "Marco Galardini"
-__email__ = "marco.galardini@unifi.it"
-__status__ = "Development"
-
-################################################################################
-# Imports
 
 import logging
 
@@ -51,6 +42,7 @@ class Protocol(object):
 		self._clean()
 		from JSON import JSON
 		self._msgHandler = JSON()
+		
 	def _clean(self):
 		'''
 		Ensures no rubbish is preserved between messages
@@ -59,11 +51,14 @@ class Protocol(object):
 		self.type = None
 		self.d = None
 		self.obj = None
+		
 	def _convert(self):
 		self._clean()
+		
 	def _interpretate(self,obj):
 		# If it fails just keep the object clean
 		self._clean()
+		
 	def interpretate(self,obj):
 		'''
 		Push and translate a new message/object
@@ -71,6 +66,7 @@ class Protocol(object):
 		'''
 		self._clean()
 		self._interpretate(obj)
+		
 	def getType(self):
 		return self.type
 
@@ -82,16 +78,19 @@ class iProtocol(Protocol):
 		Protocol.__init__(self)
 		if msg != '':
 			self._interpretate(msg)
+			
 	def _getSystem(self):
 		from System import System
 		dval = self.d["values"]
 		self.obj = System(dval["msg"],dval["ID"])
+		
 	def _getMachine(self):
 		from Machine import Machine
 		dval = self.d["values"]
 		m = Machine(dval["name"],dval["hostname"], dval["user"])
 		m.setPassword(dval["password"], encode = False)
 		self.obj = m
+		
 	def _getProgram(self):
 		from Program import Program
 		dval = self.d["values"]
@@ -99,14 +98,17 @@ class iProtocol(Protocol):
 		p.setCpu(dval["ncpu"])
 		p.setOrder(dval["order"])
 		self.obj = p
+	
 	_conversions = {"system":_getSystem,
 					"machine":_getMachine,
 					"program":_getProgram}
+	
 	def _convert(self):
 		# Fail safe conversion
 		try:
 			self._conversions.get(self.type,self._clean)(self)
 		except:self._clean()
+		
 	def _interpretate(self,msg):
 		# If it fails just keep the object clean
 		try:
@@ -115,6 +117,7 @@ class iProtocol(Protocol):
 			self.type = self.d["type"]
 			self._convert()
 		except:self._clean()
+		
 	def interpretate(self,msg):
 		'''
 		Push and translate a new message
@@ -132,11 +135,13 @@ class oProtocol(Protocol):
 		Protocol.__init__(self)
 		if obj:
 			self._interpretate(obj)
+			
 	def _convert(self):
 		# Fail safe conversion
 		try:
 			self.d = self.obj.msg()
 		except:self._clean()
+		
 	def _interpretate(self,obj):
 		# If it fails just keep the object clean
 		try:
@@ -145,6 +150,7 @@ class oProtocol(Protocol):
 			self.type = self.d["type"]
 			self.msg = self._msgHandler.encode(self.d)
 		except:self._clean()
+		
 	def interpretate(self,obj):
 		'''
 		Push and translate a new object

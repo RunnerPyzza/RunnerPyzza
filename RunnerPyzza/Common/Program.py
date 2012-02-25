@@ -8,16 +8,7 @@ Objects that represent commands of the ScriptChain
 """
 
 __author__ = "Marco Galardini"
-__copyright__ = "Copyright 2011, RunnerPyzza"
 __credits__ = ["Emilio Potenza"]
-__license__ = "GPL"
-__version__ = "0.1"
-__maintainer__ = "Marco Galardini"
-__email__ = "marco.galardini@unifi.it"
-__status__ = "Development"
-
-################################################################################
-# Imports
 
 import logging
 
@@ -41,11 +32,13 @@ class Program(object):
         self._cmd = cmd
         self._ncpu = ncpu
         self._order = order
+        
     def __str__(self):
         '''
         Returns the program command line
         '''
         return self._cmd
+    
     def msg(self):
         '''
         Returns a dictionary representation of the object
@@ -63,14 +56,19 @@ class Program(object):
         d['values'] = d1
         
         return d
+    
     def getCmd(self):
         return self._cmd
+    
     def getCpu(self):
         return self._ncpu
+    
     def setCpu(self,ncpu):
         self._ncpu = int(ncpu)
+        
     def getOrder(self):
         return self._order
+    
     def setOrder(self,order):
         self._order = int(order)
 
