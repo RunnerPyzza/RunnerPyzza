@@ -29,6 +29,19 @@
       <delimiter></delimiter>
     </option>
   </program>
+    <program>
+    <main>
+      <name>Thou will fail</name>
+      <baseCommand>acommandthatdoesntexist</baseCommand>
+      <order>1</order>
+    </main>
+    <option>
+      <alias></alias>
+      <value> </value>
+      <separator></separator>
+      <delimiter></delimiter>
+    </option>
+  </program>
   <program>
     <main>
       <name>List directory</name>
