@@ -179,8 +179,9 @@ def main():
                 i.setPassword(getpass.getpass('RPlauncher: Password for machine "%s" (user %s): '%(i.name,i.getUser())))
 
         logging.info("RPlauncher: open cominication with daemon...")
-        order = OrderPyzza(options.RPdaemon, options.port, machines = m.getMachines(), programs = h.getPrograms(),
-                 tag = 'Margherita', local = False)
+        order = OrderPyzza(options.RPdaemon, options.port,
+                machines = m.getMachines(), programs = h.getPrograms(),
+                tag = 'Margherita', local = False)
         if not order.launchOrder():
             logging.warning('Pyzza not ordered!')
             return
