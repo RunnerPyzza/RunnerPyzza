@@ -34,6 +34,12 @@ class Program(object):
         self._order = order
         self._canFail = canFail
         
+        # Info about the results
+        self._stdout = None
+        self._stderr = None
+        self._host = None
+        self._exit = None
+        
     def __str__(self):
         '''
         Returns the program command line
@@ -54,6 +60,10 @@ class Program(object):
         d1['ncpu'] = self._ncpu
         d1['order'] = self._order
         d1['canFail'] = self._canFail
+        d1['stdout'] = self._stdout
+        d1['stderr'] = self._stderr
+        d1['host'] = self._host
+        d1['exit'] = self._exit
         # Put all together
         d['values'] = d1
         
@@ -79,8 +89,30 @@ class Program(object):
         
     def setCanFail(self,canFail):
         self._canFail = bool(canFail)
-    
-    
+        
+    def getStdOut(self):
+        return self._stdout
+        
+    def setStdOut(self,stdout):
+        self._stdout = stdout
+        
+    def getStdErr(self):
+        return self._stderr
+        
+    def setStdErr(self,stderr):
+        self._stderr = stderr
+        
+    def getHost(self):
+        return self._host
+        
+    def setHost(self,host):
+        self._host = host
+        
+    def getExit(self):
+        return self._exit
+        
+    def setExit(self,exitStatus):
+        self._exit = exitStatus
 
 ################################################################################
 # Methods
