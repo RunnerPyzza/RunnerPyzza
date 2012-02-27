@@ -109,28 +109,29 @@ class WorkerJob(threading.Thread):
                 with self.outlock:
                     if  exit_status == 0:
                         # If cmd exit correctly
-                        self.job.status.put("OK!: %s||"%step + command + "||%s"%exit_status)
-                        logging.info("OK!: %s||"%step + command + "||%s"%exit_status)
-                    elif (exit_status != 0 or program.getCanFail()):
+                        self.job.status.put("OK||%s||"%step + command + "||%s"%exit_status)
+                        logging.info("OK||%s||"%step + command + "||%s"%exit_status)
+                    elif (exit_status != 0 and program.getCanFail()):
                         # If cmd exit correctly or Can Fail
-                        self.job.status.put("PASS: %s||"%step + command + "||%s"%exit_status)
-                        self.job.error.put("PASS: %s||"%step + command + "||%s"%exit_status)
-                        logging.info("PASS: %s||"%step + command + "||%s"%exit_status)
+                        self.job.status.put("PASS||%s||"%step + command + "||%s"%exit_status)
+                        self.job.error.put("PASS||%s||"%step + command + "||%s"%exit_status)
+                        logging.info("PASS||%s||"%step + command + "||%s"%exit_status)
                     elif (exit_status != 0 and not program.getCanFail()):
                         # If cmd fail and Can't Fail
                         self.job.status_error = True
-                        self.job.error.put("FAIL: %s||"%step + command + "||%s"%exit_status)
-                        logging.info("FAIL: %s||"%step + command + "||%s"%exit_status)
-                    else:
-                        # else--- error
-                        self.job.status_error = True
-                        self.job.error.put("ELSE: %s||"%step + command + "||%s"%exit_status)
+                        self.job.error.put("FAIL||%s||"%step + command + "||%s"%exit_status)
+                        logging.info("FAIL||%s||"%step + command + "||%s"%exit_status)
                         while queue.empty():
                             #KILL THE QUEUE
                             program = queue.get()
                             queue.task_done()
                             if program == "break":
-                                break            
+                                break   
+                    else:
+                        # else--- error
+                        self.job.status_error = True
+                        self.job.error.put("ELSE||%s||"%step + command + "||%s"%exit_status)
+                                 
             except KeyboardInterrupt:
                 print "do quit thread"
                 self._quit(None)
