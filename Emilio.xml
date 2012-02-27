@@ -18,61 +18,9 @@
   </program>
   <program>
     <main>
-      <name>List directory</name>
+      <name>What day is today?</name>
       <baseCommand>ls</baseCommand>
-      <order>0</order>
-    </main>
-    <option>
-      <alias></alias>
-      <value> </value>
-      <separator></separator>
-      <delimiter></delimiter>
-    </option>
-  </program>
-    <program>
-    <main>
-      <name>Thou will fail</name>
-      <baseCommand>acommandthatdoesntexist</baseCommand>
       <order>1</order>
-    </main>
-    <option>
-      <alias></alias>
-      <value> </value>
-      <separator></separator>
-      <delimiter></delimiter>
-    </option>
-  </program>
-  <program>
-    <main>
-      <name>List directory</name>
-      <baseCommand>pwd</baseCommand>
-      <order>1</order>
-    </main>
-    <option>
-      <alias></alias>
-      <value> </value>
-      <separator></separator>
-      <delimiter></delimiter>
-    </option>
-  </program>
-  <program>
-    <main>
-      <name>Working directory</name>
-      <baseCommand>pwd</baseCommand>
-      <order>2</order>
-    </main>
-    <option>
-      <alias></alias>
-      <value> </value>
-      <separator></separator>
-      <delimiter></delimiter>
-    </option>
-  </program>
-    <program>
-    <main>
-      <name>Hostname</name>
-      <baseCommand>hostname</baseCommand>
-      <order>3</order>
     </main>
     <option>
       <alias></alias>
