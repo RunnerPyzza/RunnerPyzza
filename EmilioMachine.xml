@@ -4,13 +4,13 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="RunnerPyzza MachinesSetup.xsd">
   <machine>
-    <name>bazzilab</name>
-    <hostname>150.217.45.168</hostname>
-    <user>mgalardini</user>
+    <name>lamoraa</name>
+    <hostname>192.168.0.106</hostname>
+    <user>emilio</user>
   </machine>
   <machine>
-    <name>galactus</name>
-    <hostname>galactus-mobile</hostname>
-    <user>galactus</user>
+    <name>lamora</name>
+    <hostname>192.168.0.106</hostname>
+    <user>emilio</user>
   </machine>
 </machinesSetup>
