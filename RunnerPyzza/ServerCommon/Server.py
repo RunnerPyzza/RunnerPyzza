@@ -80,31 +80,30 @@ class WorkerJob(threading.Thread):
         while True:
             try:
                 program = queue.get()
-                command = program.getCmd()
-                
-                if command=="break":
+                if program == "break":
                     queue.task_done()
                     break    
-                #self.raw_notify("%s> Command in queue start"%(host[0]),command)
+                
+                command = program.getCmd()
+
                 with self.outlock:
                     logging.info("... %s ==> %s"%(host.getHostname(),command))
-                                
-                    chan = conn.get_transport().open_session()
-                    chan.exec_command(command)
-                    stdout = chan.makefile("rb", 1024)
-                    stderr = chan.makefile_stderr("rb", 1024)
-                    #stdin, stdout, stderr = conn.exec_command(command)
-                    #stdin.close()
-                    for line in stdout.read().splitlines():
-                        with self.outlock:
-                            logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
-                            self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
-                    for line in stderr.read().splitlines():
-                        with self.outlock:
-                            logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
-                            self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
-                            exit_status = chan.exit_status
-                            chan.close() 
+                    
+                chan = conn.get_transport().open_session()
+                chan.exec_command(command)
+                stdout = chan.makefile("rb", 1024)
+                stderr = chan.makefile_stderr("rb", 1024)
+                
+                for line in stdout.read().splitlines():
+                    with self.outlock:
+                        logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
+                        self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
+                for line in stderr.read().splitlines():
+                    with self.outlock:
+                        logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
+                        self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
+                exit_status = chan.exit_status
+                chan.close() 
                 queue.task_done()
                                 
                 with self.outlock:
@@ -130,12 +129,8 @@ class WorkerJob(threading.Thread):
                             #KILL THE QUEUE
                             program = queue.get()
                             queue.task_done()
-                            command = program.getCmd()
-                            if command=="break":
-                                break    
-                            
-                        
-                                
+                            if program == "break":
+                                break            
             except KeyboardInterrupt:
                 print "do quit thread"
                 self._quit(None)
