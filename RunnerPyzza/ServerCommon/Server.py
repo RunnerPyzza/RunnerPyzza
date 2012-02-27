@@ -96,12 +96,12 @@ class WorkerJob(threading.Thread):
                 
                 for line in stdout.read().splitlines():
                     with self.outlock:
-                        program.addStdOut(stdout.read())
+                        #program.addStdOut(line)
                         logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
                         self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
                 for line in stderr.read().splitlines():
                     with self.outlock:
-                        program.addStdErr(stderr.read())
+                        #program.addStdErr(line)
                         logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
                         self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
                         
