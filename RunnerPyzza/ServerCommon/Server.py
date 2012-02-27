@@ -321,7 +321,8 @@ class Server():
         job = self.manager.getJob(id)
         logging.info(job.name)
         if job.done:
-            for p in job.programsResult:
+            while not job.programsResult.empty():
+                p = job.programsResult.get()
                 client_socket.send(self.oPP.interpretate(p))
                 client_data = client_socket.recv(1024)
                 self.iPP.interpretate(client_data)
