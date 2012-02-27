@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*- 
 
 #
-# Generated Sat Feb 25 16:51:32 2012 by generateDS.py version 2.7b.
+# Generated Mon Feb 27 11:50:28 2012 by generateDS.py version 2.7b.
 #
 
 # To update this file:
@@ -1234,8 +1234,8 @@ def parseLiteral(inFileName):
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
-    sys.stdout.write('#from ScriptChainXMLNew import *\n\n')
-    sys.stdout.write('import ScriptChainXMLNew as model_\n\n')
+    sys.stdout.write('#from ScriptChainXML import *\n\n')
+    sys.stdout.write('import ScriptChainXML as model_\n\n')
     sys.stdout.write('rootObj = model_.rootTag(\n')
     rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
     sys.stdout.write(')\n')
