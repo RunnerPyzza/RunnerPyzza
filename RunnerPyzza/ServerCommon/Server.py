@@ -94,18 +94,18 @@ class WorkerJob(threading.Thread):
                 stdout = chan.makefile("rb", 1024)
                 stderr = chan.makefile_stderr("rb", 1024)
                 
-                '''for line in stdout.read().splitlines():
+                for line in stdout.read().splitlines():
                     with self.outlock:
+                        program.setStdOut(stdout.read())
                         logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
                         self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
                 for line in stderr.read().splitlines():
                     with self.outlock:
+                        program.setStdErr(stderr.read())
                         logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
-                        self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))'''
+                        self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
+                        
                 exit_status = chan.exit_status
-                
-                program.setStdOut(stdout.read())
-                program.setStdErr(stderr.read())
                 program.setHost(host.getHostname())
                 program.setExit(exit_status)
                 self.job.programsResult.put(program)
