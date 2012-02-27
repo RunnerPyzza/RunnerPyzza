@@ -213,8 +213,8 @@ class Job():
         self.programs = []
         self.programsResult = Queue.Queue() # with program obj
         self.done = False
-        #self.stdout = Queue.Queue()
-        #self.stderr = Queue.Queue()
+        self.stdout = Queue.Queue()
+        self.stderr = Queue.Queue()
         self.isNFS = True
         self.status = Queue.Queue()
         self.error = Queue.Queue()
