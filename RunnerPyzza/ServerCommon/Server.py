@@ -49,7 +49,7 @@ class WorkerJob(threading.Thread):
             queue = Queue.Queue()
             for p in job.programs:
                 if int(p.getOrder()) == order:
-                    queue.put(p.getCmd())
+                    queue.put(p)
             if queue.empty():
                 break
             else:
@@ -79,7 +79,9 @@ class WorkerJob(threading.Thread):
     def _workFun(self,host, conn, queue, step):
         while True:
             try:
-                command=queue.get()
+                program = queue.get()
+                command = program.getCmd()
+                
                 if command=="break":
                     queue.task_done()
                     break    
@@ -96,25 +98,43 @@ class WorkerJob(threading.Thread):
                     for line in stdout.read().splitlines():
                         with self.outlock:
                             logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
-                                                #self.job.stdout=self.job.stdout+"""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line)
                             self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
-                            print """\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line)
-                for line in stderr.read().splitlines():
-                    with self.outlock:
-                        logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
-                        #self.job.stderr=self.job.stderr+"""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line)
-                        self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
-                        print """\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line)
-                        exit_status = chan.exit_status
-                        chan.close() 
+                    for line in stderr.read().splitlines():
+                        with self.outlock:
+                            logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
+                            self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
+                            exit_status = chan.exit_status
+                            chan.close() 
                 queue.task_done()
                                 
                 with self.outlock:
-                    self.job.status.put("%s||"%step + command + "||%s"%exit_status)
-                    print "%s||"%step + command + "||%s"%exit_status
-                    if exit_status != 0:
+                    if  exit_status == 0:
+                        # If cmd exit correctly
+                        self.job.status.put("OK!: %s||"%step + command + "||%s"%exit_status)
+                        logging.info("OK!: %s||"%step + command + "||%s"%exit_status)
+                    elif (exit_status != 0 or program.getCanFail()):
+                        # If cmd exit correctly or Can Fail
+                        self.job.status.put("PASS: %s||"%step + command + "||%s"%exit_status)
+                        self.job.error.put("PASS: %s||"%step + command + "||%s"%exit_status)
+                        logging.info("PASS: %s||"%step + command + "||%s"%exit_status)
+                    elif (exit_status != 0 and not program.getCanFail()):
+                        # If cmd fail and Can't Fail
                         self.job.status_error = True
-                        self.job.error.put("%s||"%step + command + "||%s"%exit_status)
+                        self.job.error.put("FAIL: %s||"%step + command + "||%s"%exit_status)
+                        logging.info("FAIL: %s||"%step + command + "||%s"%exit_status)
+                    else:
+                        # else--- error
+                        self.job.status_error = True
+                        self.job.error.put("ELSE: %s||"%step + command + "||%s"%exit_status)
+                        while queue.empty():
+                            #KILL THE QUEUE
+                            program = queue.get()
+                            queue.task_done()
+                            command = program.getCmd()
+                            if command=="break":
+                                break    
+                            
+                        
                                 
             except KeyboardInterrupt:
                 print "do quit thread"
@@ -295,40 +315,36 @@ class Server():
                 ####
                 
     def _statusJob(self, id, client_socket):
-        print "---"
         
         job = self.manager.getJob(id)
-        print job.name
+        logging.info(job.name)
         if job.status.empty():
-            print "empty"
+            logging.info("%s is queued"%job.name)
             queued = self.oPP.interpretate(System("queued"))
             client_socket.send(queued)
         else:
-            print "not empty"
             if job.status_error:
-                print "error"
+                logging.info("%s Exit with error"%job.name)
                 stderr = ""
-                tmp = Queue.Queue()
+                replace_queue = Queue.Queue()
                 while True:
                     line = job.error.get()
                     stderr = stderr + line + "\n"
-                    tmp.put(line)
+                    replace_queue.put(line)
                     if job.error.empty():
                         break
-                job.error = tmp
+                job.error = replace_queue
                 error = self.oPP.interpretate( System("error", stderr))
-                print error
+                logging.error(error)
                 client_socket.send(error)
-                print "errordone"
             elif job.done:
-                print "done"
+                logging.info("%s is DONE!"%job.name)
                 done = self.oPP.interpretate(System("done"))
                 client_socket.send(done)
             else:
-                print "runnig"
+                logging.info("%s is Running"%job.name)
                 running = self.oPP.interpretate(System("running", job.status.get()))
                 client_socket.send(running)
-        print "ok"
         self._recvAKW(client_socket)
             
             
