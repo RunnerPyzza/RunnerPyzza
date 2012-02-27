@@ -90,7 +90,7 @@ def results(options):
         for pyzzaslice in eater.getSlices():
             logger.warning('Eating slice %d'%pyzzaslice)
             for program in eater.eatSlice(pyzzaslice):
-                logger.warning('Results for program %s'%program.getName())
+                logger.warning('Results for program %s'%program.name)
                 logger.warning('Machine %s'%program.getHost())
                 logger.warning('Exit status %d'%program.getExit())
                 for line in program.getStdOut().splitlines():

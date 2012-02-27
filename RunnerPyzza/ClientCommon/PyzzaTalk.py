@@ -65,6 +65,28 @@ class PyzzaTalk(object):
                             %(e))
             raise e
     
+    def getExtendedMessage(self):
+        '''
+        Receive data from the server and the msg type
+        Automatically converted with the PyzzaProtocol
+        BLOCKING CALL
+        '''
+        try:
+            msg = self.socket.recv(1024)
+            obj = self.iprtcl.interpretate(msg)
+            if hasattr(obj, 'body'):
+                logger.warning('<-- %s'%obj.body)
+            elif  self.iprtcl.type != 'system':
+                logger.warning('<-- %s'%self.iprtcl.type)
+            else:
+                print obj
+                print msg
+            return obj, self.iprtcl.type
+        except Exception, e:
+            logger.warning('Receive error! %s'
+                            %(e))
+            raise e
+    
     def getMessage(self):
         '''
         Receive data from the server
@@ -76,6 +98,8 @@ class PyzzaTalk(object):
             obj = self.iprtcl.interpretate(msg)
             if hasattr(obj, 'body'):
                 logger.warning('<-- %s'%obj.body)
+            elif  'values' in msg:
+                logger.warning('<-- %s'%msg.type)
             else:
                 print obj
                 print msg
@@ -279,19 +303,19 @@ class EatPyzza(PyzzaTalk):
             return False
 
         while True:
-            msg = self.getMessage()
-            if not msg:
+            obj,type = self.getExtendedMessage()
+            if not obj:
                 continue
             
-            if msg.type == "program":
-                if msg.order not in self.results:
-                    self.results[msg.order] = []
-                self.results[msg.order].append(msg)
+            if type == "program":
+                if obj.getOrder() not in self.results:
+                    self.results[obj.getOrder()] = []
+                self.results[obj.getOrder()].append(obj)
                 
                 self.send(System('ok'))
             
-            elif msg.type == "system":
-                if msg.body == "save":
+            elif type == "system":
+                if obj.body == "save":
                     if len(self.results) == 0:
                         self.send(System('fail'))
                         self.close()
