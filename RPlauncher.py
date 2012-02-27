@@ -131,25 +131,25 @@ def getOptions():
 
     parser_start = subparsers.add_parser('start', help='Put the pyzza in the oven')
     parser_start.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            default=None,
+                            required = True,
                             help='Job ID')
     parser_start.set_defaults(func=start)
     
     parser_status = subparsers.add_parser('status', help='Check the pyzza')
     parser_status.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            default=None,
+                            required = True,
                             help='Job ID')
     parser_status.set_defaults(func=status)
     
     parser_results = subparsers.add_parser('results', help='Eat the pyzza')
     parser_results.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            default=None,
+                            required = True,
                             help='Job ID')
     parser_results.set_defaults(func=results)
     
     parser_clean = subparsers.add_parser('clean', help='Clean the table')
     parser_clean.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            default=None,
+                            required = True,
                             help='Job ID')
     parser_clean.set_defaults(func=clean)
     
