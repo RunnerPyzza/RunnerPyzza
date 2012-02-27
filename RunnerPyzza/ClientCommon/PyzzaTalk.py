@@ -156,6 +156,9 @@ class OrderPyzza(PyzzaTalk):
         
         self.send(System('save',self.jobID))
         
+        if self.getMessage().body == 'fail':
+            return False
+        
         self.close()
         return True
         
@@ -240,3 +243,73 @@ class CheckPyzza(PyzzaTalk):
 
         self.close()
         return True
+
+class EatPyzza(PyzzaTalk):
+    '''
+    Get the desired job results
+    Eat the pyzza!
+    '''
+    def __init__(self, server, port, jobID):
+        PyzzaTalk.__init__(self, server, port)
+        self.connect()
+        self.jobID = jobID
+        
+        self.results = {}
+        
+    def getSlices(self):
+        '''
+        Generate the pyzza slices
+        '''
+        for step in sorted(self.results.keys()):
+            yield step
+            
+    def eatSlice(self,step):
+        '''
+        Return each bit of the slice
+        '''
+        for program in self.results[step]:
+            yield program
+        
+    def eatThePyzza(self):
+        '''
+        Perfomr all the actions to eat a delicious pyzza
+        '''
+        self.send(System('results',self.jobID))
+        if self.getMessage().body == 'fail':
+            return False
+
+        while True:
+            msg = self.getMessage()
+            
+            if msg.type == "program":
+                if msg.order not in self.results:
+                    self.results[msg.order] = []
+                self.results[msg.order].append(msg)
+                
+                self.send(System('ok'))
+            
+            elif msg.type == "system":
+                if msg.body == "save":
+                    if len(self.results) == 0:
+                        self.send(System('fail'))
+                        self.close()
+                        return False
+                    else:
+                        self.send(System('ok'))
+                    break
+                
+            else:
+                self.send(System('fail'))
+        
+        # Here scp
+        
+        self.close()
+        return True
+        
+class CleanPyzza(PyzzaTalk):
+    '''
+    Clean the informations about a job
+    Clean the table (and pay!)
+    '''
+    pass
+        

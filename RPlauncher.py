@@ -7,7 +7,8 @@ RPlauncher
 Runner Pyzza main script 
 """
 from RunnerPyzza import __version__
-from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza, OvenPyzza, CheckPyzza
+from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza, OvenPyzza, CheckPyzza, \
+    EatPyzza
 from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup, ScriptChain
 import argparse
 import getpass
@@ -80,7 +81,22 @@ def status(options):
                 logger.warning('Slice %d, Status %s, Ingredients %s, Return code %d'%(int(err[1]),err[0],err[2],int(err[3])))
 
 def results(options):
-    pass
+    logger.info('Let me eat my pyzza!')
+    eater = EatPyzza(options.host, options.port, options.jobID)
+    if not eater.eatThePyzza():
+        logger.error('Could not eat the pyzza! %s'%options.jobID)
+        return
+    else:
+        for pyzzaslice in eater.getSlices():
+            logger.warning('Eating slice %d'%pyzzaslice)
+            for program in eater.eatSlice(pyzzaslice):
+                logger.warning('Results for program %s'%program.getName())
+                logger.warning('Machine %s'%program.getHost())
+                logger.warning('Exit status %d'%program.getExit())
+                for line in program.getStdOut().splitlines():
+                    logger.warning('\033[1;32m[%s]\033[0m'%line)
+                for line in program.getStdErr().splitlines():
+                    logger.warning('\033[1;31m[%s]\033[0m'%line)
 
 def clean(options):
     pass
