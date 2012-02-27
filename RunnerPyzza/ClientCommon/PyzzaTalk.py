@@ -280,6 +280,8 @@ class EatPyzza(PyzzaTalk):
 
         while True:
             msg = self.getMessage()
+            if not msg:
+                continue
             
             if msg.type == "program":
                 if msg.order not in self.results:
