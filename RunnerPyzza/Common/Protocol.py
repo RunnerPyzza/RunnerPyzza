@@ -98,8 +98,8 @@ class iProtocol(Protocol):
 		p.setCpu(dval["ncpu"])
 		p.setOrder(dval["order"])
 		p.setCanFail(dval['canFail'])
-		p.setStdOut(dval['stdout'])
-		p.setStdErr(dval['stderr'])
+		p.addStdOut(dval['stdout'])
+		p.addStdErr(dval['stderr'])
 		p.setHost(dval['host'])
 		p.setExit(dval['exit'])
 		self.obj = p
