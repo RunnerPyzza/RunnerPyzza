@@ -64,7 +64,20 @@ fh.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] - %(message)s','%Y-%m-%d %H:%M:%S')
 fh.setFormatter(formatter)
 logger.addHandler(fh)
-logger = logging.getLogger('RPdaemon')
+
+# create console handler
+ch = logging.StreamHandler()
+# Set log level
+ch.setLevel(logging.DEBUG)
+
+# create formatter for console handler
+formatter = logging.Formatter('%(asctime)s - %(message)s',
+                            '%H:%M:%S')
+# add formatter to console handler
+ch.setFormatter(formatter)
+
+# add console handler to logger
+logger.addHandler(ch)
 
 # Questa ci serve per memorizzare il file .pid
 LOG_DIR = '/tmp'    
