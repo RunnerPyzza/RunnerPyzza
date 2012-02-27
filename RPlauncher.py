@@ -77,7 +77,7 @@ def status(options):
             logger.warning('The Pyzza with id %s is burned!'%options.jobID)
             logger.warning('Problematic slices:')
             for err in checker.inspectErrors():
-                logger.warning('Slice %d, Ingredients %s, Return code %d'%(int(err[0]),err[1],int(err[2])))
+                logger.warning('Slice %d, Status %s, Ingredients %s, Return code %d'%(int(err[1]),err[0],err[2],int(err[3])))
 
 def results(options):
     pass
