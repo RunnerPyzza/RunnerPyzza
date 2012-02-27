@@ -94,13 +94,19 @@ class Program(object):
         return self._stdout
         
     def addStdOut(self,stdout):
-        self._stdout += stdout
+        if self._stdout == '':
+            self._stdout += stdout
+        else:
+            self._stdout += '\n' + stdout
         
     def getStdErr(self):
         return self._stderr
         
     def addStdErr(self,stderr):
-        self._stderr += stderr
+        if self._stderr == '':
+            self._stderr += stderr
+        else:
+            self._stderr += '\n' + stderr
         
     def getHost(self):
         return self._host
