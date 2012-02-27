@@ -35,8 +35,8 @@ class Program(object):
         self._canFail = canFail
         
         # Info about the results
-        self._stdout = None
-        self._stderr = None
+        self._stdout = ''
+        self._stderr = ''
         self._host = None
         self._exit = None
         
@@ -93,14 +93,14 @@ class Program(object):
     def getStdOut(self):
         return self._stdout
         
-    def setStdOut(self,stdout):
-        self._stdout = stdout
+    def addStdOut(self,stdout):
+        self._stdout += stdout
         
     def getStdErr(self):
         return self._stderr
         
-    def setStdErr(self,stderr):
-        self._stderr = stderr
+    def addStdErr(self,stderr):
+        self._stderr += stderr
         
     def getHost(self):
         return self._host
