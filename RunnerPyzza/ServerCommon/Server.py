@@ -96,12 +96,12 @@ class WorkerJob(threading.Thread):
                 
                 for line in stdout.read().splitlines():
                     with self.outlock:
-                        program.setStdOut(stdout.read())
+                        program.addStdOut(stdout.read())
                         logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
                         self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
                 for line in stderr.read().splitlines():
                     with self.outlock:
-                        program.setStdErr(stderr.read())
+                        program.addStdErr(stderr.read())
                         logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
                         self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
                         
@@ -451,7 +451,7 @@ class Server():
                     client_socket.send(self.ok)
                     break
             else:
-                logging.debug("FAIL :%s"%(client_data))
+                logging.debug("FAIL client data = %s"%(client_data))
                 client_socket.send(self.fail)
         #
         ###
