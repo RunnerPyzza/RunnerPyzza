@@ -141,15 +141,15 @@ class ScriptChain(GenericHandler):
                 else:
                     cmd += ' '+self._assembleCpu(program.getCpu())
             # Check the failure flag
-            if program.getCanFail():
-                canFail = program.getCanFail()
+            if program.getMain().canFail:
+                canFail = program.getMain().canFail
             # Create the final object and put it into the list
             progObj = PRG.Program(name,cmd)
             # Put the order
             progObj.setOrder(program.getMain().getOrder())
             if program.getCpu():
                 progObj.setCpu(ncpu)
-            if program.getCanFail():
+            if program.getMain().canFail:
                 progObj.setCanFail(canFail)
             self.programs.append(progObj)
             
