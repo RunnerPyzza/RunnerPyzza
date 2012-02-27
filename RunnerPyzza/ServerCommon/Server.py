@@ -94,15 +94,21 @@ class WorkerJob(threading.Thread):
                 stdout = chan.makefile("rb", 1024)
                 stderr = chan.makefile_stderr("rb", 1024)
                 
-                for line in stdout.read().splitlines():
+                '''for line in stdout.read().splitlines():
                     with self.outlock:
                         logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
                         self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
                 for line in stderr.read().splitlines():
                     with self.outlock:
                         logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
-                        self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
+                        self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))'''
                 exit_status = chan.exit_status
+                
+                program.setStdOut(stdout.read())
+                program.setStdErr(stderr.read())
+                program.setHost(host.getHostname())
+                program.setExit(exit_status)
+                self.job.programsResult.put(program)
                 chan.close() 
                 queue.task_done()
                                 
@@ -133,11 +139,11 @@ class WorkerJob(threading.Thread):
                         self.job.error.put("ELSE||%s||"%step + command + "||%s"%exit_status)
                                  
             except KeyboardInterrupt:
-                print "do quit thread"
+                logging.error("do quit thread")
                 self._quit(None)
                 break
             except Exception as e:
-                print e    
+                logging.error(e)    
 
     def _quit(self):
         """Close all the connections and exit"""
@@ -205,9 +211,10 @@ class Job():
         self.name = jobID
         self.machines = []
         self.programs = []
+        self.programsResult = Queue.Queue() # with program obj
         self.done = False
-        self.stdout = Queue.Queue()
-        self.stderr = Queue.Queue()
+        #self.stdout = Queue.Queue()
+        #self.stderr = Queue.Queue()
         self.isNFS = True
         self.status = Queue.Queue()
         self.error = Queue.Queue()
@@ -282,7 +289,7 @@ class Server():
                             
                 elif self.iPP.obj.body == "results":
                     client_socket.send(self.ok)
-                    self._resultsJob(client_socket)
+                    self._resultsJob(self.iPP.obj.ID, client_socket)
                         
                 elif self.iPP.obj.body == "clean":
                     client_socket.send(self.ok)
@@ -309,6 +316,25 @@ class Server():
                 logging.info("Server : FORCE Connection close from %s %s"%(address))
                 #
                 ####
+                
+    def _resultsJob(self, id, client_socket):
+        job = self.manager.getJob(id)
+        logging.info(job.name)
+        if job.done:
+            for p in job.programsResult:
+                client_socket.send(self.oPP.interpretate(p))
+                client_data = client_socket.recv(1024)
+                self.iPP.interpretate(client_data)
+                if self.iPP.type=="system":
+                    if self.iPP.obj.body == "fail":
+                        return False
+            client_socket.send(self.oPP.interpretate(System("save", id)))
+            self.iPP.interpretate(client_data)
+            if self.iPP.type=="system":
+                if self.iPP.obj.body == "fail":
+                    return False
+        else:
+            logging.info("Job %s uncomplete ...Try status"%job.name)
                 
     def _statusJob(self, id, client_socket):
         
