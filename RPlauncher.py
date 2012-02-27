@@ -6,88 +6,142 @@ RPlauncher
 
 Runner Pyzza main script 
 """
-
-__author__ = "Emilio Potenza"
-__copyright__ = "Copyright 2011, RunnerPyzza"
-__credits__ = ["Marco Galardini"]
-__license__ = "GPL"
-__version__ = "0.2"
-__maintainer__ = "Emilio Potenza"
-__email__ = "emilio.potenza@iasma.it"
-__status__ = "Development"
-
-################################################################################
-# Imports
+from RunnerPyzza import __version__
 from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza, OvenPyzza, CheckPyzza
-from RunnerPyzza.Common.JSON import JSON
-from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
-from RunnerPyzza.Common.System import System
 from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup, ScriptChain
-from optparse import OptionParser, OptionGroup
+import argparse
 import getpass
 import logging
-import socket
 import sys
 import time
+
+__author__ = "Emilio Potenza"
+__credits__ = ["Marco Galardini"]
+
+################################################################################
+# Log
+
+# Log setup
+# create logger
+# without any name, so it's root
+logger = logging.getLogger()
+
+################################################################################
+# Methods
+
+def init(options):
+    logger.info("Reading inputs")
+    f=open(options.scriptChain)
+    h = ScriptChain(''.join(f.readlines()))
+    logger.info("RPlauncher: reading machine XML...")
+    m = MachinesSetup(options.machines)
+    for i in m.getMachines():
+            i.setPassword(getpass.getpass(
+                          'Password for machine "%s" (user %s): '%
+                          (i.name,i.getUser())))
+
+    logger.info("Open cominication with daemon...")
+    order = OrderPyzza(options.host, options.port,
+            machines = m.getMachines(), programs = h.getPrograms(),
+            tag = 'Margherita', local = False)
+    if not order.launchOrder():
+        logger.warning('Pyzza not ordered!')
+        return
+    else:
+        logger.warning('Pyzza ordered with id %s'%order.jobID)
+
+def start(options):
+    logger.info('Let\'s put the pyzza in the oven!')
+    ovenizer = OvenPyzza(options.host, options.port, options.jobID)
+    if not ovenizer.putInTheOven():
+        logger.warning('The oven is cold! Could not cook %s'%options.jobID)
+        return
+    else:
+        logger.warning('Pyzza with id %s is in the oven!'%options.jobID)
+
+def status(options):
+    logger.info('Let\'s check if the pyzza is ready!')
+    checker = CheckPyzza(options.host, options.port, options.jobID)
+    if not checker.checkTheOven():
+        logger.warning('Could not find the pyzza! %s'%options.jobID)
+        return
+    else:
+        if checker.isReady():
+            logger.warning('The Pyzza with id %s is ready!'%options.jobID)
+        elif checker.isCooking():
+            logger.warning('The Pyzza with id %s is still in the oven!'%options.jobID)
+            logger.warning('%d slices cooked!'%(int(checker.getLastSlice()[0])))
+        elif checker.isWaiting():
+            logger.warning('The oven is still cold! Waiting to cook %s'%options.jobID)
+        elif checker.isBurned():
+            logger.warning('The Pyzza with id %s is burned!'%options.jobID)
+            logger.warning('Problematic slices:')
+            for err in checker.inspectErrors():
+                logger.warning('Slice %d, Ingredients %s, Return code %d'%(int(err[0]),err[1],int(err[2])))
+
+def results(options):
+    pass
+
+def clean(options):
+    pass
 
 ################################################################################
 # Read options
 
 def getOptions():
-    usage = "usage: python RPlauncher.py [options]"
-    version="RPlauncher.py "+str(__version__)
-    description=("RPlauncher.py: RunnerPyzza main script")
-    parser = OptionParser(usage,version=version,description=description)
-    
-    group0 = OptionGroup(parser, "RPlauncher MODE")
-    group0.add_option('-f', '--function', action="store", dest='function',
-        default="init",
-        help='Change RPlauncher mode, init|start|status|results|clean  [init]')
-    group0.add_option('-d', '--RPdaemon', action="store", dest='RPdaemon',
-        default=None,
-        help='RPdaemon ip location [None]')
-    group0.add_option('-p', '--port', action="store", dest='port',
-        default=4123,
-        help='RPdaemon server port [4123]')
-    parser.add_option_group(group0)
+    # create the top-level parser
+    description = "RPlauncher.py %s RunnerPyzza main script"%__version__
+    parser = argparse.ArgumentParser(description = description)
+    parser.add_argument('-d', '--host', action='store',
+                        default='localhost',
+                        help='Main server hostname')
+    parser.add_argument('-p', '--port', action='store',
+                        default=4123,
+                        help='Main server port')
+    parser.add_argument('-q', '--quiet', action='store_true',
+                        help='Suppress verbosity')
+    parser.add_argument('-g', '--debug', action='store_true',
+                        help='Add debug messages')
+    subparsers = parser.add_subparsers()
 
-    group1 = OptionGroup(parser, "RPlauncher init")
-    group1.add_option('-i', '--inputXML', action="store", dest='inXML',
-        default=None,
-        help='Input XML file with pipeline [None]')
-    group1.add_option('-m', '--machineXML', action="store", dest='maXML',
-        default=None,
-        help='Input XML file with available machines [None]')
-    parser.add_option_group(group1)
-    
-    group1a = OptionGroup(parser, "RPlauncher start|status|results|clean")
-    group1a.add_option('-j', '--jobID', action="store", dest='jobID',
-        default=None,
-        help='JobID [None]')
-    parser.add_option_group(group1a)
-    
-    group2 = OptionGroup(parser, "Logging and Debug")
-    group2.add_option('-Q', '--quiet', action="store_true", dest='quiet',
-        default=False,
-        help='Quiet?')
-    group2.add_option('-G', '--debug', action="store_true", dest='debug',
-        default=False,
-        help='Debug?')
-    parser.add_option_group(group2)
+    parser_init = subparsers.add_parser('init', help='Order a pyzza')
+    parser_init.add_argument('-i', '--scriptChain', action="store",
+                            required = True,
+                            help='ScriptChain file')
+    parser_init.add_argument('-m', '--machines', action="store",
+                            required = True,
+                            help='Machines file')
+    parser_init.set_defaults(func=init)
 
+    parser_start = subparsers.add_parser('start', help='Put the pyzza in the oven')
+    parser_start.add_argument('-j', '--jobID', action="store", dest='jobID',
+                            default=None,
+                            help='Job ID')
+    parser_start.set_defaults(func=start)
+    
+    parser_status = subparsers.add_parser('status', help='Check the pyzza')
+    parser_status.add_argument('-j', '--jobID', action="store", dest='jobID',
+                            default=None,
+                            help='Job ID')
+    parser_status.set_defaults(func=status)
+    
+    parser_results = subparsers.add_parser('results', help='Eat the pyzza')
+    parser_results.add_argument('-j', '--jobID', action="store", dest='jobID',
+                            default=None,
+                            help='Job ID')
+    parser_results.set_defaults(func=results)
+    
+    parser_clean = subparsers.add_parser('clean', help='Clean the table')
+    parser_clean.add_argument('-j', '--jobID', action="store", dest='jobID',
+                            default=None,
+                            help='Job ID')
+    parser_clean.set_defaults(func=clean)
+    
     return parser.parse_args()
 
-
-
 ################################################################################
-# option parser
-(options, args) = getOptions()
 
-# Log setup
-
-# create logger
-# without any name, so it's root
-logger = logging.getLogger()
+options = getOptions()
 
 # Set root log level
 if options.quiet:
@@ -144,7 +198,7 @@ def launcherQuit(client_socket = None, quit_msg = None, exit = True):
         time.sleep(1)
         # close socket connection without error
         client_socket.close()
-        logging.info("RPlauncher: Bye Bye!")
+        logging.info("Bye Bye!")
     if exit:
         sys.exit()
 
@@ -152,78 +206,9 @@ def launcherQuit(client_socket = None, quit_msg = None, exit = True):
 # Main
 
 def main():
-    logger.info('RPlauncher: starting...')
-    if options.function == "init":
-        # Check the arguments
-        if not options.inXML:
-            logger.error('Missing mandatory parameters: (-i,--inputXML)')
-            logger.error('Stopping RPlauncher')
-            sys.exit()
-        elif not options.maXML:
-            logger.error('Missing mandatory parameters: (-m,--machineXML)')
-            logger.error('Stopping RPlauncher')
-            sys.exit()
-        elif not options.RPdaemon:
-            logger.error('Missing mandatory parameters: (-d,--RPdaemon)')
-            logger.error('Stopping RPlauncher')
-            sys.exit()
-        else:
-            logger.debug('RPlauncher: mandatory parameters available.')
-
-        logging.info("RPlauncher: reading input XML...")
-        f=open(options.inXML)
-        h = ScriptChain(''.join(f.readlines()))
-        logging.info("RPlauncher: reading machine XML...")
-        m = MachinesSetup(options.maXML)
-        for i in m.getMachines():
-                i.setPassword(getpass.getpass('RPlauncher: Password for machine "%s" (user %s): '%(i.name,i.getUser())))
-
-        logging.info("RPlauncher: open cominication with daemon...")
-        order = OrderPyzza(options.RPdaemon, options.port,
-                machines = m.getMachines(), programs = h.getPrograms(),
-                tag = 'Margherita', local = False)
-        if not order.launchOrder():
-            logging.warning('Pyzza not ordered!')
-            return
-        else:
-            logging.warning('Pyzza ordered with id %s'%order.jobID)
-        
-    elif options.function == 'start':
-        if not options.RPdaemon or not options.jobID:
-            logger.error('Missing mandatory parameters')
-            logger.error('Stopping RPlauncher')
-            sys.exit()
-        logging.info('Let\'s put the pyzza in the oven!')
-        ovenizer = OvenPyzza(options.RPdaemon, options.port, options.jobID)
-        if not ovenizer.putInTheOven():
-            logging.warning('The oven is cold! Could not cook %s'%options.jobID)
-            return
-        else:
-            logging.warning('Pyzza with id %s is in the oven!'%options.jobID)
-     
-    elif options.function == 'status':
-        if not options.RPdaemon or not options.jobID:
-            logger.error('Missing mandatory parameters')
-            logger.error('Stopping RPlauncher')
-            sys.exit()
-        logging.info('Let\'s check if the pyzza is ready!')
-        checker = CheckPyzza(options.RPdaemon, options.port, options.jobID)
-        if not checker.checkTheOven():
-            logging.warning('Could not find the pyzza! %s'%options.jobID)
-            return
-        else:
-            if checker.isReady():
-                logging.warning('The Pyzza with id %s is ready!'%options.jobID)
-            elif checker.isCooking():
-                logging.warning('The Pyzza with id %s is still in the oven!'%options.jobID)
-                logging.warning('%d slices cooked!'%(int(checker.getLastSlice()[0])))
-            elif checker.isWaiting():
-                logging.warning('The oven is still cold! Waiting to cook %s'%options.jobID)
-            elif checker.isBurned():
-                logging.warning('The Pyzza with id %s is burned!'%options.jobID)
-                logging.warning('Problematic slices:')
-                for err in checker.inspectErrors():
-                    logging.warning('Slice %d, Ingredients %s, Return code %d'%(int(err[0]),err[1],int(err[2])))
+    logger.info('Starting...')
+    
+    options.func(options)
 
 if __name__ == '__main__':
     main()
