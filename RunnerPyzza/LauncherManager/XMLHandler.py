@@ -27,13 +27,13 @@ class GenericHandler(object):
         try:
             open(inXML)
             self._inXML = inXML
-            logging.debug('XML file name passed as input')
+            logger.debug('XML file name passed as input')
         except:
             import StringIO
             self._inXML = StringIO.StringIO()
             self._inXML.write(inXML)
             self._inXML.seek(0)
-            logging.debug('XML string passed as input')
+            logger.debug('XML string passed as input')
             
     def send(self):
         pass
@@ -65,7 +65,7 @@ class ScriptChain(GenericHandler):
         '''
         Calls the XML parser and stores the parsed object for further analysis
         '''
-        logging.debug(('Parsing ScriptChain xml'))
+        logger.debug(('Parsing ScriptChain xml'))
         
         # Parse
         from RunnerPyzza.ClientCommon import ScriptChainXML as SCXml
@@ -153,14 +153,14 @@ class ScriptChain(GenericHandler):
                 progObj.setCanFail(canFail)
             self.programs.append(progObj)
             
-            logging.info(
+            logger.info(
                 'Created program %s, using %d CPUs'%(progObj.name,
                                                      progObj.getCpu()))
         
         # Order the programs looking at their order attribute
         self.programs = sorted(self.programs, key=lambda p: p.getOrder())
         
-        logging.debug('Parsed %d programs'%len(self.programs))
+        logger.debug('Parsed %d programs'%len(self.programs))
         
     def getPrograms(self):
         if self.programs == []:
@@ -188,7 +188,7 @@ class MachinesSetup(GenericHandler):
         '''
         Calls the XML parser and stores the parsed object for further analysis
         '''
-        logging.debug(('Parsing MachinesSetup xml'))
+        logger.debug(('Parsing MachinesSetup xml'))
         
         # Parse
         from RunnerPyzza.ClientCommon import MachinesSetupXML as MSXml
@@ -217,13 +217,13 @@ class MachinesSetup(GenericHandler):
             self.machines.append(MCH.Machine(machine.name,
                                              machine.getHostname(),
                                              machine.getUser()))
-            logging.info(
+            logger.info(
                 'Added "%s", with hostname %s and user %s'
                             %(machine.name,
                               machine.getHostname(),
                               machine.getUser()))
         
-        logging.debug('Parsed %d machines'%len(self.machines))
+        logger.debug('Parsed %d machines'%len(self.machines))
         
     def getMachines(self):
         if self.machines == []:

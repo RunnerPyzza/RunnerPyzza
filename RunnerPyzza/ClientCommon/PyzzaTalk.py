@@ -43,9 +43,9 @@ class PyzzaTalk(object):
         try:
             self.socket.connect( (self.server, self.port) )
         except Exception, e:
-            logging.warning('Connection error! %s'
+            logger.warning('Connection error! %s'
                             %(e))
-            logging.warning('Could not connect to % on port %s'
+            logger.warning('Could not connect to %s on port %s'
                             %(self.server, self.port))
             raise e
     
@@ -56,12 +56,12 @@ class PyzzaTalk(object):
         True if it worked, False otherwise
         '''
         if hasattr(obj, 'body'):
-            logging.warning('--> %s'%obj.body)
+            logger.warning('--> %s'%obj.body)
         msg = self.oprtcl.interpretate(obj)
         try:
             self.socket.send( str(msg) )
         except Exception, e:
-            logging.warning('Send error! %s'
+            logger.warning('Send error! %s'
                             %(e))
             raise e
     
@@ -75,13 +75,13 @@ class PyzzaTalk(object):
             msg = self.socket.recv(1024)
             obj = self.iprtcl.interpretate(msg)
             if hasattr(obj, 'body'):
-                logging.warning('<-- %s'%obj.body)
+                logger.warning('<-- %s'%obj.body)
             else:
                 print obj
                 print msg
             return obj
         except Exception, e:
-            logging.warning('Receive error! %s'
+            logger.warning('Receive error! %s'
                             %(e))
             raise e
     
