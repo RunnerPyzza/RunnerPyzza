@@ -71,7 +71,7 @@ def status(options):
             logger.warning('The Pyzza with id %s is ready!'%options.jobID)
         elif checker.isCooking():
             logger.warning('The Pyzza with id %s is still in the oven!'%options.jobID)
-            logger.warning('%d slices cooked!'%(int(checker.getLastSlice()[0])))
+            logger.warning('%d slices cooked!'%(int(checker.getLastSlice()[1])))
         elif checker.isWaiting():
             logger.warning('The oven is still cold! Waiting to cook %s'%options.jobID)
         elif checker.isBurned():
