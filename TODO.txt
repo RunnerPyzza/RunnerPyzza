@@ -1,0 +1,25 @@
+SSH/passwords:
+- http://blog.hypergeometric.com/2012/02/22/ssh-dos-and-donts/
+
+RPlauncher:
+- The running reply breaks RPlauncher
+
+RPdeamon:
+- on bazzilab the github setup sometimes asks for a password on screen
+- the daemon should run all the slices in an order even if the machine has been setup once
+- The user can specify a directory where the script has to be launched
+- When the start command has been issued, the daemon should reply with running instead of queued (it happens only when the first step is not ready)
+
+Server:
+- Understand why this doesn't work {'values':
+		{
+			'canFail': False,
+			'name': u'What day is today?',
+			'stdout': u'2011-01-12_GCL-24-41_data-report.pdf\n2011-02-04_GCL-24-29b_30-41_data-report.pdf\n2011-03-16_GCL-26-37_data_report.pdf\nAppleGenome-2010.03.16.fa\narduino\narduino-0023\nchrome.log\nclavis\ndebug.log\nDesktop\ndike\nDocumenti\nDocuments\nDottorato_Doc\nDottorato_Rsync\nDownloads\nDropbox\neclipse\nemilio.test\nemilio_test.test\nerwinia.ods\netonahori\nex1.genome\nex2.genome\nex3.genome\nexamples.desktop\nfindAS_tmp\nfm.exe\nFootball.Manager.2012-SKIDROW\ngalardiniTest\ngephi\ngit\nGMPF\nGMPF_project.pdf\nGNUstep\ngummi-0.5.3\nIASMA_GHENT\nigv\nigv_session.xml\nImmagini\ninfostrada_conto.pdf\ninfostrada_iscrizione.pdf\niroha.irohanote.385397c728aefa7d4176518eb68f754f8bead22e.1.desktop\njournal_club.pdf\nkersh\nlibro\nls.desktop\nMDP_22_07_10_geneset_2.gff3\nmissfont.log\nModelli\nmodello presenze - Copia.xls\nmulta.pdf\nMusic\nMusica\nNetBeansGit\nNetBeansProjects\nnohup.out\noutput.ps\nParallelomics\nparamiko_test.py\nPhD Application form.txt\nPictures\npotenzae\npresentazione.pdf\nPresentazioni_Poster\nprivati.pdf\nprocess.py\nPubblici\npw\nPython_Book\nPythonProjects\nRunnerPyzza_clones\nScaricati\nScrivania\nSecondo_Seminario.pdf\nsketchbook\nSKIDROW.exe\nSKIDROW.ini\nSports Interactive\nstatBAM.log\nsteam_api.dll\nSteamclient.dll\ntest\ntest_scp\ntmp_dati\nTMPEG\ntmpmk\ntmp.tmp\ntriplea\nUbuntu One\nunifi.tar\nUntitled Document 1\nVideo\nVideos\nVirtualBox VMs\nvmware\nworkspace\nzlib-1.2.5\nzlib-1.2.5.tar.bz2',
+			'cmd': u'ls  ',
+			'ncpu': 1,
+			'host': u'192.168.0.106',
+			'exit': 0,
+			'stderr': u'',
+			'order': 1 },
+	'type': 'program'}
