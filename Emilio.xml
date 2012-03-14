@@ -5,8 +5,8 @@
   xsi:schemaLocation="RunnerPyzza Launcher.xsd">
   <program>
     <main>
-      <name>What day is today?</name>
-      <baseCommand>date</baseCommand>
+      <name>Sleep well</name>
+      <baseCommand>sleep 20;echo "che sonno"</baseCommand>
       <order>0</order>
     </main>
     <option>
@@ -34,6 +34,7 @@
       <name>Thou will fail</name>
       <baseCommand>acommandthatdoesntexist</baseCommand>
       <order>1</order>
+      <canFail>true</canFail>
     </main>
     <option>
       <alias></alias>
