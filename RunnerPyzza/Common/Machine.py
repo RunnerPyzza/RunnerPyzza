@@ -34,6 +34,9 @@ class Machine(object):
         self._user = user
         self._password = None
         
+        # Used by the Server
+        self._ncpu = None
+        
     def __str__(self):
         '''
         Returns the machine string - if the password has not been set returns
@@ -97,6 +100,12 @@ class Machine(object):
             self._password = base64.b64encode(pwd)
         else:
             self._password = pwd
+            
+    def setCpu(self, ncpu):
+        self._ncpu = int(ncpu)
+        
+    def getCpu(self):
+        return self._ncpu
             
     
 ################################################################################
