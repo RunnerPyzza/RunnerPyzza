@@ -73,7 +73,7 @@ class WorkerJob(threading.Thread):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(host.getHostname(), username=host.getUser(), password=host.getPassword())
         #self.connections.append(client)
-        logging.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
+        logger.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
         return client
 
     def _workFun(self, host, conn, program, step):
@@ -81,7 +81,7 @@ class WorkerJob(threading.Thread):
             command = program.getCmd()
 
             with self.outlock:
-                logging.info("... %s ==> %s"%(host.getHostname(),command))
+                logger.info("... %s ==> %s"%(host.getHostname(),command))
                 
             chan = conn.get_transport().open_session()
             chan.exec_command(command)
@@ -91,12 +91,12 @@ class WorkerJob(threading.Thread):
             for line in stdout.read().splitlines():
                 with self.outlock:
                     program.addStdOut(line)
-                    logging.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
+                    logger.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
                     self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
             for line in stderr.read().splitlines():
                 with self.outlock:
                     program.addStdErr(line)
-                    logging.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
+                    logger.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
                     self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
                     
             exit_status = chan.exit_status
@@ -109,27 +109,27 @@ class WorkerJob(threading.Thread):
                 if  exit_status == 0:
                     # If cmd exit correctly
                     self.job.status.put("OK||%s||"%step + command + "||%s"%exit_status)
-                    logging.info("OK||%s||"%step + command + "||%s"%exit_status)
+                    logger.info("OK||%s||"%step + command + "||%s"%exit_status)
                 elif (exit_status != 0 and program.getCanFail()):
                     # If cmd exit correctly or Can Fail
                     self.job.status.put("PASS||%s||"%step + command + "||%s"%exit_status)
                     self.job.error.put("PASS||%s||"%step + command + "||%s"%exit_status)
-                    logging.info("PASS||%s||"%step + command + "||%s"%exit_status)
+                    logger.info("PASS||%s||"%step + command + "||%s"%exit_status)
                 elif (exit_status != 0 and not program.getCanFail()):
                     # If cmd fail and Can't Fail
                     self.job.status_error = True
                     self.job.error.put("FAIL||%s||"%step + command + "||%s"%exit_status)
-                    logging.info("FAIL||%s||"%step + command + "||%s"%exit_status)   
+                    logger.info("FAIL||%s||"%step + command + "||%s"%exit_status)   
                 else:
                     # else--- error
                     self.job.status_error = True
                     self.job.error.put("ELSE||%s||"%step + command + "||%s"%exit_status)
                              
         except KeyboardInterrupt:
-            logging.error("do quit thread")
+            logger.error("do quit thread")
             self._quit(None)
         except Exception as e:
-            logging.error(e)    
+            logger.error(e)    
 
     def _quit(self):
         """Close all the connections and exit"""
@@ -157,11 +157,10 @@ class WorkerJob(threading.Thread):
         Get the suitable machine for this command
         If return None no machine is free at the moment
         '''
-        # Two ways to do this: check directly tha availability or just subtract the used cpus
         free_list = []
-	for machine in self.machines:
+        for machine in self.machines:
+            logger.info('Asking free CPU for %s'%machine.getHostname())
             conn = self._connect(machine)
-            # cat /proc/cpuinfo | grep processor | wc -l
             stdin, stdout, stderr = conn.exec_command("ps -eo pcpu | sort -h -r")
             stdin.close()
             stderr.close()
@@ -175,19 +174,23 @@ class WorkerJob(threading.Thread):
             free_mach = (machine.getCpu() * 100.0) - mach_load
             free_list.append(free_mach)
             conn.close()
-        minLoad = min(free_list)
+            logger.info('Machine %s has %f free CPU'%(machine.getHostname(), free_mach))
+        maxLoad = max(free_list)
         for mach,mach_load in zip(self.machines, free_list):
-            if mach_load == minLoad:
+            if mach_load == maxLoad:
+                logger.info('Machine %s is the most free'%mach.getHostname())
                 return mach
-        #return self.machines[0]
+        
+        logger.warning('No free machine was found!')
+        return None
 
     def run(self):
         '''
         Connect
         '''
-        logging.info("Job %s: is now running"%(self.name))
+        logger.info("Job %s: is now running"%(self.name))
         #self._connect()
-        logging.debug("Job %s: all the machine is now correctly connected"%(self.name))
+        logger.info("Job %s: all the machine is now correctly connected"%(self.name))
         """
         Execute commands queue on all hosts in the list
         """
@@ -195,10 +198,7 @@ class WorkerJob(threading.Thread):
             try:
                 while not queue.empty():
                     program = queue.get()
-                    #import random ##############################################
-                    #ncpu = random.randint(1,4)
                     ncpu = program.getCpu()
-                    ############################################################
                     machine = self.getFreeMachine(ncpu)
                     if not machine:
                         queue.put(program)
@@ -210,19 +210,19 @@ class WorkerJob(threading.Thread):
                     t.setDaemon(True)        
                     t.start()
                     self.threads.append(t)
-                    logging.info("Job %s: start thread on %s"%(self.name, machine))
+                    logger.info("Job %s: start thread on %s"%(self.name, machine))
                 
                 for t in self.threads:
                     t.join()
                 self.threads = []
             
             except KeyboardInterrupt:
-                logging.info("Job %s: KeyboardInterrupt"%(self.name))
+                logger.info("Job %s: KeyboardInterrupt"%(self.name))
                 self._quit()
                 
         self._quit()
         self.job.done=True
-        logging.info("Job %s: Done!"%(self.name))
+        logger.info("Job %s: Done!"%(self.name))
         
 #        for step,queue in enumerate(self.listOFqueue):
 #            print step , queue
@@ -234,14 +234,14 @@ class WorkerJob(threading.Thread):
 #                    t.setDaemon(True)        
 #                    t.start()
 #                    self.threads.append(t)
-#                    logging.info("Job %s: start thread on %s"%(self.name,host))
+#                    logger.info("Job %s: start thread on %s"%(self.name,host))
 #                queue.join()
 #            except KeyboardInterrupt:
-#                logging.info("Job %s: KeyboardInterrupt"%(self.name))
+#                logger.info("Job %s: KeyboardInterrupt"%(self.name))
 #                self._quit()
 #        self._quit()
 #        self.job.done=True
-#        logging.info("Job %s: Done!"%(self.name))
+#        logger.info("Job %s: Done!"%(self.name))
 
 class WorkerManager():
     '''
@@ -260,9 +260,9 @@ class WorkerManager():
                 
     def test(self,name):
         job=self._jobs[name]
-        logging.debug("TEST - JOB %s"%(job.name))
-        logging.debug("TEST - JOB %s"%(job.machines))
-        logging.debug("TEST - JOB %s"%(job.programs))
+        logger.debug("TEST - JOB %s"%(job.name))
+        logger.debug("TEST - JOB %s"%(job.machines))
+        logger.debug("TEST - JOB %s"%(job.programs))
         j=WorkerJob(job)
         j.start()
 
@@ -298,7 +298,7 @@ class Server():
         self.msgHandler = JSON()
         ####
         # Create a server
-        logging.info("Start RunnerPyzza Server")
+        logger.info("Start RunnerPyzza Server")
         host = ""
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -315,10 +315,10 @@ class Server():
         
         quit=False
         while not quit:
-            logging.info("Server is now waiting for client on port %s"%(port))
+            logger.info("Server is now waiting for client on port %s"%(port))
             # Attendi la connessione del lanciatore...
             client_socket, address = server_socket.accept()
-            logging.info("Server : Connection requenst from %s %s"%(address))
+            logger.info("Server : Connection requenst from %s %s"%(address))
             ####
             # Connection Mode [init,status,results,clean]
             # read
@@ -335,7 +335,7 @@ class Server():
                         self._startJob(self.iPP.obj.ID)
                         client_socket.send(self.ok)
                     except Exception, e:
-                        logging.error("Start Job Error: %s"%e)
+                        logger.error("Start Job Error: %s"%e)
                         client_socket.send(self.fail)
                         raise e
                     
@@ -346,7 +346,7 @@ class Server():
                         self._statusJob(self.iPP.obj.ID, client_socket)
                         
                     except Exception, e:
-                        logging.error("Status Job Error: %s"%e)
+                        logger.error("Status Job Error: %s"%e)
                         client_socket.send(self.fail)
                         raise e
                             
@@ -368,21 +368,21 @@ class Server():
                 if self.iPP.obj.body == "quit":
                     client_socket.close()
                     sleep(1)
-                    logging.info("Server : Connection close from %s %s"%(address))
+                    logger.info("Server : Connection close from %s %s"%(address))
                 else:
                     client_socket.close()
                     sleep(1)
-                    logging.info("Server : FORCE Connection close from %s %s"%(address))
+                    logger.info("Server : FORCE Connection close from %s %s"%(address))
             else:
                 client_socket.close()
                 sleep(1)
-                logging.info("Server : FORCE Connection close from %s %s"%(address))
+                logger.info("Server : FORCE Connection close from %s %s"%(address))
                 #
                 ####
                 
     def _resultsJob(self, id, client_socket):
         job = self.manager.getJob(id)
-        logging.info(job.name)
+        logger.info(job.name)
         if job.done:
             while not job.programsResult.empty():
                 p = job.programsResult.get()
@@ -398,19 +398,19 @@ class Server():
                 if self.iPP.obj.body == "fail":
                     return False
         else:
-            logging.info("Job %s uncomplete ...Try status"%job.name)
+            logger.info("Job %s uncomplete ...Try status"%job.name)
                 
     def _statusJob(self, id, client_socket):
         
         job = self.manager.getJob(id)
-        logging.info(job.name)
+        logger.info(job.name)
         if job.status.empty():
-            logging.info("%s is queued"%job.name)
+            logger.info("%s is queued"%job.name)
             queued = self.oPP.interpretate(System("queued"))
             client_socket.send(queued)
         else:
             if job.status_error:
-                logging.info("%s Exit with error"%job.name)
+                logger.info("%s Exit with error"%job.name)
                 stderr = ""
                 replace_queue = Queue.Queue()
                 while True:
@@ -421,14 +421,14 @@ class Server():
                         break
                 job.error = replace_queue
                 error = self.oPP.interpretate( System("error", stderr))
-                logging.error(error)
+                logger.error(error)
                 client_socket.send(error)
             elif job.done:
-                logging.info("%s is DONE!"%job.name)
+                logger.info("%s is DONE!"%job.name)
                 done = self.oPP.interpretate(System("done"))
                 client_socket.send(done)
             else:
-                logging.info("%s is Running"%job.name)
+                logger.info("%s is Running"%job.name)
                 running = self.oPP.interpretate(System("running", job.status.get()))
                 client_socket.send(running)
         self._recvAKW(client_socket)
@@ -464,7 +464,7 @@ class Server():
         else:
             client_socket.send(self.fail)
         job=Job(jobID)
-        logging.info("Server : Initialize Job %s"%(jobID))
+        logger.info("Server : Initialize Job %s"%(jobID))
         #
         ###
         
@@ -500,28 +500,28 @@ class Server():
             client_data = client_socket.recv(1024)
             self.iPP.interpretate(client_data)
             if self.iPP.type == "machine":    
-                logging.debug("Machine :%s"%(client_data))
+                logger.debug("Machine :%s"%(client_data))
                 job.machines.append(self.iPP.obj)
                 client_socket.send(self.ok)
 
             elif self.iPP.type == "program":    
-                logging.debug("Program :%s"%(client_data))
+                logger.debug("Program :%s"%(client_data))
                 job.programs.append(self.iPP.obj)
                 client_socket.send(self.ok)
             
             elif self.iPP.type == "system":
                 if self.iPP.obj.body == "save":
-                    logging.debug("Save %s"%(jobID))
+                    logger.debug("Save %s"%(jobID))
                     client_socket.send(self.ok)
                     break
             else:
-                logging.debug("FAIL client data = %s"%(client_data))
+                logger.debug("FAIL client data = %s"%(client_data))
                 client_socket.send(self.fail)
         #
         ###
         ####
         # Append to the main queue and start the job
-        logging.info("Server : Append job %s to queue manager"%(jobID))
+        logger.info("Server : Append job %s to queue manager"%(jobID))
         self.manager.addJob(job)
                 
         #
