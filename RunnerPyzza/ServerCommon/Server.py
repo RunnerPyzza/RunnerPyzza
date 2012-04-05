@@ -195,9 +195,9 @@ class WorkerJob(threading.Thread):
             try:
                 while not queue.empty():
                     program = queue.get()
-                    import random ##############################################
-                    ncpu = random.randint(1,4)
-                    #ncpu = program.getCpu()
+                    #import random ##############################################
+                    #ncpu = random.randint(1,4)
+                    ncpu = program.getCpu()
                     ############################################################
                     machine = self.getFreeMachine(ncpu)
                     if not machine:
