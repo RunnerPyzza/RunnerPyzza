@@ -72,7 +72,12 @@ class PyzzaTalk(object):
         BLOCKING CALL
         '''
         try:
-            msg = self.socket.recv(1024)
+            msg = ''
+            while True:
+                data = self.socket.recv(1024)
+                msg += data
+                if msg[-2:] == '}\n' :
+                    break
             obj = self.iprtcl.interpretate(msg)
             if hasattr(obj, 'body'):
                 logger.warning('<-- %s'%obj.body)
@@ -94,7 +99,12 @@ class PyzzaTalk(object):
         BLOCKING CALL
         '''
         try:
-            msg = self.socket.recv(1024)
+            msg = ''
+            while True:
+                data = self.socket.recv(1024)
+                msg += data
+                if msg[-2:] == '}\n' :
+                    break
             obj = self.iprtcl.interpretate(msg)
             if hasattr(obj, 'body'):
                 logger.warning('<-- %s'%obj.body)
