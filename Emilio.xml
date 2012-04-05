@@ -15,6 +15,9 @@
       <separator></separator>
       <delimiter></delimiter>
     </option>
+    <cpu>
+	<numCPU>3</numCPU>
+    </cpu>
   </program>
   <program>
     <main>
