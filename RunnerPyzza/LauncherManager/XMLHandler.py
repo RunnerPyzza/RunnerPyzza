@@ -116,6 +116,7 @@ class ScriptChain(GenericHandler):
             sep = ''
         else:
             sep = cpu.getSeparator()
+        
         return cpu.getCmdcpu()+sep+delimit+str(cpu.getNumcpu())+delimit
     
     def createCommands(self):
@@ -136,10 +137,11 @@ class ScriptChain(GenericHandler):
             # Add cpu usage informations - if any
             if program.getCpu():
                 ncpu = program.getCpu().getNumcpu()
-                if program.getCpu().getKind() == 'prefix':
-                    cmd = self._assembleCpu(program.getCpu()) + ' ' + cmd
-                else:
-                    cmd += ' '+self._assembleCpu(program.getCpu())
+                if program.getCpu().getCmdcpu():
+                    if program.getCpu().getKind() == 'prefix':
+                        cmd = self._assembleCpu(program.getCpu()) + ' ' + cmd
+                    else:
+                        cmd += ' '+self._assembleCpu(program.getCpu())
             # Check the failure flag
             if program.getMain().canFail:
                 canFail = program.getMain().canFail
