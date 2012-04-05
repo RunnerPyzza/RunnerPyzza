@@ -68,7 +68,7 @@ logger.addHandler(fh)
 # create console handler
 ch = logging.StreamHandler()
 # Set log level
-ch.setLevel(logging.DEBUG)
+ch.setLevel(logging.INFO)
 
 # create formatter for console handler
 formatter = logging.Formatter('%(asctime)s - %(message)s',
