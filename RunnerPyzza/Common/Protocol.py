@@ -163,7 +163,7 @@ class oProtocol(Protocol):
 		'''
 		self._clean()
 		self._interpretate(obj)
-		return self.msg
+		return self.msg + '\n'
 	
 ################################################################################
 # Main
