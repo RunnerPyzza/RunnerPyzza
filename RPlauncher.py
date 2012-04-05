@@ -8,7 +8,7 @@ Runner Pyzza main script
 """
 from RunnerPyzza import __version__
 from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza, OvenPyzza, CheckPyzza, \
-    EatPyzza
+    EatPyzza, CleanPyzza
 from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup, ScriptChain
 import argparse
 import getpass
@@ -99,7 +99,11 @@ def results(options):
                     logger.warning('\033[1;31m[%s]\033[0m'%line)
 
 def clean(options):
-    pass
+    logger.info('Let\'s clean the table and go home!')
+    cleaner = CleanPyzza(options.host, options.port, options.jobID)
+    if not cleaner.cleanAndPay():
+        logger.error('Could not clean the table and pay the pyzza! %s'%options.jobID)
+        return
 
 ################################################################################
 # Read options
@@ -121,35 +125,29 @@ def getOptions():
     subparsers = parser.add_subparsers()
 
     parser_init = subparsers.add_parser('init', help='Order a pyzza')
-    parser_init.add_argument('-i', '--scriptChain', action="store",
-                            required = True,
+    parser_init.add_argument('scriptChain', action="store",
                             help='ScriptChain file')
-    parser_init.add_argument('-m', '--machines', action="store",
-                            required = True,
+    parser_init.add_argument('machines', action="store",
                             help='Machines file')
     parser_init.set_defaults(func=init)
 
     parser_start = subparsers.add_parser('start', help='Put the pyzza in the oven')
-    parser_start.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            required = True,
+    parser_start.add_argument('jobID', action="store",
                             help='Job ID')
     parser_start.set_defaults(func=start)
     
     parser_status = subparsers.add_parser('status', help='Check the pyzza')
-    parser_status.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            required = True,
+    parser_status.add_argument('jobID', action="store",
                             help='Job ID')
     parser_status.set_defaults(func=status)
     
     parser_results = subparsers.add_parser('results', help='Eat the pyzza')
-    parser_results.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            required = True,
+    parser_results.add_argument('jobID', action="store",
                             help='Job ID')
     parser_results.set_defaults(func=results)
     
     parser_clean = subparsers.add_parser('clean', help='Clean the table')
-    parser_clean.add_argument('-j', '--jobID', action="store", dest='jobID',
-                            required = True,
+    parser_clean.add_argument('jobID', action="store",
                             help='Job ID')
     parser_clean.set_defaults(func=clean)
     

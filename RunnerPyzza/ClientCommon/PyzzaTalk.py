@@ -337,5 +337,19 @@ class CleanPyzza(PyzzaTalk):
     Clean the informations about a job
     Clean the table (and pay!)
     '''
-    pass
+    def __init__(self, server, port, jobID):
+        PyzzaTalk.__init__(self, server, port)
+        self.connect()
+        self.jobID = jobID
+        
+    def cleanAndPay(self):
+        '''
+        Perfomr all the actions to clean the table and pay your pyzza
+        '''
+        self.send(System('clean',self.jobID))
+        if self.getMessage().body == 'fail':
+            return False
+
+        self.close()
+        return True
         
