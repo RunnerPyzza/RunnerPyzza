@@ -158,7 +158,28 @@ class WorkerJob(threading.Thread):
         If return None no machine is free at the moment
         '''
         # Two ways to do this: check directly tha availability or just subtract the used cpus
-        return self.machines[0]
+        free_list = []
+	for machine in self.machines:
+            conn = self._connect(machine)
+            # cat /proc/cpuinfo | grep processor | wc -l
+            stdin, stdout, stderr = conn.exec_command("ps -eo pcpu | sort -h -r")
+            stdin.close()
+            stderr.close()
+            mach_load = 0.0
+            for line in stdout.read().splitlines():
+                try:
+                    line = line.strip()
+                    mach_load += float(line)
+                except:
+                    pass
+            free_mach = (machine.getCpu() * 100.0) - mach_load
+            free_list.append(free_mach)
+            conn.close()
+        minLoad = min(free_list)
+        for mach,mach_load in zip(self.machines, free_list):
+            if mach_load == minLoad:
+                return mach
+        #return self.machines[0]
 
     def run(self):
         '''
@@ -174,7 +195,10 @@ class WorkerJob(threading.Thread):
             try:
                 while not queue.empty():
                     program = queue.get()
-                    ncpu = program.getCpu()
+                    import random ##############################################
+                    ncpu = random.randint(1,4)
+                    #ncpu = program.getCpu()
+                    ############################################################
                     machine = self.getFreeMachine(ncpu)
                     if not machine:
                         queue.put(program)
