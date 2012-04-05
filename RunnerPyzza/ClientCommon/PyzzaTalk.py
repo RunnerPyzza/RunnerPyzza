@@ -296,7 +296,7 @@ class EatPyzza(PyzzaTalk):
         
     def eatThePyzza(self):
         '''
-        Perfomr all the actions to eat a delicious pyzza
+        Perform all the actions to eat a delicious pyzza
         '''
         self.send(System('results',self.jobID))
         if self.getMessage().body == 'fail':
