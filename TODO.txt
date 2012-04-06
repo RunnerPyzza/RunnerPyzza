@@ -5,3 +5,4 @@ RPdeamon:
 - on bazzilab the github setup sometimes asks for a password on screen
 - The user can specify a directory where the script has to be launched
 - When the start command has been issued, the daemon should reply with running instead of queued (it happens only when the first step is not ready)
+- When a machine is not reachable the deamon should not crash with error "Host unreachable"
