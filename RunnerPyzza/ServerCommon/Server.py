@@ -17,11 +17,12 @@ from getpass import getpass
 import threading     
 import Queue
 import paramiko
-import time
 from time import sleep
+import time
 from RunnerPyzza.Common.JSON import JSON
 from RunnerPyzza.Common.System import System
 from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
+from RunnerPyzza.Common.PyzzaTalk import PyzzaTalk
 
 ################################################################################
 # Log setup
@@ -127,7 +128,7 @@ class WorkerJob(threading.Thread):
                              
         except KeyboardInterrupt:
             logger.error("do quit thread")
-            self._quit(None)
+            #self._quit(None)
         except Exception as e:
             logger.error(e)    
 
@@ -220,7 +221,7 @@ class WorkerJob(threading.Thread):
                 logger.info("Job %s: KeyboardInterrupt"%(self.name))
                 self._quit()
                 
-        self._quit()
+        #self._quit()
         self.job.done=True
         logger.info("Job %s: Done!"%(self.name))
         
@@ -283,131 +284,156 @@ class Job():
         self.error = Queue.Queue()
         self.status_error = False
         
-        
+
 
 class Server():
     '''
     RunnerPyzza daemon server (RPdaemon)
     '''
-    def __init__ (self,port):
-        #try:
-        # run server
-        #except:
-        # restart server
-        self.manager = WorkerManager()
-        self.msgHandler = JSON()
-        ####
-        # Create a server
+    def __init__(self,port):
         logger.info("Start RunnerPyzza Server")
-        host = ""
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        server_socket.bind((host, port))
-        server_socket.listen(5)
-        #
-        ####
+        self.host = ""
+        self.port = port
+        self.manager = WorkerManager()
+        self.PyzzaOven = PyzzaTalk(server = self.host, port=self.port)
         
-        self.iPP=iProtocol()
-        self.oPP=oProtocol()
-        self.ok = self.oPP.interpretate(System("ok"))
-        self.fail = self.oPP.interpretate(System("fail"))
+        self.coutRestart = 0
+        self.maxRestart = 5 # try to restart a server after a crash for X time
+        self.restartTime = 5 #in sec
         
         
-        quit=False
-        while not quit:
-            logger.info("Server is now waiting for client on port %s"%(port))
+        while self.coutRestart < self.maxRestart:
+            try:
+                self.PyzzaOven.startServer()
+                self.run()
+            except Exception, e:
+                self.coutRestart += 1
+                logger.warning('Server error! %s'
+                                %(e))
+                logger.warning('Could not start the server on port %s'
+                                %(self.port))
+                logger.warning('Server Error number %s/%s ... Try again in %s sec'
+                                %(self.coutRestart, self.restartTime, self.restartTime))
+                sleep(self.restartTime)
+            else:
+                break
+        
+        logger.info("Stop RunnerPyzza Server")
+        
+        
+    def run(self):
+        self.ok = System("ok")
+        self.fail = System("fail")
+        self.queued = System("queued")
+        self.done = System("done")
+        
+        self.quit=False
+        
+        while not self.quit:
+            logger.info("Server is now waiting for client on port %s"%(self.port))
             # Attendi la connessione del lanciatore...
-            client_socket, address = server_socket.accept()
-            logger.info("Server : Connection requenst from %s %s"%(address))
-            ####
-            # Connection Mode [init,status,results,clean]
-            # read
-            client_data = client_socket.recv(1024)
-            self.iPP.interpretate(client_data)
-            if self.iPP.type=="system":
-                if self.iPP.obj.body == "init":
-                    client_socket.send(self.ok)
-                    self._initJob(client_socket)
+            self.PyzzaOven.accept()
+            obj, type = self.PyzzaOven.getExtendedMessage()
+            if type=="system":
+                if obj.body == "init":
+                    self.PyzzaOven.send(self.ok)
+                    sleep(0.5)
+                    self._initJob()
                         
-                elif self.iPP.obj.body == "start":
-                    
+                elif obj.body == "start":
                     try:
-                        self._startJob(self.iPP.obj.ID)
-                        client_socket.send(self.ok)
+                        self.PyzzaOven.send(self.ok)
+                        sleep(0.5)
+                        self._startJob(obj.ID)
                     except Exception, e:
                         logger.error("Start Job Error: %s"%e)
-                        client_socket.send(self.fail)
+                        self.PyzzaOven.send(self.fail)
                         raise e
-                    
-                elif self.iPP.obj.body == "status":
+                elif obj.body == "status":
                     try:
-                        client_socket.send(self.ok)
+                        self.PyzzaOven.send(self.ok)
                         sleep(0.5)
-                        self._statusJob(self.iPP.obj.ID, client_socket)
+                        self._statusJob(obj.ID)
                         
                     except Exception, e:
                         logger.error("Status Job Error: %s"%e)
-                        client_socket.send(self.fail)
+                        self.PyzzaOven.send(self.fail)
                         raise e
                             
-                elif self.iPP.obj.body == "results":
-                    client_socket.send(self.ok)
-                    self._resultsJob(self.iPP.obj.ID, client_socket)
+                elif obj.body == "results":
+                    self.PyzzaOven.send(self.ok)
+                    sleep(0.5)
+                    self._resultsJob(obj.ID)
                         
-                elif self.iPP.obj.body == "clean":
-                    client_socket.send(self.ok)
-                    self._cleanJob(client_socket)
+                elif obj.body == "clean":
+                    self.PyzzaOven.send(self.ok)
+                    sleep(0.5)
+                    self._cleanJob()
                         
                 else:
-                    client_socket.send(self.fail)
+                    self.PyzzaOven.send(self.fail)
             else:
-                client_socket.send(self.fail)
-            
-            client_data = client_socket.recv(1024)        
-            if self.iPP.type=="system":
-                if self.iPP.obj.body == "quit":
-                    client_socket.close()
+                self.PyzzaOven.send(self.fail)
+                
+            obj, type = self.PyzzaOven.getExtendedMessage()        
+            if type=="system":
+                if obj.body == "quit":
+                    self.PyzzaOven.socket.close()
                     sleep(1)
-                    logger.info("Server : Connection close from %s %s"%(address))
+                    logger.info("Server : Connection close from %s %s"%(self.PyzzaOven.address))
                 else:
-                    client_socket.close()
+                    self.PyzzaOven.close()
                     sleep(1)
-                    logger.info("Server : FORCE Connection close from %s %s"%(address))
+                    logger.info("Server : FORCE Connection close from %s %s"%(self.PyzzaOven.address))
             else:
-                client_socket.close()
+                self.PyzzaOven.close()
                 sleep(1)
-                logger.info("Server : FORCE Connection close from %s %s"%(address))
+                logger.info("Server : FORCE Connection close from %s %s"%(self.PyzzaOven.address))
                 #
                 ####
-                
-    def _resultsJob(self, id, client_socket):
+    
+    def _recvAKW(self):
+        obj, type = self.PyzzaOven.getExtendedMessage()
+        if type=="system":
+            if obj.body == "ok":
+                pass
+            else:
+                pass
+    def _resultsJob(self, id):
         job = self.manager.getJob(id)
         logger.info(job.name)
         if job.done:
             while not job.programsResult.empty():
                 p = job.programsResult.get()
-                client_socket.send(self.oPP.interpretate(p))
-                client_data = client_socket.recv(1024)
-                self.iPP.interpretate(client_data)
-                if self.iPP.type=="system":
-                    if self.iPP.obj.body == "fail":
-                        return False
-            client_socket.send(self.oPP.interpretate(System("save", id)))
-            self.iPP.interpretate(client_data)
-            if self.iPP.type=="system":
-                if self.iPP.obj.body == "fail":
-                    return False
+                self.PyzzaOven.send(p)
+                
+                obj, type = self.PyzzaOven.getExtendedMessage()
+                if type=="system":
+                    if obj.body == "fail":
+                        return
+            self.PyzzaOven.send(System("save", id))
+            
+            obj, type = self.PyzzaOven.getExtendedMessage()
+            if type=="system":
+                if obj.body == "ok":
+                    return 
+                else:
+                    logger.warning("Fail to close results connection")
         else:
             logger.info("Job %s uncomplete ...Try status"%job.name)
+        return 
+    
+    def _startJob(self, id):
+        self.manager.startJob(id)
+
                 
-    def _statusJob(self, id, client_socket):
-        
+    def _statusJob(self, id):
         job = self.manager.getJob(id)
         logger.info(job.name)
+        
         if job.status.empty():
             logger.info("%s is queued"%job.name)
-            queued = self.oPP.interpretate(System("queued"))
-            client_socket.send(queued)
+            self.PyzzaOven.send(self.queued)
         else:
             if job.status_error:
                 logger.info("%s Exit with error"%job.name)
@@ -420,103 +446,81 @@ class Server():
                     if job.error.empty():
                         break
                 job.error = replace_queue
-                error = self.oPP.interpretate( System("error", stderr))
+                error = System("error", stderr)
                 logger.error(error)
-                client_socket.send(error)
+                self.PyzzaOven.send(error)
             elif job.done:
                 logger.info("%s is DONE!"%job.name)
-                done = self.oPP.interpretate(System("done"))
-                client_socket.send(done)
+                self.PyzzaOven.send(self.done)
             else:
                 logger.info("%s is Running"%job.name)
-                running = self.oPP.interpretate(System("running", job.status.get()))
-                client_socket.send(running)
-        self._recvAKW(client_socket)
-            
-            
-    def _startJob(self, id):
-        self.manager.startJob(id)
+                running = System("running", job.status.get())
+                self.PyzzaOven.send(running)
+        self._recvAKW()
         
-    
-    def _recvAKW(self, client_socket):
-        client_data = client_socket.recv(1024)
-        self.iPP.interpretate(client_data)
-        if self.iPP.type=="system":
-            if self.iPP.obj.body == "ok":
-                pass
-            else:
-                pass
-        
-    def _initJob(self, client_socket):
+    def _initJob(self):
         ###
         #set jobID
         jobID = time.strftime('%Y%m%d_%H%M%S')
-        client_data = client_socket.recv(1024)
-        self.iPP.interpretate(client_data)
-        if self.iPP.type=="system":
-            if self.iPP.obj.body == "tag":
-                client_socket.send(self.ok)
-                jobID = self.iPP.obj.ID + "_" + jobID
-                client_socket.send(self.oPP.interpretate(System("jobID",jobID)))
-                self._recvAKW(client_socket)
+        obj, type = self.PyzzaOven.getExtendedMessage()
+        if type=="system":
+            if obj.body == "tag":
+                self.PyzzaOven.send(self.ok)
+                jobID = obj.ID + "_" + jobID
+                self.PyzzaOven.send(System("jobID",jobID))
+                self._recvAKW()
             else:
-                client_socket.send(self.fail)
+                self.PyzzaOven.send(self.fail)
         else:
-            client_socket.send(self.fail)
+            self.PyzzaOven.send(self.fail)
+        
         job=Job(jobID)
         logger.info("Server : Initialize Job %s"%(jobID))
-        #
-        ###
-        
         ###
         #set local
-        client_data = client_socket.recv(1024)
-        self.iPP.interpretate(client_data)
-        if self.iPP.type == "system":
-            if self.iPP.obj.body == "local":
-                client_socket.send(self.ok)
-                if self.iPP.obj.ID == True:
-                    client_data = client_socket.recv(1024)
-                    self.iPP.interpretate(client_data)
-                    if self.iPP.type == "system":
-                        if self.iPP.obj.body == "Copydone":
-                            client_socket.send(self.ok)
-                            pass
+        obj, type = self.PyzzaOven.getExtendedMessage()
+        if type == "system":
+            if obj.body == "local":
+                self.PyzzaOven.send(self.ok)
+                if obj.ID == True:
+                    obj, type = self.PyzzaOven.getExtendedMessage()
+                    if type == "system":
+                        if obj.body == "Copydone":
+                            self.PyzzaOven.send(self.ok)
                         else:
-                            client_socket.send(self.fail)
+                            self.PyzzaOven.send(self.fail)
                     else:
-                        client_socket.send(self.fail)
+                        self.PyzzaOven.send(self.fail)
                 else:
                     pass 
             else:
-                client_socket.send(self.fail)
+                self.PyzzaOven.send(self.fail)
         else:
-            client_socket.send(self.fail)
+            self.PyzzaOven.send(self.fail)
         #
         ###
         ###
         # machine program -->save = break while
         while 1:
-            client_data = client_socket.recv(1024)
-            self.iPP.interpretate(client_data)
-            if self.iPP.type == "machine":    
-                logger.debug("Machine :%s"%(client_data))
-                job.machines.append(self.iPP.obj)
-                client_socket.send(self.ok)
+            obj, type = self.PyzzaOven.getExtendedMessage()
+            if type == "machine":
+                logger.debug("Machine : %s"%(obj))
+                job.machines.append(obj)
+                self.PyzzaOven.send(self.ok)
 
-            elif self.iPP.type == "program":    
-                logger.debug("Program :%s"%(client_data))
-                job.programs.append(self.iPP.obj)
-                client_socket.send(self.ok)
+            elif type == "program":    
+                logger.debug("Program :%s"%(obj))
+                job.programs.append(obj)
+                self.PyzzaOven.send(self.ok)
             
-            elif self.iPP.type == "system":
-                if self.iPP.obj.body == "save":
+            elif type == "system":
+                if obj.body == "save":
                     logger.debug("Save %s"%(jobID))
-                    client_socket.send(self.ok)
+                    self.PyzzaOven.send(self.ok)
                     break
             else:
-                logger.debug("FAIL client data = %s"%(client_data))
-                client_socket.send(self.fail)
+                logger.debug("FAIL client data = %s"%(obj))
+                self.PyzzaOven.send(self.fail)
         #
         ###
         ####

@@ -66,8 +66,8 @@ class PyzzaTalk(object):
     def accept(self):
         if not self.server_socket:
             self.startServer()
-        self.socket, address = self.server_socket.accept()
-        logger.info("Server : Connection request from %s %s"%(address))
+        self.socket, self.address = self.server_socket.accept()
+        logger.info("Server : Connection request from %s %s"%(self.address))
     
     def send(self, obj):
         '''
