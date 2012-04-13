@@ -33,6 +33,7 @@ class PyzzaTalk(object):
         self.server = server
         self.port = int(port)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket = None
         self.iprtcl = iProtocol()
         self.oprtcl = oProtocol()
         
@@ -51,15 +52,22 @@ class PyzzaTalk(object):
     
     def startServer(self):
         try:
-            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self.socket.bind((self.server, self.port))
-            self.socket.listen(5)
+            self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.server_socket.bind((self.server, self.port))
+            self.server_socket.listen(5)
         except Exception, e:
             logger.warning('Start server error! %s'
                             %(e))
             logger.warning('Could not start the server %s on port %s'
                             %(self.server, self.port))
             raise e
+    
+    def accept(self):
+        if not self.server_socket:
+            self.startServer()
+        self.socket, address = self.server_socket.accept()
+        logger.info("Server : Connection request from %s %s"%(address))
     
     def send(self, obj):
         '''
