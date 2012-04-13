@@ -51,10 +51,9 @@ class PyzzaTalk(object):
     
     def startServer(self):
         try:
-            self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self.server_socket.bind((self.server, self.port))
-            self.server_socket.listen(5)
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.socket.bind((self.server, self.port))
+            self.socket.listen(5)
         except Exception, e:
             logger.warning('Start server error! %s'
                             %(e))
