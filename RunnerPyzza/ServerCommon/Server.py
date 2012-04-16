@@ -56,14 +56,17 @@ class WorkerJob(threading.Thread):
             else:
                 self.listOFqueue.append(queue)
             order += 1
-        print self.listOFqueue
+        logger.debug(self.listOFqueue)
                     
             
         #####################
         self.job=job
+        #print job.name
         self.machines=job.machines
+        self.bigMachine = 0
         # Ask the total number of cpus for each machine
         self.setTotalCpus()
+        
         self.connections=[]
         self.threads = []
         self.outlock = threading.Lock()
@@ -142,6 +145,7 @@ class WorkerJob(threading.Thread):
         '''
         Cycle over the machines and get the total number of CPUs
         '''
+        
         for machine in self.machines:
             conn = self._connect(machine)
             # cat /proc/cpuinfo | grep processor | wc -l
@@ -151,6 +155,8 @@ class WorkerJob(threading.Thread):
             ncpu = int(stdout.read().splitlines()[0])
             logger.info("Machine %s has %d CPUs"%(machine.getHostname(),ncpu))
             machine.setCpu(ncpu)
+            if ncpu > self.bigMachine:
+                self.bigMachine = ncpu
             conn.close()
 
     def getFreeMachine(self, ncpu):
@@ -158,6 +164,8 @@ class WorkerJob(threading.Thread):
         Get the suitable machine for this command
         If return None no machine is free at the moment
         '''
+        if ncpu > self.bigMachine:
+            ncpu = self.bigMachine
         free_list = []
         for machine in self.machines:
             logger.info('Asking free CPU for %s'%machine.getHostname())
@@ -175,12 +183,16 @@ class WorkerJob(threading.Thread):
             free_mach = (machine.getCpu() * 100.0) - mach_load
             free_list.append(free_mach)
             conn.close()
-            logger.info('Machine %s has %f free CPU'%(machine.getHostname(), free_mach))
+            logger.info('Machine %s has %f free CPU space'%(machine.getHostname(), free_mach))
+            
         maxLoad = max(free_list)
         for mach,mach_load in zip(self.machines, free_list):
             if mach_load == maxLoad:
                 logger.info('Machine %s is the most free'%mach.getHostname())
-                return mach
+                reqLoad = (ncpu - 1) * 100
+                logger.info('Manager asking for %s CPU space'%reqLoad)
+                if free_mach > reqLoad:
+                    return mach
         
         logger.warning('No free machine was found!')
         return None
@@ -203,7 +215,7 @@ class WorkerJob(threading.Thread):
                     machine = self.getFreeMachine(ncpu)
                     if not machine:
                         queue.put(program)
-                        sleep(1.5)
+                        sleep(3.3)
                         continue
                     # connect
                     conn = self._connect(machine)
@@ -262,15 +274,11 @@ class WorkerManager():
         
         #START-JOB
     def startJob(self,name):
-        self.test(name)
-                
-    def test(self,name):
         job=self._jobs[name]
-        logger.debug("TEST - JOB %s"%(job.name))
-        logger.debug("TEST - JOB %s"%(job.machines))
-        logger.debug("TEST - JOB %s"%(job.programs))
+        logger.debug("Starting - JOB %s"%(job.name))
         j=WorkerJob(job)
         j.start()
+        job.running = True
 
 class Job():
     '''
@@ -288,6 +296,7 @@ class Job():
         self.status = Queue.Queue()
         self.error = Queue.Queue()
         self.status_error = False
+        self.running = False
         
 
 
@@ -347,13 +356,14 @@ class Server():
                         
                 elif obj.body == "start":
                     try:
-                        self.PyzzaOven.send(self.ok)
-                        sleep(0.5)
                         self._startJob(obj.ID)
+                        sleep(0.5)
+                        self.PyzzaOven.send(self.ok)
                     except Exception, e:
                         logger.error("Start Job Error: %s"%e)
                         self.PyzzaOven.send(self.fail)
-                        raise e
+                        continue
+                        
                 elif obj.body == "status":
                     try:
                         self.PyzzaOven.send(self.ok)
@@ -363,7 +373,7 @@ class Server():
                     except Exception, e:
                         logger.error("Status Job Error: %s"%e)
                         self.PyzzaOven.send(self.fail)
-                        raise e
+                        continue
                             
                 elif obj.body == "results":
                     self.PyzzaOven.send(self.ok)
@@ -377,8 +387,10 @@ class Server():
                         
                 else:
                     self.PyzzaOven.send(self.fail)
+                    continue
             else:
                 self.PyzzaOven.send(self.fail)
+                continue
                 
             obj, type = self.PyzzaOven.getExtendedMessage()        
             if type=="system":
@@ -441,12 +453,14 @@ class Server():
             self.manager.startJob(ID)
         except Exception, e:
             logger.warning("Cannot start Job %s"%(ID))
+            logger.warning(e)
+            raise e
                 
     def _statusJob(self, id):
         job = self.manager.getJob(id)
         logger.info(job.name)
         
-        if job.status.empty():
+        if not job.running:
             logger.info("%s is queued"%job.name)
             self.PyzzaOven.send(self.queued)
         else:
@@ -479,7 +493,7 @@ class Server():
             self.manager.rmJob(ID)
         except Exception, e:
             logger.warning("Cannot remove Job %s"%(ID))
-            
+            looger.warning(e)
         
     def _initJob(self):
         ###
