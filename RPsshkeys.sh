@@ -10,4 +10,5 @@ if [ -f ~/.ssh/id_dsa ]; then
 else
     ssh-keygen -t dsa
 fi
+ssh-add
 ssh-copy-id $USER@$HOST
