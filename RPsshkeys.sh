@@ -5,7 +5,9 @@ if [ "$#" -lt 2 ]; then
 fi
 USER=$1
 HOST=$2
-if [ -f ./ssh/id_dsa ]; then
+if [ -f ~/.ssh/id_dsa ]; then
+    echo "ssh DSA key already present"
+else
     ssh-keygen -t dsa
 fi
 ssh-copy-id $USER@$HOST
