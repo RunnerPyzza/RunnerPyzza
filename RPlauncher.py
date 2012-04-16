@@ -31,7 +31,7 @@ def init(options):
     logger.info("Reading inputs")
     f=open(options.scriptChain)
     h = ScriptChain(''.join(f.readlines()))
-    if options.machines == '':
+    if options.machines != '':
         logger.info("Reading machines XML...")
         m = MachinesSetup(options.machines)
         for i in m.getMachines():
