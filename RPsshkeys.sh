@@ -5,5 +5,7 @@ if [ "$#" -lt 2 ]; then
 fi
 USER=$1
 HOST=$2
-ssh-keygen -t dsa
+if [ -f ./ssh/id_dsa ]; then
+    ssh-keygen -t dsa
+fi
 ssh-copy-id $USER@$HOST
