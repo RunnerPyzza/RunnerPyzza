@@ -181,6 +181,8 @@ class WorkerJob(threading.Thread):
                 except:
                     pass
             free_mach = (machine.getCpu() * 100.0) - mach_load
+            if free_mach < 100 and free_mach > 77:
+                free_mach = 100.0
             free_list.append(free_mach)
             conn.close()
             logger.info('Machine %s has %f free CPU space'%(machine.getHostname(), free_mach))
