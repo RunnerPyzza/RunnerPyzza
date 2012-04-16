@@ -295,7 +295,7 @@ class Job():
         self.stdout = Queue.Queue()
         self.stderr = Queue.Queue()
         self.isNFS = True
-        self.status = Queue.Queue()
+        self.status = Queue.LifoQueue()
         self.error = Queue.Queue()
         self.status_error = False
         self.running = False
@@ -485,7 +485,15 @@ class Server():
                 self.PyzzaOven.send(self.done)
             else:
                 logger.info("%s is Running"%job.name)
-                running = System("running", job.status.get())
+                
+                try:
+                    tmp = job.status.get(False)
+                    running = System("running", tmp)
+                    job.status.put(tmp)
+                except:
+                    str_zero = "OK|| 0 || -- || 0"
+                    running = System("running", str_zero)
+                    
                 self.PyzzaOven.send(running)
         self._recvAKW()
         
