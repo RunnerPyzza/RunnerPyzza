@@ -129,7 +129,7 @@ def getOptions():
     parser_init = subparsers.add_parser('init', help='Order a pyzza')
     parser_init.add_argument('scriptChain', action="store",
                             help='ScriptChain file')
-    parser_init.add_argument('-m', 'machines', action="store",
+    parser_init.add_argument('-m', '--machines', action="store",
                              default='',
                             help='Machines file')
     parser_init.set_defaults(func=init)
