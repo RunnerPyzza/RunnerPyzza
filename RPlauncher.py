@@ -31,16 +31,21 @@ def init(options):
     logger.info("Reading inputs")
     f=open(options.scriptChain)
     h = ScriptChain(''.join(f.readlines()))
-    logger.info("RPlauncher: reading machine XML...")
-    m = MachinesSetup(options.machines)
-    for i in m.getMachines():
-            i.setPassword(getpass.getpass(
-                          'Password for machine "%s" (user %s): '%
-                          (i.name,i.getUser())))
+    if options.machines == '':
+        logger.info("Reading machines XML...")
+        m = MachinesSetup(options.machines)
+        for i in m.getMachines():
+                i.setPassword(getpass.getpass(
+                              'Password for machine "%s" (user %s): '%
+                              (i.name,i.getUser())))
+        machs = m.getMachines()
+    else:
+        logger.info("No machines provided...")
+        machs = []
 
     logger.info("Open cominication with daemon...")
     order = OrderPyzza(options.host, options.port,
-            machines = m.getMachines(), programs = h.getPrograms(),
+            machines = machs, programs = h.getPrograms(),
             tag = 'Margherita', local = False)
     if not order.launchOrder():
         logger.warning('Pyzza not ordered!')
@@ -124,7 +129,8 @@ def getOptions():
     parser_init = subparsers.add_parser('init', help='Order a pyzza')
     parser_init.add_argument('scriptChain', action="store",
                             help='ScriptChain file')
-    parser_init.add_argument('machines', action="store",
+    parser_init.add_argument('-m', 'machines', action="store",
+                             default='',
                             help='Machines file')
     parser_init.set_defaults(func=init)
 
