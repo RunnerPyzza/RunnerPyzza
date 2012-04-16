@@ -191,7 +191,7 @@ class WorkerJob(threading.Thread):
                 logger.info('Machine %s is the most free'%mach.getHostname())
                 reqLoad = (ncpu - 1) * 100
                 logger.info('Manager asking for %s CPU space'%reqLoad)
-                if free_mach > reqLoad:
+                if mach_load > reqLoad:
                     return mach
         
         logger.warning('No free machine was found!')
