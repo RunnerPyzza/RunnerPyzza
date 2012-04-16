@@ -20,3 +20,5 @@ Next:
 	- Emilio: prova
 - Se l'utente non usa NFS tutti i file di input vengono copiati e il server si crea una directory; quando il server si connette deve lanciare i comandi nella cartelle specifiche
 	- Gala: copia dei file / creazione-gestione cartelle / ri-copia dei file
+
+FAIL se facciamo partire una pizza inestistente non se ne accorge il laucher ma solo il demone

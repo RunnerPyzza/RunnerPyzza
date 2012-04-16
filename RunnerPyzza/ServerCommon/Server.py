@@ -253,8 +253,13 @@ class WorkerManager():
 
     def getJob(self,name):
         return self._jobs[name]
+    
+    def rmJob(self,name):
+        del self._jobs[name]
+        
     def addJob(self,job):
         self._jobs[job.name] = job
+        
         #START-JOB
     def startJob(self,name):
         self.test(name)
@@ -368,7 +373,7 @@ class Server():
                 elif obj.body == "clean":
                     self.PyzzaOven.send(self.ok)
                     sleep(0.5)
-                    self._cleanJob()
+                    self._cleanJob(obj.ID)
                         
                 else:
                     self.PyzzaOven.send(self.fail)
@@ -382,11 +387,11 @@ class Server():
                     sleep(1)
                     logger.info("Server : Connection close from %s %s"%(self.PyzzaOven.address))
                 else:
-                    self.PyzzaOven.close()
+                    self.PyzzaOven.socket.close()
                     sleep(1)
                     logger.info("Server : FORCE Connection close from %s %s"%(self.PyzzaOven.address))
             else:
-                self.PyzzaOven.close()
+                self.PyzzaOven.socket.close()
                 sleep(1)
                 logger.info("Server : FORCE Connection close from %s %s"%(self.PyzzaOven.address))
                 #
@@ -399,18 +404,23 @@ class Server():
                 pass
             else:
                 pass
+    
     def _resultsJob(self, id):
         job = self.manager.getJob(id)
         logger.info(job.name)
         if job.done:
+            copyqueue = Queue.Queue()
             while not job.programsResult.empty():
                 p = job.programsResult.get()
+                copyqueue.put(p)
                 self.PyzzaOven.send(p)
                 
                 obj, type = self.PyzzaOven.getExtendedMessage()
                 if type=="system":
                     if obj.body == "fail":
                         return
+            
+            job.programsResult = copyqueue
             self.PyzzaOven.send(System("save", id))
             
             obj, type = self.PyzzaOven.getExtendedMessage()
@@ -421,11 +431,16 @@ class Server():
                     logger.warning("Fail to close results connection")
         else:
             logger.info("Job %s uncomplete ...Try status"%job.name)
+            self.PyzzaOven.send(self.fail)
         return 
     
-    def _startJob(self, id):
-        self.manager.startJob(id)
-
+    def _startJob(self, ID):
+        
+        logger.info("Start Job %s data"%(ID))
+        try:
+            self.manager.startJob(ID)
+        except Exception, e:
+            logger.warning("Cannot start Job %s"%(ID))
                 
     def _statusJob(self, id):
         job = self.manager.getJob(id)
@@ -457,6 +472,14 @@ class Server():
                 running = System("running", job.status.get())
                 self.PyzzaOven.send(running)
         self._recvAKW()
+        
+    def _cleanJob(self, ID):
+        logger.info("Remove Job %s data"%(ID))
+        try:
+            self.manager.rmJob(ID)
+        except Exception, e:
+            logger.warning("Cannot remove Job %s"%(ID))
+            
         
     def _initJob(self):
         ###
