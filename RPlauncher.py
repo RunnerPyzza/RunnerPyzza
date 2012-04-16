@@ -22,6 +22,9 @@ __credits__ = ["Marco Galardini"]
 ################################################################################
 # Log
 
+# Log setup
+# create logger
+# without any name, so it's root
 logger = logging.getLogger()
 
 ################################################################################
