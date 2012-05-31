@@ -10,8 +10,10 @@ from RunnerPyzza.Common.PyzzaTalk import PyzzaTalk
 from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
 from RunnerPyzza.Common.System import System
 import logging
-import socket
 import time
+import os
+
+# TODO: add more logs
 
 __author__ = "Marco Galardini"
 __credits__ = ["Emilio Potenza"]
@@ -30,13 +32,14 @@ class OrderPyzza(PyzzaTalk):
     Order a new pyzza
     '''
     def __init__(self, server, port, machines = [], programs = [],
-                 tag = 'Generic', local = False):
+                 tag = 'Generic', local = False, localdir = ''):
         PyzzaTalk.__init__(self, server, port)
         self.connect()
         self.machines = machines
         self.programs = programs
         self.tag = tag
         self.local = local
+        self.localdir = localdir
         self.jobID = None
     
     def copyInputs(self):
@@ -44,7 +47,21 @@ class OrderPyzza(PyzzaTalk):
         Copy my inputs using scp
         [STUB]
         '''
+        # Check if the stuff is there
+        if not os.path.exists(self.localdir):
+            logger.error('Cannot find the directory to be copied! (%s)'%self.localdir)
+            return False
+        
+        if not os.path.isdir(self.localdir):
+            logger.error('Expecting a directory! (%s)'%self.localdir)
+            return False
+        
+        # Perform the directory compression
+        
+        # Send it
         time.sleep(10)
+        
+        return True
     
     def launchOrder(self):
         '''
@@ -64,7 +81,10 @@ class OrderPyzza(PyzzaTalk):
             self.send(System('local',True))
             if self.getMessage().body == 'fail':
                 return False
-            self.copyInputs()
+            if not self.copyInputs():
+                self.send(System('copyfail',self.jobID))
+                self.getMessage()
+                return False
             self.send(System('copydone',self.jobID))
             if self.getMessage().body == 'fail':
                 return False

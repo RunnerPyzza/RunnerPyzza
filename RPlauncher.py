@@ -42,7 +42,7 @@ def init(options):
     logger.info("Open cominication with daemon...")
     order = OrderPyzza(options.host, options.port,
             machines = machs, programs = h.getPrograms(),
-            tag = options.tag, local = False)
+            tag = options.tag, local = options.local, localdir = options.indir)
     if not order.launchOrder():
         logger.warning('Pyzza not ordered!')
         return
@@ -131,15 +131,16 @@ def getOptions():
     parser_init.add_argument('-t', '--tag', action="store",
                              default='Margherita',
                             help='Pyzza tag')
+    parser_init.add_argument('-l', '--local', action="store_true",
+            default=False,
+            help='Make a copy of the local input files on the main server (if NFS is not available)')
+    parser_init.add_argument('-i', '--input-dir', action="store",
+            default='',
+            dest='indir',
+            help='Input directory to be transferred on the main server (only if -l)')
     parser_init.set_defaults(func=init)
 
     parser_start = subparsers.add_parser('start', help='Put the pyzza in the oven')
-    parser_start.add_argument('-l', '--local', action="store_true",
-            default=False,
-            help='Make a copy of the local input files on the main server (if NFS is not available)')
-    parser_start.add_argument('-i', '--input-dir', action="store",
-            default='',
-            help='Input directory to be transferred on the main server (only if -l)')
     parser_start.add_argument('jobID', action="store",
                             help='Job ID')
     parser_start.set_defaults(func=start)
