@@ -42,7 +42,7 @@ def init(options):
     logger.info("Open cominication with daemon...")
     order = OrderPyzza(options.host, options.port,
             machines = machs, programs = h.getPrograms(),
-            tag = 'Margherita', local = False)
+            tag = options.tag, local = False)
     if not order.launchOrder():
         logger.warning('Pyzza not ordered!')
         return
@@ -128,6 +128,9 @@ def getOptions():
     parser_init.add_argument('-m', '--machines', action="store",
                              default='',
                             help='Machines file')
+    parser_init.add_argument('-t', '--tag', action="store",
+                             default='Margherita',
+                            help='Pyzza tag')
     parser_init.set_defaults(func=init)
 
     parser_start = subparsers.add_parser('start', help='Put the pyzza in the oven')
