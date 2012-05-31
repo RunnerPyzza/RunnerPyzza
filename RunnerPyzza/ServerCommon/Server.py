@@ -75,7 +75,7 @@ class WorkerJob(threading.Thread):
         """Connect to all hosts in the hosts list"""
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(host.getHostname(), username=host.getUser(), password=host.getPassword())
+        client.connect(host.getHostname(), username=host.getUser())
         #self.connections.append(client)
         logger.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
         return client
