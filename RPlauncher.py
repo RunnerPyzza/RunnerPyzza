@@ -34,10 +34,6 @@ def init(options):
     if options.machines != '':
         logger.info("Reading machines XML...")
         m = MachinesSetup(options.machines)
-        for i in m.getMachines():
-                i.setPassword(getpass.getpass(
-                              'Password for machine "%s" (user %s): '%
-                              (i.name,i.getUser())))
         machs = m.getMachines()
     else:
         logger.info("No machines provided...")
