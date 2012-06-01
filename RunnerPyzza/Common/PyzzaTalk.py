@@ -8,6 +8,7 @@ PyzzaTalk class
 """
 from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
 from RunnerPyzza.Common.System import System
+import paramiko
 import logging
 import socket
 import time
@@ -148,3 +149,21 @@ class PyzzaTalk(object):
         self.send(obj)
         time.sleep(1)
         self.socket.close()
+        
+    def getSFTP(self, user):
+        '''
+        Returns a paramiko.SFTPClient, the transport and the client
+        Throws an exception if something goes wrong
+        '''
+        try:
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(self.server, username=user)
+            trasp = client.get_transport()
+            sftp = paramiko.SFTPClient.from_transport(trasp)
+            return sftp, client
+        except Exception, e:
+            logger.error('Could not get an SFTP connection to %s (user: %s)'%
+                         (self.server, user) )
+            logger.error(e)
+            raise e
