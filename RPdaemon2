@@ -1,0 +1,344 @@
+#!/usr/bin/env python
+"""
+Runner Pyzza worker Daemon
+
+Dbus Daemon
+
+Server Daemon for input/output comunication and queue manager 
+"""
+
+__author__ = "Emilio Potenza"
+__copyright__ = "Copyright 2011, RunnerPyzza"
+__credits__ = ["Marco Galardini"]
+__license__ = "GPL"
+__version__ = "0.2"
+__maintainer__ = "Emilio Potenza"
+__email__ = "emilio.potenza@iasma.it"
+__status__ = "Development"
+
+################################################################################
+# Imports
+
+import time
+import atexit
+import logging
+import os
+import sys
+import signal
+import resource		# Resource usage information.
+from RunnerPyzza.ServerCommon.Server import Server
+
+
+################################################################################
+# Log setup
+
+# create logger
+# Name shown
+logger = logging.getLogger("RunnerPyzza")
+logger.setLevel(logging.DEBUG)
+
+
+#Remove comment to allow stdout log!
+
+'''# create console handler
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+# create formatter for console handler
+formatter = logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s','%H:%M:%S')
+# add formatter to console handler
+ch.setFormatter(formatter)
+# add console handler to logger
+logger.addHandler(ch)'''
+
+
+# create file handler
+fh = logging.FileHandler('RPdaemon.log')
+# Set log level
+# The file handler by default print all the levels but DEBUG
+fh.setLevel(logging.DEBUG)
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] - %(message)s','%Y-%m-%d %H:%M:%S')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
+# create console handler
+ch = logging.StreamHandler()
+# Set log level
+ch.setLevel(logging.INFO)
+
+# create formatter for console handler
+formatter = logging.Formatter('%(asctime)s - %(message)s',
+                            '%H:%M:%S')
+# add formatter to console handler
+ch.setFormatter(formatter)
+
+# add console handler to logger
+logger.addHandler(ch)
+
+#.pid location
+LOG_DIR = '/tmp/'  
+
+# the maximum file descriptor number that can be opened by this process.
+MAXFD = 4096
+
+
+################################################################################
+# Global Setup
+
+# Server port 
+__port__ = 4123
+
+################################################################################
+# Classes
+
+
+"""\
+Daemon base and control class.
+
+This file contains the daemon base class for a UNIX daemon and the control
+class for it. See test logic at the end of file and test_daemon.py to
+understand how to use it.\
+"""
+
+# -- generic daemon base class ------------------------------------------ #
+
+class daemonBase():
+    """A generic daemon base class.
+
+    Usage: subclass this class and override the run() method.
+    """
+    def __init__(self, pidfile = LOG_DIR + "RunnerPyzza.pid", workpath = LOG_DIR, port = __port__):
+        """Constructor.
+
+        We need the pidfile for the atexit cleanup method.
+        The workpath is the path the daemon will operate
+        in. Normally this is the root directory, but can be some
+        data directory too, just make sure it exists.
+        """
+        self.pidfile = pidfile
+        self.workpath = workpath
+        self.port = port
+
+    def perror(self, msg, err):
+        """Print error message and exit. (helper method)
+        """
+        logger.error(msg)
+        logger.error(err)
+        sys.exit(1)
+
+    def daemonize(self):
+        """Deamonize calss process. (UNIX double fork mechanism).
+        """
+        
+        if not os.path.isdir(self.workpath):
+            self.perror('workpath does not exist!', '')
+
+        try: # exit first parent process
+            pid = os.fork() 
+            if pid > 0: 
+                sys.exit(0) 
+        except OSError as err:
+            self.perror('fork #1 failed: {0}', err)
+
+        # decouple from parent environment
+        try: 
+            os.chdir(self.workpath)
+        except OSError as err:
+            self.perror('path change failed: {0}', err)
+
+        os.setsid() 
+        os.umask(0) 
+        
+        try: # exit from second parent
+            pid = os.fork() 
+            if pid > 0: 
+                sys.exit(0) 
+        except OSError as err:
+            self.perror('fork #2 failed: {0}', err)
+        
+        pid = str(os.getpid())
+        logger.info("Starting RPdaemon on pid %s"%(pid))
+        
+        # redirect standard file descriptors
+        # flush 
+        sys.stdout.flush()
+        sys.stderr.flush()
+        # close 
+        os.close(sys.stdin.fileno())
+        os.close(sys.stdout.fileno())
+        os.close(sys.stderr.fileno())
+        #redirect to null
+        si = open(os.devnull, 'r')
+        so = open(os.devnull, 'a+')
+        se = open(os.devnull, 'a+')
+        os.dup2(si.fileno(), sys.stdin.fileno())
+        os.dup2(so.fileno(), sys.stdout.fileno())
+        os.dup2(se.fileno(), sys.stderr.fileno())
+        
+        # write pidfile
+        atexit.register(os.remove, self.pidfile)
+        with open(self.pidfile,'w+') as f:
+            f.write(pid + '\n')
+
+        self.run()
+
+    def run(self):
+        """Worker method.
+
+        It will be called after the process has been daemonized
+        by start() or restart(). You'll have to overwrite this
+        method with the daemon program logic.
+        """
+        while True:
+            try:
+                logging.info("Start Daemon")
+                Server(self.port)
+            except Exception, e:
+                logging.error(e)
+            logging.warning("Restart Daemon Server")
+                        
+
+# -- daemon control class ----------------------------------------------- #
+
+class daemonCtrl():
+	"""Control class for a daemon.
+
+	Usage:
+	>>>	dc = daemon_ctl(daemon_base, '/tmp/foo.pid')
+	>>>	dc.start()
+
+	This class is the control wrapper for the above (daemon_base)
+	class. It adds start/stop/restart functionality for it withouth
+	creating a new daemon every time.
+	"""
+	def __init__(self, daemon, pidfile = LOG_DIR+"RunnerPyzza.pid", workdir=LOG_DIR):
+            """Constructor.
+
+            @param daemon: daemon class (not instance)
+            @param pidfile: daemon pid file
+            @param workdir: daemon working directory
+            """
+            self.daemon = daemon
+            self.pidfile = pidfile
+            self.workdir = workdir
+	
+        def check_pid(self, pid):        
+            """ Check For the existence of a unix pid. 
+            Sending signal 0 to a pid will raise an OSError exception if the pid is not running, 
+            and do nothing otherwise. """
+            try:
+                os.kill(pid, 0)
+            except OSError:
+                return False
+            else:
+                return True
+            
+	def start(self):
+            """Start the daemon.
+            """
+            try: # check for pidfile to see if the daemon already runs
+                with open(self.pidfile, 'r') as pf:
+                    pid = int(pf.read().strip())
+            except IOError: 
+                pid = None
+
+            if pid:
+                message = "RPdaemon is running on process %s... pidfile %s already exist."%(pid, self.pidfile)
+                logger.error(message)
+                sys.exit(1)
+
+            # Start the daemond = 
+            self.daemon.daemonize()
+
+	def stop(self):
+            """Stop the daemon.
+
+            This is purely based on the pidfile / process control
+            and does not reference the daemon class directly.
+            """
+            try: # get the pid from the pidfile
+                with open(self.pidfile,'r') as pf:
+                    pid = int(pf.read().strip())
+            except IOError: 
+                pid = None
+
+            if not pid:
+                message = "RPdaemon not running... pidfile %s does not exist."%(self.pidfile)
+                logger.error(message)
+                return # not an error in a restart
+            else:
+                if not self.check_pid(pid):
+                    logger.warning("RPdaemon not running... process %s does not exist"%(pid))
+                
+            try: # try killing the daemon process and remove pidfile
+                logger.info("Stopping RPdaemon on process %s"%(pid))
+                while 1:
+                    os.kill(pid, signal.SIGTERM)
+                    time.sleep(0.1)
+                    #Continue if pid is still running
+            except OSError as err:
+                e = str(err.args)
+                if e.find("No such process") > 0:
+                    if os.path.exists(self.pidfile):
+                        os.remove(self.pidfile)
+                else:
+                    logger.error(str(err.args))
+                    sys.exit(1)
+                    
+        def status(self):
+            """Status of the daemon.
+            """
+            try: # get the pid from the pidfile
+                with open(self.pidfile,'r') as pf:
+                    pid = int(pf.read().strip())
+            except IOError: 
+                pid = None
+
+            if not pid:
+                logger.info("RPdaemon not running... pidfile %s does not exist."%(self.pidfile))
+                return
+            else :
+                if self.check_pid(pid):
+                    logger.info("RPdaemon is running on process %s"%(pid))
+                    return
+                else:
+                    logger.info("RPdaemon not running... pid %s does not exist."%(pid))
+                    
+
+	def restart(self):
+		"""Restart the daemon.
+		"""
+		self.stop()
+		self.start()
+
+# -- test logic --------------------------------------------------------- #
+
+if __name__ == '__main__':
+    """Daemon test logic.
+
+    This logic must be called as seperate executable (i.e. python3
+    daemon.py start/stop/restart).	See test_daemon.py for
+    implementation.
+    """
+    
+    usage = 'Missing parameter, usage of test logic:\n' + \
+                    ' % python daemon.py start|restart|stop|status\n'
+    if len(sys.argv) < 2:
+        logger.error(usage)
+        sys.exit(2)
+
+    
+    d = daemonBase()
+    dc = daemonCtrl(d)
+
+    if sys.argv[1] == 'start':
+        dc.start()
+    elif sys.argv[1] == 'stop':
+        dc.stop()
+    elif sys.argv[1] == 'status':
+        dc.status()
+    elif sys.argv[1] == 'restart':
+        dc.restart()
+    else:
+        logger.error("Unknown parameter")
+
