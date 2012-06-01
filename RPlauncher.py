@@ -11,7 +11,6 @@ from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza, OvenPyzza, CheckPyzza
     EatPyzza, CleanPyzza
 from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup, ScriptChain
 import argparse
-import getpass
 import logging
 import sys
 import time
