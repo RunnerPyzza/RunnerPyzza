@@ -7,10 +7,9 @@ ClientCommon Library
 PyzzaTalk classes for the clients
 """
 from RunnerPyzza.Common.PyzzaTalk import PyzzaTalk
-from RunnerPyzza.Common.Protocol import iProtocol, oProtocol
 from RunnerPyzza.Common.System import System
+import tarfile
 import logging
-import time
 import os
 
 # TODO: add more logs
@@ -32,20 +31,25 @@ class OrderPyzza(PyzzaTalk):
     Order a new pyzza
     '''
     def __init__(self, server, port, machines = [], programs = [],
-                 tag = 'Generic', local = False, localdir = ''):
+                 tag = 'Margherita', local = False, localdir = '',
+                 user = 'pyzza'):
         PyzzaTalk.__init__(self, server, port)
         self.connect()
         self.machines = machines
         self.programs = programs
         self.tag = tag
+        
+        # "local" variables
         self.local = local
         self.localdir = localdir
+        self.user = user
+        #
+        
         self.jobID = None
     
     def copyInputs(self):
         '''
-        Copy my inputs using scp
-        [STUB]
+        Copy my inputs using sftp
         '''
         # Check if the stuff is there
         if not os.path.exists(self.localdir):
@@ -57,9 +61,19 @@ class OrderPyzza(PyzzaTalk):
             return False
         
         # Perform the directory compression
+        tarname = '%s.tar.gz'%self.jobID
+        tar = tarfile.open(tarname,'w:gz')
+        for fname in os.listdir(self.localdir):
+            fname = os.path.join(self.localdir, fname)
+            tar.add(fname)
+        tar.close()
         
         # Send it
-        time.sleep(10)
+        sftp, client = self.getSFTP(self.user)
+        sftp.put(tarname, '/home/%s/%s'%(self.user,
+                                         os.path.split(tarname)[-1]))
+        sftp.close()
+        client.close()
         
         return True
     
