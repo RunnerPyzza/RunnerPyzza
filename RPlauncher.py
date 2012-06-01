@@ -41,8 +41,7 @@ def init(options):
     logger.info("Open cominication with daemon...")
     order = OrderPyzza(options.host, options.port,
             machines = machs, programs = h.getPrograms(),
-            tag = options.tag, local = options.local, localdir = options.indir,
-            user = options.user)
+            tag = options.tag, local = options.local, localdir = options.indir)
     if not order.launchOrder():
         logger.warning('Pyzza not ordered!')
         return
@@ -138,10 +137,6 @@ def getOptions():
             default='',
             dest='indir',
             help='Input directory to be transferred on the main server (only if -l)')
-    parser_init.add_argument('-u', '--user', action="store",
-            default='pyzza',
-            dest='user',
-            help='User to be used on the server (only if -l)')
     parser_init.set_defaults(func=init)
 
     parser_start = subparsers.add_parser('start', help='Put the pyzza in the oven')

@@ -31,8 +31,7 @@ class OrderPyzza(PyzzaTalk):
     Order a new pyzza
     '''
     def __init__(self, server, port, machines = [], programs = [],
-                 tag = 'Margherita', local = False, localdir = '',
-                 user = 'pyzza'):
+                 tag = 'Margherita', local = False, localdir = ''):
         PyzzaTalk.__init__(self, server, port)
         self.connect()
         self.machines = machines
@@ -42,7 +41,6 @@ class OrderPyzza(PyzzaTalk):
         # "local" variables
         self.local = local
         self.localdir = localdir
-        self.user = user
         #
         
         self.jobID = None
@@ -69,8 +67,8 @@ class OrderPyzza(PyzzaTalk):
         tar.close()
         
         # Send it
-        sftp, client = self.getSFTP(self.user)
-        sftp.put(tarname, '/home/%s/%s'%(self.user,
+        sftp, client = self.getSFTP('runnerpyzza')
+        sftp.put(tarname, '/home/%s/%s'%('runnerpyzza',
                                          os.path.split(tarname)[-1]))
         sftp.close()
         client.close()

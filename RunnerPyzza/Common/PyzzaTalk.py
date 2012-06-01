@@ -150,7 +150,7 @@ class PyzzaTalk(object):
         time.sleep(1)
         self.socket.close()
         
-    def getSFTP(self, user):
+    def getSFTP(self, user='runnerpyzza'):
         '''
         Returns a paramiko.SFTPClient, the transport and the client
         Throws an exception if something goes wrong
