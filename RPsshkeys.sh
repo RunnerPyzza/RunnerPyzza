@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ "$#" -lt 2 ]; then
-    echo 'sh RPsshkeys USERNAME HOSTNAME'
+    echo './RPsshkeys USERNAME HOSTNAME'
     exit 65
 fi
 USER=$1
