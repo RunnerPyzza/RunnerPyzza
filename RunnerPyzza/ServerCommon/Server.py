@@ -526,7 +526,7 @@ class Server():
             self.manager.rmJob(ID)
         except Exception, e:
             logger.warning("Cannot remove Job %s"%(ID))
-            looger.warning(e)
+            logger.warning(e)
         
     def _initJob(self):
         ###
