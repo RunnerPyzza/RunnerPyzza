@@ -22,7 +22,7 @@ __credits__ = ["Marco Galardini"]
 ################################################################################
 # Log
 
-logger = logging.getLogger()
+logger = logging.getLogger('RunnerPyzza')
 
 ################################################################################
 # Methods
