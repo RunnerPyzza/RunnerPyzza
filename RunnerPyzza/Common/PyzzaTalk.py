@@ -150,7 +150,7 @@ class PyzzaTalk(object):
         time.sleep(1)
         self.socket.close()
         
-    def getSFTP(self, user='runnerpyzza'):
+    def getSFTP(self, user='runnerpyzza', password=''):
         '''
         Returns a paramiko.SFTPClient, the transport and the client
         Throws an exception if something goes wrong
@@ -158,7 +158,10 @@ class PyzzaTalk(object):
         try:
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(self.server, username=user)
+            if password == '':
+                client.connect(self.server, username=user)
+            else:
+                client.connect(self.server, username=user, password=password)
             trasp = client.get_transport()
             sftp = paramiko.SFTPClient.from_transport(trasp)
             return sftp, client

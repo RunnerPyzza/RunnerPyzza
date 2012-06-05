@@ -440,9 +440,32 @@ class Server():
             obj, type = self.PyzzaOven.getExtendedMessage()
             if type=="system":
                 if obj.body == "ok":
-                    return 
+                    pass
                 else:
                     logger.warning("Fail to close results connection")
+            
+            ###
+            #set local
+            obj, type = self.PyzzaOven.getExtendedMessage()
+            if type == "system":
+                if obj.body == "local":
+                    self.PyzzaOven.send(self.ok)
+                    if obj.ID == True:
+                        obj, type = self.PyzzaOven.getExtendedMessage()
+                        if type == "system":
+                            if obj.body == "copydone":
+                                self.PyzzaOven.send(self.ok)
+                            else:
+                                self.PyzzaOven.send(self.fail)
+                        else:
+                            self.PyzzaOven.send(self.fail)
+                    else:
+                        pass 
+                else:
+                    self.PyzzaOven.send(self.fail)
+            else:
+                self.PyzzaOven.send(self.fail)
+            
         else:
             logger.info("Job %s uncomplete ...Try status"%job.name)
             self.PyzzaOven.send(self.fail)
@@ -532,7 +555,7 @@ class Server():
                 if obj.ID == True:
                     obj, type = self.PyzzaOven.getExtendedMessage()
                     if type == "system":
-                        if obj.body == "Copydone":
+                        if obj.body == "copydone":
                             self.PyzzaOven.send(self.ok)
                         else:
                             self.PyzzaOven.send(self.fail)

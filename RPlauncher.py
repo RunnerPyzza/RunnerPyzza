@@ -11,6 +11,7 @@ from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza, OvenPyzza, CheckPyzza
     EatPyzza, CleanPyzza
 from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup, ScriptChain
 import argparse
+import getpass
 import logging
 import sys
 import time
@@ -38,10 +39,17 @@ def init(options):
         logger.info("No machines provided...")
         machs = []
 
+    if options.local and options.password:
+        password = getpass.getpass('%s password for %s: '%
+                                   (options.user, options.host))
+    else:
+        password = ''
+
     logger.info("Open cominication with daemon...")
     order = OrderPyzza(options.host, options.port,
             machines = machs, programs = h.getPrograms(),
-            tag = options.tag, local = options.local, localdir = options.indir)
+            tag = options.tag, local = options.local, localdir = options.indir,
+            user = options.user, password = password)
     if not order.launchOrder():
         logger.warning('Pyzza not ordered!')
         return
@@ -79,7 +87,16 @@ def status(options):
 
 def results(options):
     logger.info('Let me eat my pyzza!')
-    eater = EatPyzza(options.host, options.port, options.jobID)
+    
+    if options.local and options.password:
+        password = getpass.getpass('%s password for %s: '%
+                                   (options.user, options.host))
+    else:
+        password = ''
+        
+    eater = EatPyzza(options.host, options.port, options.jobID,
+                     local = options.local, user = options.user,
+                     password = password)
     if not eater.eatThePyzza():
         logger.error('Could not eat the pyzza! %s'%options.jobID)
         return
@@ -137,6 +154,14 @@ def getOptions():
             default='',
             dest='indir',
             help='Input directory to be transferred on the main server (only if -l)')
+    parser_init.add_argument('-u', '--user', action="store",
+            default='runnerpyzza',
+            dest='user',
+            help='User for the input-directory transfer (only if -l)')
+    parser_init.add_argument('-p', '--password', action="store_true",
+            default=False,
+            dest='password',
+            help='Use a password for the input-directory transfer (only if -l)')
     parser_init.set_defaults(func=init)
 
     parser_start = subparsers.add_parser('start', help='Put the pyzza in the oven')
@@ -152,6 +177,17 @@ def getOptions():
     parser_results = subparsers.add_parser('results', help='Eat the pyzza')
     parser_results.add_argument('jobID', action="store",
                             help='Job ID')
+    parser_results.add_argument('-l', '--local', action="store_true",
+            default=False,
+            help='Make a copy of the results files from the main server (if NFS is not available)')
+    parser_results.add_argument('-u', '--user', action="store",
+            default='runnerpyzza',
+            dest='user',
+            help='User for the results-directory transfer (only if -l)')
+    parser_results.add_argument('-p', '--password', action="store_true",
+            default=False,
+            dest='password',
+            help='Use a password for the results-directory transfer (only if -l)')
     parser_results.set_defaults(func=results)
     
     parser_clean = subparsers.add_parser('clean', help='Clean the table')

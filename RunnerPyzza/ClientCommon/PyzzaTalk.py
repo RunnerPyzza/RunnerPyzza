@@ -31,7 +31,8 @@ class OrderPyzza(PyzzaTalk):
     Order a new pyzza
     '''
     def __init__(self, server, port, machines = [], programs = [],
-                 tag = 'Margherita', local = False, localdir = ''):
+                 tag = 'Margherita', local = False, localdir = '',
+                 user = 'runnerpyzza', password = ''):
         PyzzaTalk.__init__(self, server, port)
         self.connect()
         self.machines = machines
@@ -41,6 +42,8 @@ class OrderPyzza(PyzzaTalk):
         # "local" variables
         self.local = local
         self.localdir = localdir
+        self.user = user
+        self.password = password
         #
         
         self.jobID = None
@@ -67,8 +70,8 @@ class OrderPyzza(PyzzaTalk):
         tar.close()
         
         # Send it
-        sftp, client = self.getSFTP('runnerpyzza')
-        sftp.put(tarname, '/home/%s/%s'%('runnerpyzza',
+        sftp, client = self.getSFTP(self.user, self.password)
+        sftp.put(tarname, '/opt/%s/%s'%('runnerpyzza',
                                          os.path.split(tarname)[-1]))
         sftp.close()
         client.close()
@@ -210,10 +213,17 @@ class EatPyzza(PyzzaTalk):
     Get the desired job results
     Eat the pyzza!
     '''
-    def __init__(self, server, port, jobID):
+    def __init__(self, server, port, jobID, local = False,
+                 user = 'runnerpyzza', password = ''):
         PyzzaTalk.__init__(self, server, port)
         self.connect()
         self.jobID = jobID
+        
+        # "local" variables
+        self.local = local
+        self.user = user
+        self.password = password
+        #
         
         self.results = {}
         
@@ -230,6 +240,19 @@ class EatPyzza(PyzzaTalk):
         '''
         for program in self.results[step]:
             yield program
+            
+    def copyResults(self):
+        '''
+        Copy my results using sftp
+        '''
+        # Get it
+        sftp, client = self.getSFTP(self.user, self.password)
+        tarname = self.jobID + '_results.tar.gz'
+        sftp.get('/opt/runnerpyzza/%s'%tarname, './%s'%tarname)
+        sftp.close()
+        client.close()
+        
+        return True
         
     def eatThePyzza(self):
         '''
@@ -264,7 +287,21 @@ class EatPyzza(PyzzaTalk):
             else:
                 self.send(System('fail'))
         
-        # Here scp
+        if self.local:
+            self.send(System('local',True))
+            if self.getMessage().body == 'fail':
+                return False
+            if not self.copyResults():
+                self.send(System('copyfail',self.jobID))
+                self.getMessage()
+                return False
+            self.send(System('copydone',self.jobID))
+            if self.getMessage().body == 'fail':
+                return False
+        else:
+            self.send(System('local',False))
+            if self.getMessage().body == 'fail':
+                return False
         
         self.close()
         return True
