@@ -1,0 +1,340 @@
+#!/usr/bin/env python
+"""
+Runner Pyzza worker Daemon
+
+Dbus Daemon
+
+Server Daemon for input/output comunication and queue manager 
+"""
+
+__author__ = "Emilio Potenza"
+__copyright__ = "Copyright 2011, RunnerPyzza"
+__credits__ = ["Marco Galardini"]
+__license__ = "GPL"
+__version__ = "0.2"
+__maintainer__ = "Emilio Potenza"
+__email__ = "emilio.potenza@iasma.it"
+__status__ = "Development"
+
+################################################################################
+# Imports
+
+import logging
+import os
+import sys
+import gobject
+import dbus
+import dbus.service
+import string
+import signal
+import errno
+if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
+        import dbus.glib
+from RunnerPyzza.ServerCommon.Server import *
+
+
+################################################################################
+# Log setup
+
+# create logger
+# Name shown
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
+'''
+#Remove comment to allow stdout log!
+
+# create console handler
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+# create formatter for console handler
+formatter = logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s','%H:%M:%S')
+# add formatter to console handler
+ch.setFormatter(formatter)
+# add console handler to logger
+logger.addHandler(ch)
+'''
+
+# create file handler
+fh = logging.FileHandler('RPdaemon.log')
+# Set log level
+# The file handler by default print all the levels but DEBUG
+fh.setLevel(logging.DEBUG)
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - [%(levelname)s] - %(message)s','%Y-%m-%d %H:%M:%S')
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+
+# create console handler
+ch = logging.StreamHandler()
+# Set log level
+ch.setLevel(logging.INFO)
+
+# create formatter for console handler
+formatter = logging.Formatter('%(asctime)s - %(message)s',
+                            '%H:%M:%S')
+# add formatter to console handler
+ch.setFormatter(formatter)
+
+# add console handler to logger
+logger.addHandler(ch)
+
+# Questa ci serve per memorizzare il file .pid
+LOG_DIR = '/tmp'    
+
+
+################################################################################
+# Global Setup
+
+# Server port 
+__port__ = 4123
+
+################################################################################
+# Classes
+
+# Il nostro oggetto condiviso
+class Demone(dbus.service.Object):
+    def __init__(self, bus_name, object_path='/org/RunnerPyzza'):
+    	# e' necessario richiamare il costruttore della classe base
+        dbus.service.Object.__init__(self, bus_name, object_path)
+	# Variables
+	self.port = __port__
+	# ciclo principale del demone e' il server
+	self.runserver()
+
+    ## Eccoci ad un punto saliente finalmente!
+    @dbus.service.method('org.RunnerPyzza.runserver')
+
+    def runserver(self):
+        Server(self.port)
+        """while True:
+            try:
+                Server(self.port)
+            except Exception, e:
+                logging.warning(e)
+            finally:
+                logging.warning("Stop Daemon Server")
+                break"""
+
+
+class DemoneSignal():
+    def __init__(self,name="RPdaemon"):
+        self.name=name
+        pass
+    
+    def restart(self):
+        '''
+        Stop and Start
+        '''
+        self.stop()
+        self.start()
+    
+    def terminate(self):
+        '''
+        Questo metodo gestisce i segnali ricevuti, in questo caso 
+        ci gestisce il SIGTERM.
+        '''
+        try:
+            # Esegue tutte le operazioni necessarie alla corretta
+            # chiusura dell'applicazione
+            logging.error("Daemon Signal Terminate: Ancora Incompleto")
+            print >>sys.stdout, "Daemon Signal Terminate:  Ancora Incompleto"
+            # Cancella il file .pid
+            os.remove(os.path.join(LOG_DIR, 'RunnerPyzza.pid'))
+        except Exception as inst:
+            logging.error("Daemon Signal Terminate: %s"%(str(inst)))
+            print >>sys.stderr, "Daemon Signal Terminate: %s"%(str(inst))
+            ## ...e stampa un messaggio di addio!
+        except:
+            logging.error("Daemon Signal Terminate: unexpected error")
+            print >>sys.stderr, "Daemon Signal Terminate: unexpected error"
+        
+        logging.info("RPdaemon is now terminate!")
+        print >>sys.stdout,"RPdaemon is now terminate!"
+        
+    def status(self):
+        '''
+        Analizza e restituisce lo stato attuale del demone (se e' attivo
+        o meno). Restituisce il process id del demone se e' attualmente
+        presente in memoria, -1 in caso contrario.
+        '''
+        if os.path.isfile(os.path.join(LOG_DIR, 'RunnerPyzza.pid')):
+            f = open(os.path.join(LOG_DIR, 'RunnerPyzza.pid'), 'r')
+            pid = string.atoi(string.strip(f.readline()))
+            f.close()
+            try:
+                os.kill(pid, 0)
+            except os.error, args:
+                if args[0] != errno.ESRCH: # Nessun processo
+                    raise os.error, args
+            else:
+                # il demone e' avviato
+                return pid
+        # il demone non e' presente in memoria
+        return -1
+    
+    def start(self):
+        '''
+        Quelle che seguono sono le istruzioni relative alla gestione
+        dei processi del demone: verranno creati due fork, in questo modo
+        sara' possibile "staccare" il programma dal terminale e farne
+        continuare l'esecuzione in background.
+        '''
+        try:
+            # procediamo con il primo fork...
+            pid = os.fork()
+            if pid > 0:
+                # chiudiamo il processo padre...
+                sys.exit(0)
+        except OSError, e:
+            logging.error("Daemon Signal fork #1 failed: OSError %s"%(str(e)))
+            print >>sys.stderr, "fork #1 failed: %d (%s)" % (e.errno, e.strerror)
+            sys.exit(1)    
+
+        # "stacchiamolo" dal processo principale...
+        os.setsid()
+        os.umask(0) # ...e diamogli i giusti permessi!
+
+        # Ora procediamo con il secondo fork...
+        try:
+            pid = os.fork()
+            if pid > 0:
+                logging.info("Daemon Signal Start: pid %s"%(str(pid)))
+                print >>sys.stdout,"Daemon Signal Start: pid %s"%(str(pid))
+                sys.exit(0)
+        except OSError, e:
+            logging.error("Daemon Signal fork #2 failed: OSError %s"%(str(e)))
+            print >>sys.stderr, "fork #2 failed: %d (%s)" % (e.errno, e.strerror)
+            sys.exit(1)
+
+        # Controlla l'esistenza della directory del file di log. Se non esiste, la crea.
+        if not os.path.isdir(LOG_DIR):
+            os.mkdir(LOG_DIR, 0755)
+
+        # Infine scrive l'id del processo nel file .pid.
+        f = open(os.path.join(LOG_DIR, 'RunnerPyzza.pid'), 'w')
+        f.write("%d" % os.getpid())
+        f.close()
+
+        return 0
+
+    def stop(self):
+        '''
+        Se il demone e' attivo lo termina e restituisce 0, altrimenti
+        stampa un avviso e restituisce -1.
+        '''
+        ## Controlliamo la presenza del file .pid...
+        if os.path.isfile(os.path.join(LOG_DIR, 'RunnerPyzza.pid')):
+            ## apre il file e legge l'id del processo...
+            f = open(os.path.join(LOG_DIR, 'RunnerPyzza.pid'), 'r')
+            pid = string.atoi(string.strip(f.readline()))
+            f.close()
+            try:
+                os.kill(pid, 0)               ## ...dunque prova a killarlo...
+            except os.error, args:
+                if args[0] != errno.ESRCH:    ## ...se non trova il processo
+                    raise os.error, args      ## lancia un'eccezione...
+            else:
+                os.kill(pid, signal.SIGTERM)  ##....altrimenti invia un SIGTERM
+                self.terminate()              ## e termina in sicurezza il server
+                return 0                      ## al demone
+        return -1
+
+
+
+
+
+################################################################################
+# Main
+
+if __name__ == '__main__':
+	os.chdir(os.path.dirname(os.path.normpath(os.path.join(os.getcwd(),sys.argv[0]))))
+	
+	# Memorizza il nome del programma.
+	call_name = os.path.split(sys.argv[0])[1]
+        
+        # Inizializza Oggetto Segnali
+        DS = DemoneSignal(call_name)
+	 
+	'''
+        Riceve gli argomenti passati sulla riga di comando. Stabiliamo di
+	processarne 3, "start", "status" e "stop", uno per ogni metodo di
+	quelli definiti in precedenza.
+        '''
+	if len(sys.argv) != 2:
+	    sys.stderr.write("Usage: %s [start|stop|status|restart]\n" % call_name)
+	    sys.exit(1)
+	else:
+	    ## STOP ##
+	    if sys.argv[1] == 'stop':
+		# "Stoppa" il demone
+		s = DS.stop()
+		if s == -1:     ## se il demone non e' attivo stampa un avviso...
+		    logging.info("%s: daemon is not running" % call_name)
+		    sys.stdout.write("%s: daemon is not running\n" % call_name)
+		    sys.exit(1) ## ...e esci.
+		logging.info("%s: stopped.\n" % call_name)
+		sys.stdout.write("%s: stopped.\n" % call_name)
+		sys.exit(0)
+	    ## STATUS ##
+	    elif sys.argv[1] == 'status':
+		# Stampa lo stato del demone.... beh, questa e' facile, no?
+		s = DS.status()
+		if s == -1:
+		    logging.info("%s: daemon is not running" % call_name)
+		    sys.stdout.write("%s: daemon is not running\n" % call_name)
+		else:
+		    logging.debug("%s: daemon [%d] is running" % (call_name, s))
+		    sys.stdout.write("%s: daemon [%d] is running\n" % (call_name, s))
+		sys.exit(0)
+	    ## START ##
+	    elif sys.argv[1] == 'start':
+		# Oh ecco, qui avviamo il demone, verificando prima che non sia gia'
+		# gia' stato caricato in memoria.
+		s = DS.status()
+		if s != -1:
+		    logging.info("%s: daemon [%d] is already running" % (call_name, s))
+		    sys.stdout.write("%s: daemon [%d] is already running\n" % (call_name, s))
+		    sys.exit(1)
+                logging.info("%s: daemon starting..." % (call_name))
+		sys.stdout.write("%s: daemon starting...\n" % (call_name))
+                DS.start()
+                DS.status()
+            elif sys.argv[1] == 'restart':
+		# riavviamo il demone, verificando prima che non sia
+		# gia' stato caricato in memoria.
+		s = DS.status()
+		if s == -1:
+		    logging.info("%s: daemon is not running" % (call_name))
+		    sys.stdout.write("%s: daemon is not running\n" % (call_name))
+                    logging.info("%s: daemon starting..." % (call_name))
+                    sys.stdout.write("%s: daemon starting...\n" % (call_name))
+                    DS.start()
+                    DS.status()
+                else:
+                    logging.info("%s: daemon re-starting..." % (call_name))
+                    sys.stdout.write("%s: daemon re-starting...\n" % (call_name))
+                    DS.restart()
+                    DS.status()
+            else:
+                ## e qui ricordiamo all'utente come funziona il nostro demone....
+                sys.stderr.write("Usage: %s [start|stop|status|restart]\n" % call_name)
+                sys.exit(1)
+	 
+	## Terminata la parte "infernale", ovvero quella relativa al demone,
+	## passiamo ad occuparci del lato server.
+	# Apriamo la connessione con DBus e "attacchiamoci" al bus della sessione.
+	session_bus = dbus.SystemBus() #dbus.SessionBus() # Per un demone di sistema va sostituito con dbus.SystemBus()
+	
+        #try:
+        # Creiamo, inizializziamo e "attacchiamo" l'oggetto a DBus
+        bus_name = dbus.service.BusName('org.RunnerPyzza', bus=session_bus)
+        object = Demone(bus_name)
+	#except Exception, e:
+        #    print "Errore ", e
+	
+        # Ora non resta che avviare il loop principale
+	mainloop = gobject.MainLoop()
+	mainloop.run()
+	# Il demone e' pronto e gia' freme nell'attesa di
+	# rispondere alle nostre richieste!
