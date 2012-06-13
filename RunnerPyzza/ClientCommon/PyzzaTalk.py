@@ -11,6 +11,7 @@ from RunnerPyzza.Common.System import System
 import tarfile
 import logging
 import os
+import shutil
 
 # TODO: add more logs
 
@@ -62,16 +63,24 @@ class OrderPyzza(PyzzaTalk):
             return False
         
         # Perform the directory compression
+        startdir = os.path.abspath('.')
+        # Move into the local directory
+        os.chdir(self.localdir)
         tarname = '%s.tar.gz'%self.jobID
         tar = tarfile.open(tarname,'w:gz')
-        for fname in os.listdir(self.localdir):
-            fname = os.path.join(self.localdir, fname)
+        for fname in os.listdir('.'):
             tar.add(fname)
         tar.close()
         
+        # Move the tarfile into the start directoy
+        shutil.move(tarname, startdir)
+        
+        # Return back
+        os.chdir(startdir)
+        
         # Send it
         sftp, client = self.getSFTP(self.user, self.password)
-        sftp.put(tarname, '/opt/%s/%s'%('runnerpyzza',
+        sftp.put(tarname, '/home/%s/%s'%('runnerpyzza',
                                          os.path.split(tarname)[-1]))
         sftp.close()
         client.close()
@@ -248,7 +257,7 @@ class EatPyzza(PyzzaTalk):
         # Get it
         sftp, client = self.getSFTP(self.user, self.password)
         tarname = self.jobID + '_results.tar.gz'
-        sftp.get('/opt/runnerpyzza/%s'%tarname, './%s'%tarname)
+        sftp.get('/home/runnerpyzza/%s'%tarname, './%s'%tarname)
         sftp.close()
         client.close()
         
@@ -260,6 +269,7 @@ class EatPyzza(PyzzaTalk):
         '''
         self.send(System('results',self.jobID))
         if self.getMessage().body == 'fail':
+            self.close()
             return False
 
         while True:

@@ -157,7 +157,7 @@ def getOptions():
     parser_init.add_argument('-u', '--user', action="store",
             default='runnerpyzza',
             dest='user',
-            help='User for the input-directory transfer (only if -l)')
+            help='User for the input-directory transfer [default: runnerpyzza] (only if -l)')
     parser_init.add_argument('-p', '--password', action="store_true",
             default=False,
             dest='password',
@@ -183,7 +183,7 @@ def getOptions():
     parser_results.add_argument('-u', '--user', action="store",
             default='runnerpyzza',
             dest='user',
-            help='User for the results-directory transfer (only if -l)')
+            help='User for the results-directory transfer [default: runnerpyzza] (only if -l)')
     parser_results.add_argument('-p', '--password', action="store_true",
             default=False,
             dest='password',

@@ -25,7 +25,6 @@ import logging
 import os
 import sys
 import signal
-import resource		# Resource usage information.
 from RunnerPyzza.ServerCommon.Server import Server
 
 

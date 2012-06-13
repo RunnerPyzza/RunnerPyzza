@@ -13,6 +13,8 @@ __credits__ = ["Marco Galardini"]
 import logging
 import threading     
 import Queue
+import os
+import tarfile
 import paramiko
 from time import sleep
 
@@ -32,14 +34,72 @@ class Job():
         self.programs = []
         self.programsResult = Queue.Queue() # with program obj
         self.done = False
-        self.stdout = Queue.Queue()
-        self.stderr = Queue.Queue()
+        #self.stdout = Queue.Queue()
+        #self.stderr = Queue.Queue()
         self.isNFS = True
+        self.localFolder = None
         self.status = Queue.LifoQueue()
         self.error = Queue.Queue()
         self.status_error = False
         self.running = False
+    
+    def __del__(self):
+        if not self.isNFS:
+            logger.info('Removing the input folder and the related archives')
+            
+            try:
+                tarname = '%s_results.tar.gz'%self.name
+                tarname = os.path.join('/home/runnerpyzza',tarname)
+                os.remove(tarname)
+                
+                for fname in os.listdir(self.localFolder):
+                    fname = os.path.join(self.localFolder, fname)
+                    os.remove(fname)
+                
+                os.rmdir(self.localFolder)
+            except Exception, e:
+                logger.warning('Could not remove the input/output files (%s)'%e)          
         
+    def extractInputs(self):
+        '''
+        Extracts the user provided compressed folder
+        '''
+        
+        logger.info('Unpacking inputs in /home/runnerpyzza')
+        # Creating the JOBID directory
+        jobDir = os.path.join('/home/runnerpyzza', self.name)
+        self.localFolder = jobDir
+        try:
+            os.mkdir(jobDir)
+        except OSError, e:
+            logger.debug('Got error %s on directory creation'%e)
+        # Move the Archive there
+        tarName = os.path.join('/home/runnerpyzza',
+                               '%s.tar.gz'%self.name)
+        try:
+            tarjob = tarfile.open(tarName, 'r:gz')
+            tarjob.extractall(jobDir)
+            os.remove(tarName)
+        except Exception, e:
+            logger.warning('Could not handle the inputs (%s)'%e)
+        
+    def compressResults(self):
+        '''
+        Creates a compressed tar file for the job results
+        '''
+        logger.info('Creating results tar file (%s)'%self.name)
+            
+        try:
+            tarname = '%s_results.tar.gz'%self.name
+            tarname = os.path.join('/home/runnerpyzza',tarname)
+            tar = tarfile.open(tarname,'w:gz')
+            for fname in os.listdir(self.localFolder):
+                fname = os.path.join(self.localFolder, fname)
+                tar.add(fname)
+            tar.close()
+        except Exception, e:
+            logger.warning('Could not create the results archive (%s)'%e)
+    
     def addMachine(self, m):
         """Append a Machine specific for this job """
         self.machines.append(m)
@@ -53,15 +113,15 @@ class Job():
         """Append a Program specific for this job """
         self.programs.append(p)
     
-    def getResults(self):
+    def iterResults(self):
         copyqueue = Queue.Queue()
         copyqueue2 = Queue.Queue()
         while not self.programsResult.empty():
             p = self.programsResult.get()
             copyqueue.put(p)
-            copyqueue2.put(p)
+            yield p
         self.programsResult = copyqueue
-        return copyqueue2
+        return
         
 #Tread del manager code
 class WorkerJob(threading.Thread):
@@ -125,12 +185,10 @@ class WorkerJob(threading.Thread):
                 with self.outlock:
                     program.addStdOut(line)
                     logger.info("""\033[1;32m[%s - out]\033[0m : %s""" % (host.getHostname(), line))
-                    self.job.stdout.put("""\033[1;32m[%s - out]\033[0m : %s\n""" % (host.getHostname(), line))
             for line in stderr.read().splitlines():
                 with self.outlock:
                     program.addStdErr(line)
                     logger.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
-                    self.job.stderr.put("""\033[1;31m[%s - err]\033[0m : %s\n""" % (host.getHostname(), line))
                     
             exit_status = chan.exit_status
             program.setHost(host.getHostname())
@@ -264,7 +322,10 @@ class WorkerJob(threading.Thread):
                 logger.info("Job %s: KeyboardInterrupt"%(self.name))
                 self._quit()
                 
-        #self._quit()
+        # Do we have to create a compressed results folder?
+        if not self.job.isNFS:
+            self.job.compressResults()
+                
         self.job.done=True
         logger.info("Job %s: Done!"%(self.name))
         
