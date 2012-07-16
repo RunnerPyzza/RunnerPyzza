@@ -381,49 +381,53 @@ class WorkerJob(threading.Thread):
         """
         logger.info("Job %s will now run"%(self.name))
         
-        # Ask the total number of cpus for each machine
-        if not self.setTotalCpus():
-            self.setErrJobs(self, err='No more online machines')
-    
-        bQuit = False
-        for step,queue in enumerate(self.listOFqueue):
-            while not queue.empty():
-                program = queue.get()
-                ncpu = program.getCpu()
-                
-                # Cycle until we got a working machine
-                while True:
-                    if not self.checkMachines():
-                        self.setErrJobs(program, step, 'No more online machines')
-                        bQuit = True
+        try:
+            # Ask the total number of cpus for each machine
+            if not self.setTotalCpus():
+                self.setErrJobs(self, err='No more online machines')
+        
+            bQuit = False
+            for step,queue in enumerate(self.listOFqueue):
+                while not queue.empty():
+                    program = queue.get()
+                    ncpu = program.getCpu()
+                    
+                    # Cycle until we got a working machine
+                    while True:
+                        if not self.checkMachines():
+                            self.setErrJobs(program, step, 'No more online machines')
+                            bQuit = True
+                            break
+                        
+                        machine = self.getFreeMachine(ncpu)
+                        if not machine:
+                            queue.put(program)
+                            sleep(3.3)
+                            continue
+                        try:
+                            conn = self._connect(machine)
+                            break
+                        except:pass
+                        
+                    if bQuit:
                         break
                     
-                    machine = self.getFreeMachine(ncpu)
-                    if not machine:
-                        queue.put(program)
-                        sleep(3.3)
-                        continue
-                    try:
-                        conn = self._connect(machine)
-                        break
-                    except:pass
+                    t = threading.Thread(target=self._workFun, args=(machine, conn, program, step))
+                    t.setDaemon(True)        
+                    t.start()
+                    self.threads.append(t)
+                    logger.info("Job %s: start thread on %s"%(self.name, machine))
+                
+                for t in self.threads:
+                    t.join()
+                self.threads = []
                     
-                if bQuit:
-                    break
+            # Do we have to create a compressed results folder?
+            if not self.job.isNFS:
+                self.job.compressResults()
                 
-                t = threading.Thread(target=self._workFun, args=(machine, conn, program, step))
-                t.setDaemon(True)        
-                t.start()
-                self.threads.append(t)
-                logger.info("Job %s: start thread on %s"%(self.name, machine))
-            
-            for t in self.threads:
-                t.join()
-            self.threads = []
-                
-        # Do we have to create a compressed results folder?
-        if not self.job.isNFS:
-            self.job.compressResults()
+        except Exception, e:
+            logger.error('Job %s: Error %s'%(self.name, e))
         
         self.job.done=True
         if self.job.status_error:
