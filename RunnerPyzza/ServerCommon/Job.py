@@ -6,23 +6,29 @@ Common mod test
 
 Server object running on Runner Pyzza daemon (RPdaemon) 
 """
+from RunnerPyzza.Common.Program import Program
+from time import sleep
+import Queue
+import logging
+import os
+import paramiko
+import subprocess
+import sys
+import tarfile
+import threading
 
 __author__ = "Emilio Potenza"
 __credits__ = ["Marco Galardini"]
 
-import logging
-import threading     
-import Queue
-import os
-import tarfile
-import paramiko
-from time import sleep
 
 ################################################################################
 # Log setup
 # Name shown
 logger = logging.getLogger('RunnerPyzza.Server.Job')
 ################################################################################
+
+class NoMoreMachines(RuntimeError):
+    pass
 
 class Job():
     '''
@@ -116,7 +122,6 @@ class Job():
     
     def iterResults(self):
         copyqueue = Queue.Queue()
-        copyqueue2 = Queue.Queue()
         while not self.programsResult.empty():
             p = self.programsResult.get()
             copyqueue.put(p)
@@ -160,18 +165,46 @@ class WorkerJob(threading.Thread):
         self.connections=[]
         self.threads = []
         self.outlock = threading.Lock()
+        
+        self.tryAgent = False
+
+    def _startAgent(self):
+        '''
+        Try once to start the ssh-agent
+        An exception is raised if it's the second time this method has been tried
+        '''
+        if self.tryAgent:
+            raise OSError('We have already tried to start ssh-agent!')
+        
+        cmd = 'eval $(ssh-agent)'
+        proc = subprocess.Popen(cmd,shell=(sys.platform!="win32"),
+                    stdin=subprocess.PIPE,stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE)
+        out = proc.communicate()
+        self.tryAgent = True
 
     def _connect(self, host):
-        """Connect to all hosts in the hosts list"""
+        """Connect to the host"""
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(host.getHostname(), username=host.getUser())
-        #
-        #
-        # HERE IF THERE ARE NO AUTHENTICATION METHODS AVAILABLE
-        # START ssh AGENT
-        #
-        # 
+        try:
+            client.connect(host.getHostname(), username=host.getUser())
+        except paramiko.ssh_exception.SSHException:
+            logger.warning('It looks like the ssh-agent is not running')
+            # Try to start the ssh-agent
+            self._startAgent()
+            return self._connect(host)
+        except paramiko.ssh_exception.AuthenticationException:
+            logger.warning('It looks like the ssh-agent is not running')
+            # May also be a problem of ssh-agent
+            self._startAgent()
+            return self._connect(host)
+        except Exception, e:
+            # It didn't work, we give up?
+            # We should try a little bit more
+            self.machines.remove(host)
+            logger.warning('Could not connect to %s (%s)'%(host.getHostname(), e))
+            raise RuntimeError('Could not connect to %s (%s)'%(host.getHostname(), e))
         logger.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
         return client
 
@@ -185,6 +218,8 @@ class WorkerJob(threading.Thread):
 
             with self.outlock:
                 logger.info("... %s ==> %s"%(host.getHostname(),command))
+                
+            program.setHost(host.getHostname())
                 
             chan = conn.get_transport().open_session()
             chan.exec_command(command)
@@ -201,7 +236,6 @@ class WorkerJob(threading.Thread):
                     logger.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
                     
             exit_status = chan.exit_status
-            program.setHost(host.getHostname())
             program.setExit(exit_status)
             self.job.programsResult.put(program)
             chan.close()
@@ -235,8 +269,32 @@ class WorkerJob(threading.Thread):
     def _quit(self):
         """Close all the connections and exit"""
         for conn in self.connections:
-            conn.close()
+            try:
+                conn.close()
+            except Exception, e:
+                logger.warning('Could not close a connection %s'%e)
         return 
+    
+    def setErrJobs(self,err='Generic error'):
+        '''
+        Put an error flag on the jobs tail
+        A fake program object is used
+        '''
+        prg = Program('Fatal error')
+        with self.outlock:
+            prg.addStdErr(err)
+        
+        self.job.status_error = True
+        self.job.error.put("FAIL||999||||999")
+    
+    def checkMachines(self):
+        '''
+        Check how many machines we have left
+        Raises an exception otherwise
+        '''
+        if len(self.machines) == 0:
+            logger.error('No online machines are left')
+            raise NoMoreMachines('No more online machines left!')
 
     def setTotalCpus(self):
         '''
@@ -244,7 +302,10 @@ class WorkerJob(threading.Thread):
         '''
         
         for machine in self.machines:
-            conn = self._connect(machine)
+            self.checkMachines()
+            try:
+                conn = self._connect(machine)
+            except:continue
             # cat /proc/cpuinfo | grep processor | wc -l
             stdin, stdout, stderr = conn.exec_command("cat /proc/cpuinfo | grep processor | wc -l")
             stdin.close()
@@ -265,8 +326,11 @@ class WorkerJob(threading.Thread):
             ncpu = self.bigMachine
         free_list = []
         for machine in self.machines:
+            self.checkMachines()
             logger.info('Asking free CPU for %s'%machine.getHostname())
-            conn = self._connect(machine)
+            try:
+                conn = self._connect(machine)
+            except:continue
             stdin, stdout, stderr = conn.exec_command("ps -eo pcpu | sort -h -r")
             stdin.close()
             stderr.close()
@@ -297,27 +361,29 @@ class WorkerJob(threading.Thread):
         return None
 
     def run(self):
-        '''
-        Connect
-        '''
-        logger.info("Job %s: is now running"%(self.name))
-        #self._connect()
-        logger.info("Job %s: all the machine is now correctly connected"%(self.name))
         """
         Execute commands queue on all hosts in the list
         """
+        logger.info("Job %s will now run"%(self.name))
         for step,queue in enumerate(self.listOFqueue):
             try:
                 while not queue.empty():
                     program = queue.get()
                     ncpu = program.getCpu()
-                    machine = self.getFreeMachine(ncpu)
-                    if not machine:
-                        queue.put(program)
-                        sleep(3.3)
-                        continue
-                    # connect
-                    conn = self._connect(machine)
+                    
+                    # Cycle until we got a working machine
+                    while True:
+                        self.checkMachines()
+                        machine = self.getFreeMachine(ncpu)
+                        if not machine:
+                            queue.put(program)
+                            sleep(3.3)
+                            continue
+                        try:
+                            conn = self._connect(machine)
+                            break
+                        except:pass
+                        
                     t = threading.Thread(target=self._workFun, args=(machine, conn, program, step))
                     t.setDaemon(True)        
                     t.start()
@@ -330,12 +396,24 @@ class WorkerJob(threading.Thread):
             
             except KeyboardInterrupt:
                 logger.info("Job %s: KeyboardInterrupt"%(self.name))
+                self.setErrJobs("Job %s: KeyboardInterrupt"%(self.name))
+                self._quit()
+            except NoMoreMachines, e:
+                logger.error('Job %s: No More machines (%s)'%(e))
+                self.setErrJobs("Job %s: KeyboardInterrupt"%(self.name))
+                self._quit()
+            except Exception, e:
+                logger.error('Job %s: Generic error (%s)'%(e))
+                self.setErrJobs("Job %s: KeyboardInterrupt"%(self.name))
                 self._quit()
                 
         # Do we have to create a compressed results folder?
         if not self.job.isNFS:
             self.job.compressResults()
-                
+        
         self.job.done=True
-        logger.info("Job %s: Done!"%(self.name))
+        if self.job.status_error:
+            logger.info("Job %s: Error!"%(self.name))
+        else:
+            logger.info("Job %s: Done!"%(self.name))
         

@@ -27,7 +27,7 @@ class Program(object):
     Class Program
     Stores the raw command and the number of CPUs it should use
     '''
-    def __init__(self,name,cmd,ncpu = 1,order = 1, canFail = False):
+    def __init__(self,name,cmd = '',ncpu = 1,order = 1, canFail = False):
         self.name = name
         self._cmd = cmd
         self._ncpu = ncpu
