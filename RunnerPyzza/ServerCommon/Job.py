@@ -166,7 +166,12 @@ class WorkerJob(threading.Thread):
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(host.getHostname(), username=host.getUser())
-        #self.connections.append(client)
+        #
+        #
+        # HERE IF THERE ARE NO AUTHENTICATION METHODS AVAILABLE
+        # START ssh AGENT
+        #
+        # 
         logger.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
         return client
 
