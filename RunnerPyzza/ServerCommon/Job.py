@@ -27,9 +27,6 @@ __credits__ = ["Marco Galardini"]
 logger = logging.getLogger('RunnerPyzza.Server.Job')
 ################################################################################
 
-class NoMoreMachines(RuntimeError):
-    pass
-
 class Job():
     '''
     Job structure (and record??) running in WorkerManager
@@ -159,8 +156,6 @@ class WorkerJob(threading.Thread):
         #print job.name
         self.machines=job.machines
         self.bigMachine = 0
-        # Ask the total number of cpus for each machine
-        self.setTotalCpus()
         
         self.connections=[]
         self.threads = []
@@ -176,7 +171,7 @@ class WorkerJob(threading.Thread):
         if self.tryAgent:
             raise OSError('We have already tried to start ssh-agent!')
         
-        cmd = 'eval $(ssh-agent)'
+        cmd = 'eval $(ssh-agent -a ~/.ssh/agent.socket)'
         proc = subprocess.Popen(cmd,shell=(sys.platform!="win32"),
                     stdin=subprocess.PIPE,stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE)
@@ -189,16 +184,6 @@ class WorkerJob(threading.Thread):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
             client.connect(host.getHostname(), username=host.getUser())
-        except paramiko.ssh_exception.SSHException:
-            logger.warning('It looks like the ssh-agent is not running')
-            # Try to start the ssh-agent
-            self._startAgent()
-            return self._connect(host)
-        except paramiko.ssh_exception.AuthenticationException:
-            logger.warning('It looks like the ssh-agent is not running')
-            # May also be a problem of ssh-agent
-            self._startAgent()
-            return self._connect(host)
         except Exception, e:
             # It didn't work, we give up?
             # We should try a little bit more
@@ -209,15 +194,15 @@ class WorkerJob(threading.Thread):
         return client
 
     def _workFun(self, host, conn, program, step):
-        try:    
+        try:
             command = program.getCmd()
 
             if not self.job.isNFS:
                 # Move to the job directory
                 command = 'cd %s; '%self.job.localFolder + command
-
+    
             with self.outlock:
-                logger.info("... %s ==> %s"%(host.getHostname(),command))
+                logger.info("%s ==> %s"%(host.getHostname(),command))
                 
             program.setHost(host.getHostname())
                 
@@ -234,12 +219,13 @@ class WorkerJob(threading.Thread):
                 with self.outlock:
                     program.addStdErr(line)
                     logger.info("""\033[1;31m[%s - err]\033[0m : %s""" % (host.getHostname(), line))
-                    
+            
             exit_status = chan.exit_status
+            chan.close()
+            
             program.setExit(exit_status)
             self.job.programsResult.put(program)
-            chan.close()
-                            
+    
             with self.outlock:
                 if  exit_status == 0:
                     # If cmd exit correctly
@@ -259,12 +245,17 @@ class WorkerJob(threading.Thread):
                     # else--- error
                     self.job.status_error = True
                     self.job.error.put("ELSE||%s||"%step + command + "||%s"%exit_status)
-                             
-        except KeyboardInterrupt:
-            logger.error("do quit thread")
-            #self._quit(None)
-        except Exception as e:
-            logger.error(e)    
+
+        except Exception, e:
+            logger.error('Command %s error (%s)'%(command,e))
+            
+            program.setExit(999)
+            self.job.programsResult.put(program)
+    
+            with self.outlock:
+                self.job.status_error = True
+                self.job.error.put("FAIL||%s||"%step + command + "||999")
+                logger.info("FAIL||%s||"%step + command + "||999")   
 
     def _quit(self):
         """Close all the connections and exit"""
@@ -275,17 +266,32 @@ class WorkerJob(threading.Thread):
                 logger.warning('Could not close a connection %s'%e)
         return 
     
-    def setErrJobs(self,err='Generic error'):
+    def setErrJobs(self,prg=None,step=0,err='Generic error'):
         '''
         Put an error flag on the jobs tail
-        A fake program object is used
         '''
-        prg = Program('Fatal error')
-        with self.outlock:
+        if prg:
+            command = prg.getCmd()
+                    
             prg.addStdErr(err)
+            prg.setExit(999)
+            self.job.programsResult.put(prg)
+                
+            self.job.status.put("FAIL||%s||"%step + command + "||999")
+            logger.info("FAIL||%s||"%step + command + "||999")
         
-        self.job.status_error = True
-        self.job.error.put("FAIL||999||||999")
+        for step,queue in enumerate(self.listOFqueue):
+            while not queue.empty():
+                with self.outlock:
+                    program = queue.get()
+                    command = program.getCmd()
+                    
+                    program.addStdErr(err)
+                    program.setExit(999)
+                    self.job.programsResult.put(program)
+                    
+                    self.job.status.put("FAIL||%s||"%step + command + "||999")
+                    logger.info("FAIL||%s||"%step + command + "||999")
     
     def checkMachines(self):
         '''
@@ -294,7 +300,8 @@ class WorkerJob(threading.Thread):
         '''
         if len(self.machines) == 0:
             logger.error('No online machines are left')
-            raise NoMoreMachines('No more online machines left!')
+            return False
+        return True
 
     def setTotalCpus(self):
         '''
@@ -302,7 +309,8 @@ class WorkerJob(threading.Thread):
         '''
         
         for machine in self.machines:
-            self.checkMachines()
+            if not self.checkMachines():
+                return False
             try:
                 conn = self._connect(machine)
             except:continue
@@ -316,6 +324,7 @@ class WorkerJob(threading.Thread):
             if ncpu > self.bigMachine:
                 self.bigMachine = ncpu
             conn.close()
+        return True
 
     def getFreeMachine(self, ncpu):
         '''
@@ -326,7 +335,8 @@ class WorkerJob(threading.Thread):
             ncpu = self.bigMachine
         free_list = []
         for machine in self.machines:
-            self.checkMachines()
+            if not self.checkMachines():
+                return None
             logger.info('Asking free CPU for %s'%machine.getHostname())
             try:
                 conn = self._connect(machine)
@@ -365,47 +375,46 @@ class WorkerJob(threading.Thread):
         Execute commands queue on all hosts in the list
         """
         logger.info("Job %s will now run"%(self.name))
+        
+        # Ask the total number of cpus for each machine
+        if not self.setTotalCpus():
+            self.setErrJobs(self, err='No more online machines')
+    
+        bQuit = False
         for step,queue in enumerate(self.listOFqueue):
-            try:
-                while not queue.empty():
-                    program = queue.get()
-                    ncpu = program.getCpu()
-                    
-                    # Cycle until we got a working machine
-                    while True:
-                        self.checkMachines()
-                        machine = self.getFreeMachine(ncpu)
-                        if not machine:
-                            queue.put(program)
-                            sleep(3.3)
-                            continue
-                        try:
-                            conn = self._connect(machine)
-                            break
-                        except:pass
-                        
-                    t = threading.Thread(target=self._workFun, args=(machine, conn, program, step))
-                    t.setDaemon(True)        
-                    t.start()
-                    self.threads.append(t)
-                    logger.info("Job %s: start thread on %s"%(self.name, machine))
+            while not queue.empty():
+                program = queue.get()
+                ncpu = program.getCpu()
                 
-                for t in self.threads:
-                    t.join()
-                self.threads = []
+                # Cycle until we got a working machine
+                while True:
+                    if not self.checkMachines():
+                        self.setErrJobs(program, step, 'No more online machines')
+                        bQuit = True
+                        break
+                    
+                    machine = self.getFreeMachine(ncpu)
+                    if not machine:
+                        queue.put(program)
+                        sleep(3.3)
+                        continue
+                    try:
+                        conn = self._connect(machine)
+                        break
+                    except:pass
+                    
+                if bQuit:
+                    break
+                
+                t = threading.Thread(target=self._workFun, args=(machine, conn, program, step))
+                t.setDaemon(True)        
+                t.start()
+                self.threads.append(t)
+                logger.info("Job %s: start thread on %s"%(self.name, machine))
             
-            except KeyboardInterrupt:
-                logger.info("Job %s: KeyboardInterrupt"%(self.name))
-                self.setErrJobs("Job %s: KeyboardInterrupt"%(self.name))
-                self._quit()
-            except NoMoreMachines, e:
-                logger.error('Job %s: No More machines (%s)'%(e))
-                self.setErrJobs("Job %s: KeyboardInterrupt"%(self.name))
-                self._quit()
-            except Exception, e:
-                logger.error('Job %s: Generic error (%s)'%(e))
-                self.setErrJobs("Job %s: KeyboardInterrupt"%(self.name))
-                self._quit()
+            for t in self.threads:
+                t.join()
+            self.threads = []
                 
         # Do we have to create a compressed results folder?
         if not self.job.isNFS:
@@ -416,4 +425,3 @@ class WorkerJob(threading.Thread):
             logger.info("Job %s: Error!"%(self.name))
         else:
             logger.info("Job %s: Done!"%(self.name))
-        

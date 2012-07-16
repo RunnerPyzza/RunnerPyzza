@@ -36,6 +36,8 @@ class WorkerManager():
         self._jobs = {} # jobID:{"machine":[machinediz1, ..], "program":[programdiz1,...]}
 
     def getJob(self,name):
+        if name not in self._jobs:
+            return None
         return self._jobs[name]
     
     def rmJob(self,name):
@@ -170,8 +172,8 @@ class Server():
     
     def _resultsJob(self, id):
         job = self.manager.getJob(id)
-        logger.info(job.name)
-        if job.done:
+        
+        if job and job.done:
             self.PyzzaOven.send(self.ok)
             copyqueue = Queue.Queue()
             while not job.programsResult.empty():
@@ -217,7 +219,10 @@ class Server():
                 self.PyzzaOven.send(self.fail)
             
         else:
-            logger.info("Job %s uncomplete ...Try status"%job.name)
+            if job:
+                logger.info("Job %s uncomplete... Try status"%job.name)
+            else:
+                logger.warning("Job %s doesn't exist"%id)
             self.PyzzaOven.send(self.fail)
         return 
     
