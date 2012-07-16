@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tarfile
 import threading
+from random import shuffle
 
 __author__ = "Emilio Potenza"
 __credits__ = ["Marco Galardini"]
@@ -359,14 +360,18 @@ class WorkerJob(threading.Thread):
             logger.info('Machine %s has %f free CPU space'%(machine.getHostname(), free_mach))
             
         maxLoad = max(free_list)
+	tmp_shuffle = []
         for mach,mach_load in zip(self.machines, free_list):
+	    logger.info("OOOOOOOOOOOOOOOO\n%s, %s"%(mach,mach_load))
             if mach_load == maxLoad:
                 logger.info('Machine %s is the most free'%mach.getHostname())
                 reqLoad = (ncpu - 1) * 100
                 logger.info('Manager asking for %s CPU space'%reqLoad)
                 if mach_load > reqLoad:
-                    return mach
-        
+                    tmp_shuffle.append(mach)
+        if tmp_shuffle:
+	    shuffle(tmp_shuffle)
+            return tmp_shuffle[0]
         logger.warning('No free machine was found!')
         return None
 
@@ -425,3 +430,4 @@ class WorkerJob(threading.Thread):
             logger.info("Job %s: Error!"%(self.name))
         else:
             logger.info("Job %s: Done!"%(self.name))
+
