@@ -3,7 +3,7 @@ if [ $UID -ne 0 ]; then
    echo "$0 must be run as root"
    exit 1
 fi
-useradd -m runnerpyzza
+useradd -m -s /bin/bash runnerpyzza
 passwd runnerpyzza
 id runnerpyzza > /dev/null
 if [ $? -ne 0 ]; then
