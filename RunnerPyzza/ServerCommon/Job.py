@@ -272,18 +272,23 @@ class WorkerJob(threading.Thread):
         Put an error flag on the jobs tail
         '''
         if prg:
-            command = prg.getCmd()
-                    
-            prg.addStdErr(err)
-            prg.setExit(999)
-            self.job.programsResult.put(prg)
+            with self.outlock:
+                self.job.status_error = True
                 
-            self.job.status.put("FAIL||%s||"%step + command + "||999")
-            logger.info("FAIL||%s||"%step + command + "||999")
+                command = prg.getCmd()
+                        
+                prg.addStdErr(err)
+                prg.setExit(999)
+                self.job.programsResult.put(prg)
+                
+                self.job.status.put("FAIL||%s||"%step + command + "||999")
+                logger.info("FAIL||%s||"%step + command + "||999")
         
         for step,queue in enumerate(self.listOFqueue):
             while not queue.empty():
                 with self.outlock:
+                    self.job.status_error = True
+                    
                     program = queue.get()
                     command = program.getCmd()
                     
@@ -428,6 +433,10 @@ class WorkerJob(threading.Thread):
                 
         except Exception, e:
             logger.error('Job %s: Error %s'%(self.name, e))
+            if not program:
+                self.setErrJobs(self, err=str(e))
+            else:
+                self.setErrJobs(self, program, step, err=str(e))
         
         self.job.done=True
         if self.job.status_error:
