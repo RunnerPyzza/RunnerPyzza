@@ -94,8 +94,9 @@ class Job():
             tarname = os.path.join('/home/runnerpyzza',tarname)
             tar = tarfile.open(tarname,'w:gz')
             for fname in os.listdir(self.localFolder):
-                fname = os.path.join(self.localFolder, fname)
-                tar.add(fname)
+                longname = os.path.join(self.localFolder, fname)
+                shortname = os.path.join(os.path.split(self.localFolder)[-1], fname)
+                tar.add(longname, arcname=shortname)
             tar.close()
         except Exception, e:
             logger.warning('Could not create the results archive (%s)'%e)
@@ -172,6 +173,10 @@ class WorkerJob(threading.Thread):
     def _workFun(self, host, conn, program, step):
         try:    
             command = program.getCmd()
+
+            if not self.job.isNFS:
+                # Move to the job directory
+                command = 'cd %s; '%self.job.localFolder + command
 
             with self.outlock:
                 logger.info("... %s ==> %s"%(host.getHostname(),command))
