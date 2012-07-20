@@ -167,7 +167,8 @@ class WorkerJob(threading.Thread):
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
-            client.connect(host.getHostname(), username=host.getUser())
+            client.connect(host.getHostname(), username=host.getUser(),
+                           allow_agent=False)
         except Exception, e:
             # It didn't work, we give up?
             # We should try a little bit more
