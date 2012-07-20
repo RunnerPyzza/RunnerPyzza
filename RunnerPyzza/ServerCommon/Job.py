@@ -161,23 +161,6 @@ class WorkerJob(threading.Thread):
         self.connections=[]
         self.threads = []
         self.outlock = threading.Lock()
-        
-        self.tryAgent = False
-
-    def _startAgent(self):
-        '''
-        Try once to start the ssh-agent
-        An exception is raised if it's the second time this method has been tried
-        '''
-        if self.tryAgent:
-            raise OSError('We have already tried to start ssh-agent!')
-        
-        cmd = 'eval $(ssh-agent -a ~/.ssh/agent.socket)'
-        proc = subprocess.Popen(cmd,shell=(sys.platform!="win32"),
-                    stdin=subprocess.PIPE,stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE)
-        out = proc.communicate()
-        self.tryAgent = True
 
     def _connect(self, host):
         """Connect to the host"""
