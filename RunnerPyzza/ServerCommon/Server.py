@@ -101,8 +101,8 @@ class Server():
             logger.info("Server is now waiting for client on port %s"%(self.port))
             # Attendi la connessione del lanciatore...
             self.PyzzaOven.accept()
-            obj, type = self.PyzzaOven.getExtendedMessage()
-            if type=="system":
+            obj, mtype = self.PyzzaOven.getExtendedMessage()
+            if mtype=="system":
                 if obj.body == "init":
                     self.PyzzaOven.send(self.ok)
                     sleep(0.5)
@@ -145,8 +145,8 @@ class Server():
                 self.PyzzaOven.send(self.fail)
                 continue
                 
-            obj, type = self.PyzzaOven.getExtendedMessage()        
-            if type=="system":
+            obj, mtype = self.PyzzaOven.getExtendedMessage()        
+            if mtype=="system":
                 if obj.body == "quit":
                     self.PyzzaOven.socket.close()
                     sleep(1)
@@ -163,15 +163,15 @@ class Server():
                 ####
     
     def _recvAKW(self):
-        obj, type = self.PyzzaOven.getExtendedMessage()
-        if type=="system":
+        obj, mtype = self.PyzzaOven.getExtendedMessage()
+        if mtype=="system":
             if obj.body == "ok":
                 pass
             else:
                 pass
     
-    def _resultsJob(self, id):
-        job = self.manager.getJob(id)
+    def _resultsJob(self, jid):
+        job = self.manager.getJob(jid)
         
         if job and job.done:
             self.PyzzaOven.send(self.ok)
@@ -181,16 +181,16 @@ class Server():
                 copyqueue.put(p)
                 self.PyzzaOven.send(p)
                 
-                obj, type = self.PyzzaOven.getExtendedMessage()
-                if type=="system":
+                obj, mtype = self.PyzzaOven.getExtendedMessage()
+                if mtype=="system":
                     if obj.body == "fail":
                         return
             
             job.programsResult = copyqueue
             self.PyzzaOven.send(System("save", id))
             
-            obj, type = self.PyzzaOven.getExtendedMessage()
-            if type=="system":
+            obj, mtype = self.PyzzaOven.getExtendedMessage()
+            if mtype=="system":
                 if obj.body == "ok":
                     pass
                 else:
@@ -198,13 +198,13 @@ class Server():
             
             ###
             #set local
-            obj, type = self.PyzzaOven.getExtendedMessage()
-            if type == "system":
+            obj, mtype = self.PyzzaOven.getExtendedMessage()
+            if mtype == "system":
                 if obj.body == "local":
                     self.PyzzaOven.send(self.ok)
                     if obj.ID == True:
-                        obj, type = self.PyzzaOven.getExtendedMessage()
-                        if type == "system":
+                        obj, mtype = self.PyzzaOven.getExtendedMessage()
+                        if mtype == "system":
                             if obj.body == "copydone":
                                 self.PyzzaOven.send(self.ok)
                             else:
@@ -236,8 +236,8 @@ class Server():
             logger.warning(e)
             raise e
                 
-    def _statusJob(self, id):
-        job = self.manager.getJob(id)
+    def _statusJob(self, jid):
+        job = self.manager.getJob(jid)
         logger.info(job.name)
         
         if not job.running:
@@ -287,8 +287,8 @@ class Server():
         ###
         #set jobID
         jobID = time.strftime('%Y%m%d_%H%M%S')
-        obj, type = self.PyzzaOven.getExtendedMessage()
-        if type=="system":
+        obj, mtype = self.PyzzaOven.getExtendedMessage()
+        if mtype=="system":
             if obj.body == "tag":
                 self.PyzzaOven.send(self.ok)
                 jobID = obj.ID + "_" + jobID
@@ -303,16 +303,16 @@ class Server():
         logger.info("Server : Initialize Job %s"%(jobID))
         ###
         #set local
-        obj, type = self.PyzzaOven.getExtendedMessage()
-        if type == "system":
+        obj, mtype = self.PyzzaOven.getExtendedMessage()
+        if mtype == "system":
             if obj.body == "local":
                 self.PyzzaOven.send(self.ok)
                 if obj.ID == True:
                     logger.info('Expecting an input upload on job %s'%jobID)
                     job.isNFS = False
                     
-                    obj, type = self.PyzzaOven.getExtendedMessage()
-                    if type == "system":
+                    obj, mtype = self.PyzzaOven.getExtendedMessage()
+                    if mtype == "system":
                         if obj.body == "copydone":
                             self.PyzzaOven.send(self.ok)
                             
@@ -332,18 +332,18 @@ class Server():
         ###
         # machine program -->save = break while
         while 1:
-            obj, type = self.PyzzaOven.getExtendedMessage()
-            if type == "machine":
+            obj, mtype = self.PyzzaOven.getExtendedMessage()
+            if mtype == "machine":
                 logger.debug("Machine : %s"%(obj))
-                job.machines.append(obj)
+                job.addMachine(m)
                 self.PyzzaOven.send(self.ok)
 
-            elif type == "program":    
+            elif mtype == "program":    
                 logger.debug("Program :%s"%(obj))
-                job.programs.append(obj)
+                job.addProgram(obj)
                 self.PyzzaOven.send(self.ok)
             
-            elif type == "system":
+            elif mtype == "system":
                 if obj.body == "save":
                     logger.debug("Save %s"%(jobID))
                     self.PyzzaOven.send(self.ok)
