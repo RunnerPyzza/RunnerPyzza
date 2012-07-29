@@ -27,6 +27,34 @@ logger = logging.getLogger('RunnerPyzza')
 ################################################################################
 # Methods
 
+def auto(options):
+    logger.info('Automatic pyzza!')
+    
+    if not init(options):
+        return
+    
+    time.sleep(1)
+    
+    if not start(options):
+        return
+    
+    time.sleep(1)
+    
+    while True:
+        if not status(options):
+            return
+
+        if options.status == 'ready':
+            break
+        
+        time.sleep(5)
+            
+    if not results(options):
+        return
+    
+    if not clean(options):
+        return
+
 def init(options):
     logger.info("Reading inputs")
     f=open(options.scriptChain)
@@ -53,42 +81,54 @@ def init(options):
                 user = options.user, password = password)
     except Exception, e:
         logger.warning('Could not order the pyzza (%s)'%e)
-        return
+        return False
     
     if not order.launchOrder():
         logger.warning('Pyzza not ordered!')
-        return
+        return False
     else:
         logger.warning('Pyzza ordered with id %s'%order.jobID)
+    
+    setattr(options, 'jobID', order.jobID)
+    
+    return True
 
 def start(options):
     logger.info('Let\'s put the pyzza in the oven!')
     ovenizer = OvenPyzza(options.host, options.port, options.jobID)
     if not ovenizer.putInTheOven():
         logger.warning('The oven is cold! Could not cook %s'%options.jobID)
-        return
-    else:
-        logger.warning('Pyzza with id %s is in the oven!'%options.jobID)
+        return False
+    
+    logger.info('Pyzza with id %s is in the oven!'%options.jobID)
+    
+    return True
 
 def status(options):
     logger.info('Let\'s check if the pyzza is ready!')
     checker = CheckPyzza(options.host, options.port, options.jobID)
     if not checker.checkTheOven():
         logger.warning('Could not find the pyzza! %s'%options.jobID)
-        return
+        return False
     else:
         if checker.isReady():
-            logger.warning('The Pyzza with id %s is ready!'%options.jobID)
+            logger.info('The Pyzza with id %s is ready!'%options.jobID)
+            setattr(options,'status','ready')
         elif checker.isCooking():
             logger.warning('The Pyzza with id %s is still in the oven!'%options.jobID)
             logger.warning('%d slices cooked!'%(int(checker.getLastSlice()[1])))
+            setattr(options,'status','running')
         elif checker.isWaiting():
             logger.warning('The oven is still cold! Waiting to cook %s'%options.jobID)
+            setattr(options,'status','waiting')
         elif checker.isBurned():
             logger.warning('The Pyzza with id %s is burned!'%options.jobID)
             logger.warning('Problematic slices:')
             for err in checker.inspectErrors():
                 logger.warning('Slice %d, Status %s, Ingredients %s, Return code %d'%(int(err[1]),err[0],err[2],int(err[3])))
+            return False
+    
+    return True
 
 def results(options):
     logger.info('Let me eat my pyzza!')
@@ -104,25 +144,29 @@ def results(options):
                      password = password)
     if not eater.eatThePyzza():
         logger.error('Could not eat the pyzza! %s'%options.jobID)
-        return
+        return False
     else:
         for pyzzaslice in eater.getSlices():
-            logger.warning('Eating slice %d'%pyzzaslice)
+            logger.info('Eating slice %d'%pyzzaslice)
             for program in eater.eatSlice(pyzzaslice):
-                logger.warning('Results for program %s'%program.name)
-                logger.warning('Machine %s'%program.getHost())
-                logger.warning('Exit status %d'%program.getExit())
+                logger.info('Results for program %s'%program.name)
+                logger.info('Machine %s'%program.getHost())
+                logger.info('Exit status %d'%program.getExit())
                 for line in program.getStdOut().splitlines():
-                    logger.warning('\033[1;32m[%s]\033[0m'%line)
+                    logger.info('\033[1;32m[%s]\033[0m'%line)
                 for line in program.getStdErr().splitlines():
-                    logger.warning('\033[1;31m[%s]\033[0m'%line)
+                    logger.info('\033[1;31m[%s]\033[0m'%line)
+    
+    return True
 
 def clean(options):
     logger.info('Let\'s clean the table and go home!')
     cleaner = CleanPyzza(options.host, options.port, options.jobID)
     if not cleaner.cleanAndPay():
         logger.error('Could not clean the table and pay the pyzza! %s'%options.jobID)
-        return
+        return False
+    
+    return True
 
 ################################################################################
 # Read options
@@ -142,6 +186,32 @@ def getOptions():
     parser.add_argument('-g', '--debug', action='store_true',
                         help='Add debug messages')
     subparsers = parser.add_subparsers()
+
+    parser_auto = subparsers.add_parser('auto', help='Eat a pyzza')
+    parser_auto.add_argument('scriptChain', action="store",
+                            help='ScriptChain file')
+    parser_auto.add_argument('-m', '--machines', action="store",
+                             default='',
+                            help='Machines file')
+    parser_auto.add_argument('-t', '--tag', action="store",
+                             default='Margherita',
+                            help='Pyzza tag')
+    parser_auto.add_argument('-l', '--local', action="store_true",
+            default=False,
+            help='Make a copy of the local input files on the main server (if NFS is not available)')
+    parser_auto.add_argument('-i', '--input-dir', action="store",
+            default='',
+            dest='indir',
+            help='Input directory to be transferred on the main server (only if -l)')
+    parser_auto.add_argument('-u', '--user', action="store",
+            default='runnerpyzza',
+            dest='user',
+            help='User for the input-directory transfer [default: runnerpyzza] (only if -l)')
+    parser_auto.add_argument('-p', '--password', action="store_true",
+            default=False,
+            dest='password',
+            help='Use a password for the input-directory transfer (only if -l)')
+    parser_auto.set_defaults(func=auto)
 
     parser_init = subparsers.add_parser('init', help='Order a pyzza')
     parser_init.add_argument('scriptChain', action="store",

@@ -47,7 +47,7 @@ class Protocol(object):
 		'''
 		Ensures no rubbish is preserved between messages
 		'''
-		self.msg = None
+		self.msg = ''
 		self.type = None
 		self.d = None
 		self.obj = None
