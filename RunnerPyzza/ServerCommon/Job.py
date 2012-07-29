@@ -135,8 +135,7 @@ class WorkerJob(threading.Thread):
         self.thread_stop = False
         self.programs = job.programs
         self.listOFqueue = []
-                
-        ###TEST CONVERSION###
+        
         #order from 0 to infinite
         order = 0
         while True:
@@ -154,9 +153,14 @@ class WorkerJob(threading.Thread):
             
         #####################
         self.job=job
-        #print job.name
         self.machines=job.machines
         self.bigMachine = 0
+        self.maxretry = 3
+        self.machinestatus = {}
+        for machine in self.machines:
+            self.machinestatus[machine.getHostname()] = 0
+        #####################
+        
         
         self.connections=[]
         self.threads = []
@@ -169,11 +173,11 @@ class WorkerJob(threading.Thread):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
             client.connect(host.getHostname(), username=host.getUser(),
-                           allow_agent=False, timeout=10)
+                           allow_agent=False, timeout=5)
         except Exception, e:
             # It didn't work, we give up?
             # We should try a little bit more
-            self.machines.remove(host)
+            self.machinestatus[host.getHostname()] += 1
             logger.warning('Could not connect to %s (%s)'%(host.getHostname(), e))
             raise RuntimeError('Could not connect to %s (%s)'%(host.getHostname(), e))
         logger.info("Job %s: %s is now connected to user %s"%(self.name, host.getHostname(),host.getUser()))
@@ -289,7 +293,12 @@ class WorkerJob(threading.Thread):
         Check how many machines we have left
         Raises an exception otherwise
         '''
-        if len(self.machines) == 0:
+        bNoMore = True
+        for machine, failures in self.machinestatus.iteritems():
+            if failures <= self.maxretry:
+                bNoMore = False
+                break
+        if bNoMore:
             logger.error('No online machines are left')
             return False
         return True
@@ -304,7 +313,11 @@ class WorkerJob(threading.Thread):
                 return False
             try:
                 conn = self._connect(machine)
-            except:continue
+            except:
+                logger.warning('Skipping CPU check on %s'%machine)
+                machine.setCpu(1)
+                self.bigMachine = 1
+                continue
             # cat /proc/cpuinfo | grep processor | wc -l
             stdin, stdout, stderr = conn.exec_command("cat /proc/cpuinfo | grep processor | wc -l")
             stdin.close()
@@ -322,6 +335,11 @@ class WorkerJob(threading.Thread):
         Get the suitable machine for this command
         If return None no machine is free at the moment
         '''
+        logger.debug('Looking for a machine able to support %d CPUs load'%(ncpu))
+        if ncpu > self.bigMachine:
+            logger.warning('The number of CPUs requested is higher than the maximum available (%d > %d)'%(ncpu, self.bigMachine))
+            ncpu = self.bigMachine
+        
         if ncpu > self.bigMachine:
             ncpu = self.bigMachine
         free_list = []
@@ -331,7 +349,9 @@ class WorkerJob(threading.Thread):
             logger.info('Asking free CPU for %s'%machine.getHostname())
             try:
                 conn = self._connect(machine)
-            except:continue
+            except:
+                logger.debug('Skipping machine %s'%machine)
+                continue
             stdin, stdout, stderr = conn.exec_command("ps -eo pcpu | sort -h -r")
             stdin.close()
             stderr.close()
@@ -343,16 +363,16 @@ class WorkerJob(threading.Thread):
                 except:
                     pass
             free_mach = (machine.getCpu() * 100.0) - mach_load
-            if free_mach < 100 and free_mach > 77:
-                free_mach = 100.0
-            free_list.append(free_mach)
+            if free_mach < 110 and free_mach > 77:
+                free_mach = 110.0
+            free_list.append((machine, free_mach))
             conn.close()
             logger.info('Machine %s has %f free CPU space'%(machine.getHostname(), free_mach))
         
-        if len(free_list) > 0:    
-            maxLoad = max(free_list)
+        if len(free_list) > 0:
+            maxLoad = max([x[1] for x in free_list])
             tmp_shuffle = []
-            for mach,mach_load in zip(self.machines, free_list):
+            for mach,mach_load in free_list:
                 if mach_load == maxLoad:
                     logger.info('Machine %s is the most free'%mach.getHostname())
                     reqLoad = (ncpu - 1) * 100
@@ -361,7 +381,9 @@ class WorkerJob(threading.Thread):
                         tmp_shuffle.append(mach)
             if tmp_shuffle:
                 shuffle(tmp_shuffle)
+                logger.debug('Choosen machine: %s'%tmp_shuffle[0])
                 return tmp_shuffle[0]
+            
         logger.warning('No free machine was found!')
         return None
 
