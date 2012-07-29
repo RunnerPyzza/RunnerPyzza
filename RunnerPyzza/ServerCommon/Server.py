@@ -361,7 +361,7 @@ class Server():
             obj, mtype = self.PyzzaOven.getExtendedMessage()
             if mtype == "machine":
                 logger.debug("Machine : %s"%(obj))
-                job.addMachine(m)
+                job.addMachine(obj)
                 self.PyzzaOven.send(self.ok)
 
             elif mtype == "program":    
