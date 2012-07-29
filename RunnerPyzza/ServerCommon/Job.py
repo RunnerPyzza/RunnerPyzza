@@ -316,7 +316,6 @@ class WorkerJob(threading.Thread):
             except:
                 logger.warning('Skipping CPU check on %s'%machine)
                 machine.setCpu(1)
-                self.bigMachine = 1
                 continue
             # cat /proc/cpuinfo | grep processor | wc -l
             stdin, stdout, stderr = conn.exec_command("cat /proc/cpuinfo | grep processor | wc -l")
