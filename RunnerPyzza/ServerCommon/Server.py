@@ -245,7 +245,7 @@ class Server():
             self.PyzzaOven.send(self.queued)
         else:
             if job.status_error:
-                logger.info("%s Exit with error"%job.name)
+                logger.info("%s Exited with error"%job.name)
                 stderr = ""
                 replace_queue = Queue.Queue()
                 while True:

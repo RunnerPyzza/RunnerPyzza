@@ -164,11 +164,12 @@ class WorkerJob(threading.Thread):
 
     def _connect(self, host):
         """Connect to the host"""
+        logger.debug('Connecting to %s'%host)
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
             client.connect(host.getHostname(), username=host.getUser(),
-                           allow_agent=False)
+                           allow_agent=False, timeout=10)
         except Exception, e:
             # It didn't work, we give up?
             # We should try a little bit more
@@ -265,7 +266,7 @@ class WorkerJob(threading.Thread):
                 prg.setExit(999)
                 self.job.programsResult.put(prg)
                 
-                self.job.status.put("FAIL||%s||"%step + command + "||999")
+                self.job.error.put("FAIL||%s||"%step + command + "||999")
                 logger.info("FAIL||%s||"%step + command + "||999")
         
         for step,queue in enumerate(self.listOFqueue):
@@ -280,7 +281,7 @@ class WorkerJob(threading.Thread):
                     program.setExit(999)
                     self.job.programsResult.put(program)
                     
-                    self.job.status.put("FAIL||%s||"%step + command + "||999")
+                    self.job.error.put("FAIL||%s||"%step + command + "||999")
                     logger.info("FAIL||%s||"%step + command + "||999")
     
     def checkMachines(self):
@@ -347,19 +348,20 @@ class WorkerJob(threading.Thread):
             free_list.append(free_mach)
             conn.close()
             logger.info('Machine %s has %f free CPU space'%(machine.getHostname(), free_mach))
-            
-        maxLoad = max(free_list)
-        tmp_shuffle = []
-        for mach,mach_load in zip(self.machines, free_list):
-            if mach_load == maxLoad:
-                logger.info('Machine %s is the most free'%mach.getHostname())
-                reqLoad = (ncpu - 1) * 100
-                logger.info('Manager asking for %s CPU space'%reqLoad)
-                if mach_load > reqLoad:
-                    tmp_shuffle.append(mach)
-        if tmp_shuffle:
-            shuffle(tmp_shuffle)
-            return tmp_shuffle[0]
+        
+        if len(free_list) > 0:    
+            maxLoad = max(free_list)
+            tmp_shuffle = []
+            for mach,mach_load in zip(self.machines, free_list):
+                if mach_load == maxLoad:
+                    logger.info('Machine %s is the most free'%mach.getHostname())
+                    reqLoad = (ncpu - 1) * 100
+                    logger.info('Manager asking for %s CPU space'%reqLoad)
+                    if mach_load > reqLoad:
+                        tmp_shuffle.append(mach)
+            if tmp_shuffle:
+                shuffle(tmp_shuffle)
+                return tmp_shuffle[0]
         logger.warning('No free machine was found!')
         return None
 
