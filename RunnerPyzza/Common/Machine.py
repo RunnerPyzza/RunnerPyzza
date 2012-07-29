@@ -28,7 +28,7 @@ class Machine(object):
     Stores the raw command and the number of CPUs it should use
     Hostname, Username and Password are passed on creation
     '''
-    def __init__(self,name,hostname,user):
+    def __init__(self,name,hostname,user='runnerpyzza'):
         self.name = name
         self._hostname = hostname
         self._user = user

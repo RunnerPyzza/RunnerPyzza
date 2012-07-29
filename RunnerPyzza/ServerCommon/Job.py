@@ -111,8 +111,8 @@ class Job():
     
     def defaultMachine(self, machines):
         """Set default machines if no there's no specific machine"""
-        if not self.machines:
-            self.machines = machines
+        for m in machines:
+            self.machines.append(m)
             
     def addProgram(self, p):
         """Append a Program specific for this job """

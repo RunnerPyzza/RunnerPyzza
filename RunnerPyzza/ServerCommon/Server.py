@@ -13,10 +13,12 @@ __credits__ = ["Marco Galardini"]
 from RunnerPyzza.Common.PyzzaTalk import PyzzaTalk
 from RunnerPyzza.Common.System import System
 from RunnerPyzza.ServerCommon.Job import Job, WorkerJob
+from RunnerPyzza.Common.Machine import Machine
 from time import sleep
 import Queue
 import logging
 import time
+import ConfigParser
 
 ################################################################################
 # Log setup
@@ -58,7 +60,7 @@ class Server():
     '''
     RunnerPyzza daemon server (RPdaemon)
     '''
-    def __init__(self,port):
+    def __init__(self,port,config='/etc/runnerpyzza/RPdaemon.conf'):
         logger.info("Start RunnerPyzza Server")
         self.host = ""
         self.port = port
@@ -66,9 +68,28 @@ class Server():
         self.PyzzaOven = PyzzaTalk(server = self.host, port=self.port)
         
         self.coutRestart = 0
-        self.maxRestart = 5 # try to restart a server after a crash for X time
-        self.restartTime = 5 #in sec
+        self.maxRestart = 5
+        self.restartTime = 5 #in secs
         
+        # Default machines
+        self.defaultMachines = []
+        cparser = ConfigParser.ConfigParser()
+        cparser.read(config)
+        if cparser.has_section('machines'):
+            dMach = {}
+            for machine in cparser.items('machines'):
+                dMach[machine[0]] = machine[1]
+            if cparser.has_section('users'):
+                dUsr = {}
+                for user in cparser.items('users'):
+                    dUsr[user[0]] = user[1]
+            for mach in dMach:
+                if mach in dUsr:
+                    user = dUsr[mach]
+                else:
+                    user = 'runnerpyzza'
+                self.defaultMachines.append(Machine(mach, dMach[mach], user))
+                logger.debug('Added default machine %s, %s, %s'%(mach, dMach[mach], user))
         
         while self.coutRestart < self.maxRestart:
             try:
@@ -301,6 +322,11 @@ class Server():
         
         job=Job(jobID)
         logger.info("Server : Initialize Job %s"%(jobID))
+        
+        # If we have default machines just ad them!
+        if len(self.defaultMachines) > 0:
+            job.defaultMachine(self.defaultMachines)
+        
         ###
         #set local
         obj, mtype = self.PyzzaOven.getExtendedMessage()
