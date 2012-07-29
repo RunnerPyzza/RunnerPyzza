@@ -73,23 +73,27 @@ class Server():
         
         # Default machines
         self.defaultMachines = []
-        cparser = ConfigParser.ConfigParser()
-        cparser.read(config)
-        if cparser.has_section('machines'):
-            dMach = {}
-            for machine in cparser.items('machines'):
-                dMach[machine[0]] = machine[1]
-            if cparser.has_section('users'):
-                dUsr = {}
-                for user in cparser.items('users'):
-                    dUsr[user[0]] = user[1]
-            for mach in dMach:
-                if mach in dUsr:
-                    user = dUsr[mach]
-                else:
-                    user = 'runnerpyzza'
-                self.defaultMachines.append(Machine(mach, dMach[mach], user))
-                logger.debug('Added default machine %s, %s, %s'%(mach, dMach[mach], user))
+        try:
+            cparser = ConfigParser.ConfigParser()
+            cparser.read(config)
+            if cparser.has_section('machines'):
+                dMach = {}
+                for machine in cparser.items('machines'):
+                    dMach[machine[0]] = machine[1]
+                if cparser.has_section('users'):
+                    dUsr = {}
+                    for user in cparser.items('users'):
+                        dUsr[user[0]] = user[1]
+                for mach in dMach:
+                    if mach in dUsr:
+                        user = dUsr[mach]
+                    else:
+                        user = 'runnerpyzza'
+                    self.defaultMachines.append(Machine(mach, dMach[mach], user))
+                    logger.debug('Added default machine %s, %s, %s'%(mach, dMach[mach], user))
+        except Exception, e:
+            logger.warning('Could not parse the %s configuration file (%s)'%(config, e))
+        logger.info('Starting with %d default machines'%len(self.defaultMachines))
         
         while self.coutRestart < self.maxRestart:
             try:
