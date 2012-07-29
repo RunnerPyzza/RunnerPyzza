@@ -78,10 +78,10 @@ class Server():
             cparser.read(config)
             if cparser.has_section('machines'):
                 dMach = {}
+                dUsr = {}
                 for machine in cparser.items('machines'):
                     dMach[machine[0]] = machine[1]
                 if cparser.has_section('users'):
-                    dUsr = {}
                     for user in cparser.items('users'):
                         dUsr[user[0]] = user[1]
                 for mach in dMach:
