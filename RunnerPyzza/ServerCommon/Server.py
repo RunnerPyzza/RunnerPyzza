@@ -208,7 +208,7 @@ class Server():
                         return
             
             job.programsResult = copyqueue
-            self.PyzzaOven.send(System("save", id))
+            self.PyzzaOven.send(System("save", jid))
             
             obj, mtype = self.PyzzaOven.getExtendedMessage()
             if mtype=="system":
