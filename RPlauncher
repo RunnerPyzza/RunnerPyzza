@@ -46,10 +46,15 @@ def init(options):
         password = ''
 
     logger.info("Open cominication with daemon...")
-    order = OrderPyzza(options.host, options.port,
-            machines = machs, programs = h.getPrograms(),
-            tag = options.tag, local = options.local, localdir = options.indir,
-            user = options.user, password = password)
+    try:
+        order = OrderPyzza(options.host, options.port,
+                machines = machs, programs = h.getPrograms(),
+                tag = options.tag, local = options.local, localdir = options.indir,
+                user = options.user, password = password)
+    except Exception, e:
+        logger.warning('Could not order the pyzza (%s)'%e)
+        return
+    
     if not order.launchOrder():
         logger.warning('Pyzza not ordered!')
         return

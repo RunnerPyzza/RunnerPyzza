@@ -162,6 +162,11 @@ class ScriptChain(GenericHandler):
         # Order the programs looking at their order attribute
         self.programs = sorted(self.programs, key=lambda p: p.getOrder())
         
+        # If first program has order > 0, raise an error
+        if len(self.programs) > 0:
+            if self.programs[0].getOrder() != 0:
+                raise ValueError('The first command should have order 0')
+        
         logger.debug('Parsed %d programs'%len(self.programs))
         
     def getPrograms(self):
