@@ -200,39 +200,39 @@ class daemonBase():
 # -- daemon control class ----------------------------------------------- #
 
 class daemonCtrl():
-	"""Control class for a daemon.
+    """Control class for a daemon.
+    
+    Usage:
+    >>>    dc = daemon_ctl(daemon_base, '/tmp/foo.pid')
+    >>>    dc.start()
+    
+    This class is the control wrapper for the above (daemon_base)
+    class. It adds start/stop/restart functionality for it withouth
+    creating a new daemon every time.
+    """
+    def __init__(self, daemon, pidfile = LOG_DIR+"RunnerPyzza.pid", workdir=LOG_DIR):
+        """Constructor.
 
-	Usage:
-	>>>	dc = daemon_ctl(daemon_base, '/tmp/foo.pid')
-	>>>	dc.start()
-
-	This class is the control wrapper for the above (daemon_base)
-	class. It adds start/stop/restart functionality for it withouth
-	creating a new daemon every time.
-	"""
-	def __init__(self, daemon, pidfile = LOG_DIR+"RunnerPyzza.pid", workdir=LOG_DIR):
-            """Constructor.
-
-            @param daemon: daemon class (not instance)
-            @param pidfile: daemon pid file
-            @param workdir: daemon working directory
-            """
-            self.daemon = daemon
-            self.pidfile = pidfile
-            self.workdir = workdir
-	
-        def check_pid(self, pid):        
-            """ Check For the existence of a unix pid. 
-            Sending signal 0 to a pid will raise an OSError exception if the pid is not running, 
-            and do nothing otherwise. """
-            try:
-                os.kill(pid, 0)
-            except OSError:
-                return False
-            else:
-                return True
+        @param daemon: daemon class (not instance)
+        @param pidfile: daemon pid file
+        @param workdir: daemon working directory
+        """
+        self.daemon = daemon
+        self.pidfile = pidfile
+        self.workdir = workdir
+    
+    def check_pid(self, pid):        
+        """ Check For the existence of a unix pid. 
+        Sending signal 0 to a pid will raise an OSError exception if the pid is not running, 
+        and do nothing otherwise. """
+        try:
+            os.kill(pid, 0)
+        except OSError:
+            return False
+        else:
+            return True
             
-	def start(self):
+    def start(self):
             """Start the daemon.
             """
             try: # check for pidfile to see if the daemon already runs
@@ -240,18 +240,18 @@ class daemonCtrl():
                     pid = int(pf.read().strip())
             except IOError: 
                 pid = None
-
+    
             if pid:
                 message = "RPdaemon is running on process %s... pidfile %s already exist."%(pid, self.pidfile)
                 logger.error(message)
                 sys.exit(1)
-
+    
             # Start the daemond = 
             self.daemon.daemonize()
-
-	def stop(self):
+    
+    def stop(self):
             """Stop the daemon.
-
+    
             This is purely based on the pidfile / process control
             and does not reference the daemon class directly.
             """
@@ -260,7 +260,7 @@ class daemonCtrl():
                     pid = int(pf.read().strip())
             except IOError: 
                 pid = None
-
+    
             if not pid:
                 message = "RPdaemon not running... pidfile %s does not exist."%(self.pidfile)
                 logger.error(message)
@@ -284,31 +284,31 @@ class daemonCtrl():
                     logger.error(str(err.args))
                     sys.exit(1)
                     
-        def status(self):
-            """Status of the daemon.
-            """
-            try: # get the pid from the pidfile
-                with open(self.pidfile,'r') as pf:
-                    pid = int(pf.read().strip())
-            except IOError: 
-                pid = None
-
-            if not pid:
-                logger.info("RPdaemon not running... pidfile %s does not exist."%(self.pidfile))
+    def status(self):
+        """Status of the daemon.
+        """
+        try: # get the pid from the pidfile
+            with open(self.pidfile,'r') as pf:
+                pid = int(pf.read().strip())
+        except IOError: 
+            pid = None
+    
+        if not pid:
+            logger.info("RPdaemon not running... pidfile %s does not exist."%(self.pidfile))
+            return
+        else :
+            if self.check_pid(pid):
+                logger.info("RPdaemon is running on process %s"%(pid))
                 return
-            else :
-                if self.check_pid(pid):
-                    logger.info("RPdaemon is running on process %s"%(pid))
-                    return
-                else:
-                    logger.info("RPdaemon not running... pid %s does not exist."%(pid))
+            else:
+                logger.info("RPdaemon not running... pid %s does not exist."%(pid))
                     
-
-	def restart(self):
-		"""Restart the daemon.
-		"""
-		self.stop()
-		self.start()
+    
+    def restart(self):
+        """Restart the daemon.
+        """
+        self.stop()
+        self.start()
 
 # -- test logic --------------------------------------------------------- #
 
@@ -316,7 +316,7 @@ if __name__ == '__main__':
     """Daemon test logic.
 
     This logic must be called as seperate executable (i.e. python3
-    daemon.py start/stop/restart).	See test_daemon.py for
+    daemon.py start/stop/restart).    See test_daemon.py for
     implementation.
     """
     
