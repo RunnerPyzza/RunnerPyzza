@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Simple Runeerpyzza init.d script conceived to work on Linux systems
+
+### BEGIN INIT INFO
+# Provides:          RPdaemon
+# Required-Start:    networking
+# Required-Stop:     networking
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: RunnerPyzza daemon
+# Description:       The RunnerPyzza daemon receives the instructions from various
+#                    clients and dispatches the commands in the various configured machines.
+### END INIT INFO
+
+die () {
+        echo "ERROR: $1. Aborting!"
+        exit 1
+}
+
+if [ $UID -ne 0 ]; then
+   die "Must be run as root"
+fi
+
+EXEC=/usr/local/bin/RPdaemon
+
+su - runnerpyzza -c '$EXEC $1' && echo "Runnerpyzza: Ok!" || die "could not touch runnerpyzza"

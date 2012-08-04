@@ -1,0 +1,19 @@
+#!/bin/bash
+
+die () {
+	echo "ERROR: $1. Aborting!"
+	exit 1
+}
+
+if [ $UID -ne 0 ]; then
+   die "$0 must be run as root"
+fi
+
+id runnerpyzza &> /dev/null || die "user runnerpyzza must be present"
+
+cp runnerpyzza /etc/init.d/ || die "could not copy the runnerpyzza init file"
+update-rc.d runnerpyzza defaults || die "could not install the runnerpyzza service"
+/etc/init.d/runnerpyzza start || die "could not start the runnerpyzza service"
+
+echo "runnerpyzza service installed and started"
+
