@@ -59,11 +59,16 @@ def init(options):
     logger.info("Reading inputs")
     f=open(options.scriptChain)
     h = ScriptChain(''.join(f.readlines()))
+    
+    # No machines can be added if we have an scp job
+    if options.machines != '' and options.local:
+        logger.warning('No machines should be provided for a local job')
+    
     if options.machines != '':
         logger.info("Reading machines XML...")
         m = MachinesSetup(options.machines)
         machs = m.getMachines()
-    else:
+    elif not options.local:
         logger.info("No machines provided...")
         machs = []
 
