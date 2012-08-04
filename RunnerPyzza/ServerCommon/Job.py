@@ -77,6 +77,7 @@ class Job():
             os.mkdir(jobDir)
         except OSError, e:
             logger.debug('Got error %s on directory creation'%e)
+            raise e
         # Move the Archive there
         tarName = os.path.join('/home/runnerpyzza',
                                '%s.tar.gz'%self.name)
@@ -86,6 +87,7 @@ class Job():
             os.remove(tarName)
         except Exception, e:
             logger.warning('Could not handle the inputs (%s)'%e)
+            raise e
         
     def compressResults(self):
         '''
