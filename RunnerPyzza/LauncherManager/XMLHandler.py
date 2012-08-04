@@ -98,9 +98,14 @@ class ScriptChain(GenericHandler):
             alias = ''
         else:
             alias = option.getAlias()
+        if not option.getValue():
+            value = ''
+        else:
+            value = option.getValue()
+        
         return ' '+sep.join([
                            alias,
-                           delimit+option.getValue()+delimit    
+                           delimit+value+delimit    
                            ])
         
     def _assembleCpu(self,cpu):
