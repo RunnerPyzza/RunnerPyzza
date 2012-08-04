@@ -10,13 +10,13 @@ setup(
     version = __version__,
     author = 'Marco Galardina - Emilio Potenza',
     author_email = 'marco.galardini@gmail.com - emilio.potenza@gmail.com',
-    packages = ['findtools', "findtools.test"],
-    scripts = ['bin/findASpsb','bin/findCLEAN', "bin/statBAM", "bin/statASpsb"],  
-    #url = 'http://pypi.python.org/pypi/findTools/', 
+    packages = ['RunnerPyzza','RunnerPyzza.ClientCommon', 'RunnerPyzza.Common', 'RunnerPyzza.LauncherManager', 'RunnerPyzza.ServerCommon'], 
+    scripts = ['RPdaemon','RPlauncher'],  
+    #url = 'http://RunnerPyzza', 
     license = 'LICENSE.txt',
-    description = 'Useful ngs-related stuff',
+    description = 'Baciammo le mane',
     long_description = open('README.txt').read(),
-    install_requires = ["pysam >= 0.6", "psutil >= 0.4.1"]
+    install_requires = ["paramiko >= 1.7.7.2", "argparse >= 1.1"]
 )
 
 
