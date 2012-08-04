@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Recipe configuration file example -->
+
+<scriptChain xmlns="RunnerPyzza"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="RunnerPyzza Launcher.xsd">
+  
+  <!-- Program section for each step of the recipe  -->
+  <!-- The easiest example -->
+  <program>
+    <!-- The main section contains the basic informations -->
+    <main>
+      <!-- Any name you want -->
+      <name>What day is today?</name>
+      <!-- Here the entire command can be used -->
+      <!-- Otherwise just the name of the executable -->
+      <baseCommand>date</baseCommand>
+      <!-- The first program MUST start from 0 -->
+      <!-- Programs with the same order will be executed at the same time -->
+      <order>0</order>
+    </main>
+  </program>
+  
+  <!-- A more complex exmple -->
+  <program>
+    <main>
+      <name>Do i have program X installed?</name>
+      <baseCommand>which</baseCommand>
+      <order>1</order>
+    </main>
+    
+    <!-- The option(s) section -->
+    <option>
+      <!-- For commands like "-a" -->
+      <alias>-a</alias>
+      <!-- This option has no value so we can leave this blank -->
+      <value></value>
+      <!-- The char(s) used to separate the option alias to the value -->
+      <!-- Nothing in this case, we have no value -->
+      <separator></separator>
+      <!-- The char(s) used before and after the option's value -->
+      <!-- Nothing in this case, we have no value -->
+      <delimiter></delimiter>
+    </option>
+    
+    <option>
+      <alias></alias>
+      <value>bash</value>
+      <!-- The char(s) used to separate the option alias to the value -->
+      <!-- Nothing in this case, we have no alias -->
+      <separator></separator>
+      <!-- The char(s) used before and after the option's value -->
+      <!-- Nothing in this case -->
+      <delimiter></delimiter>
+    </option>
+    
+    <!-- CPU section, to inform the number of CPUs that have to be used -->
+    <!-- It can also be used to put the cpu option in the command (see below) -->
+    <!-- It can also be used for MPI like program (see below) -->
+    <cpu>
+      <numCPU>1</numCPU>
+    </cpu>
+  </program>
+  
+  <!-- A program that can fail without interruption of the whole recipe -->
+  <program>
+    <main>
+      <name>Is Google DNS online?</name>
+      <baseCommand>ping</baseCommand>
+      <!-- We have the same order as the previous program -->
+      <order>1</order>
+      <!-- This program can fail without interrupting the following programs -->
+      <canFail>true</canFail>
+    </main>
+    
+    <!-- Perform only 5 pings -->
+    <option>
+      <alias>-c</alias>
+      <value>5</value>
+      <!-- The separator here is a space -->
+      <separator> </separator>
+      <delimiter></delimiter>
+    </option>
+    
+    <option>
+      <alias></alias>
+      <value>8.8.8.8</value>
+      <separator></separator>
+      <delimiter></delimiter>
+    </option>
+  </program>
+  
+  <!-- An example of a command that handles multiple CPUs-->
+  <program>
+    <main>
+      <name>nCPU-test</name>
+      <!-- Here put your favorite mpi program -->
+      <baseCommand>MyPROGRAM</baseCommand>
+      <order>2</order>
+      <canFail>true</canFail>
+    </main>
+    
+    <!-- CPU section -->
+    <cpu>
+      <numCPU>2</numCPU>
+      <!-- Since the command would be like MyPROGRAM -c 2, it is inside -->
+      <kind>inside</kind>
+      <cmdCPU>-c</cmdCPU>
+      <!-- Almost the same syntax as the option section -->
+      <separator> </separator>
+      <delimiter></delimiter>
+    </cpu>
+  </program>
+  
+  <!-- An example of a mpi-like command-->
+  <program>
+    <main>
+      <name>MPI-test</name>
+      <!-- Here put your favorite mpi program -->
+      <baseCommand>MPIPROGRAM</baseCommand>
+      <order>2</order>
+      <canFail>true</canFail>
+    </main>
+    
+    <!-- CPU section -->
+    <cpu>
+      <numCPU>2</numCPU>
+      <!-- Since the command would be like mpirun -c 2 MPIPROGRAM, it is a prefix -->
+      <kind>prefix</kind>
+      <cmdCPU>mpirun -c</cmdCPU>
+      <!-- Almost the same syntax as the option section -->
+      <separator> </separator>
+      <delimiter></delimiter>
+    </cpu>
+  </program>
+
+</scriptChain>
