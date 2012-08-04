@@ -340,17 +340,24 @@ class Server():
                     obj, mtype = self.PyzzaOven.getExtendedMessage()
                     if mtype == "system":
                         if obj.body == "copydone":
-                            self.PyzzaOven.send(self.ok)
-                            
-                            job.extractInputs()
+                            try:
+                                job.extractInputs()
+                                self.PyzzaOven.send(self.ok)
+                            except:
+                                logger.error('Could not unpack the inputs (%s)'%jobID)
+                                self.PyzzaOven.send(self.fail)
+                                return
                         else:
                             self.PyzzaOven.send(self.fail)
+                            return
                     else:
                         self.PyzzaOven.send(self.fail)
+                        return
                 else:
                     pass 
             else:
                 self.PyzzaOven.send(self.fail)
+                return
         else:
             self.PyzzaOven.send(self.fail)
             return
@@ -391,6 +398,7 @@ class Server():
             else:
                 logger.debug("FAIL client data = %s"%(obj))
                 self.PyzzaOven.send(self.fail)
+                return
         #
         ###
         ####
