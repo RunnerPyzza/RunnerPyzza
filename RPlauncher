@@ -93,7 +93,7 @@ def init(options):
         logger.warning('Pyzza not ordered!')
         return False
     else:
-        logger.warning('Pyzza ordered with id %s'%order.jobID)
+        logger.info('Pyzza ordered with id %s'%order.jobID)
     
     setattr(options, 'jobID', order.jobID)
     
@@ -128,10 +128,10 @@ def status(options):
             logger.warning('The oven is still cold! Waiting to cook %s'%options.jobID)
             setattr(options,'status','waiting')
         elif checker.isBurned():
-            logger.warning('The Pyzza with id %s is burned!'%options.jobID)
-            logger.warning('Problematic slices:')
+            logger.error('The Pyzza with id %s is burned!'%options.jobID)
+            logger.error('Problematic slices:')
             for err in checker.inspectErrors():
-                logger.warning('Slice %d, Status %s, Ingredients %s, Return code %d'%(int(err[1]),err[0],err[2],int(err[3])))
+                logger.error('Slice %d, Status %s, Ingredients %s, Return code %d'%(int(err[1]),err[0],err[2],int(err[3])))
             return False
     
     return True
