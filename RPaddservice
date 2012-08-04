@@ -11,7 +11,7 @@ fi
 
 id runnerpyzza &> /dev/null || die "user runnerpyzza must be present"
 
-cp runnerpyzza /etc/init.d/ || die "could not copy the runnerpyzza init file"
+cp /etc/runnerpyzza/runnerpyzza /etc/init.d/ || die "could not copy the runnerpyzza init file"
 update-rc.d runnerpyzza defaults || die "could not install the runnerpyzza service"
 /etc/init.d/runnerpyzza start || die "could not start the runnerpyzza service"
 
