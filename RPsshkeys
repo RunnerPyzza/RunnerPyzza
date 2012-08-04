@@ -1,4 +1,10 @@
 #!/bin/bash
+
+die () {
+        echo "ERROR: $1. Aborting!"
+        exit 1
+}
+
 if [ "$#" -lt 2 ]; then
     echo './RPsshkeys USERNAME HOSTNAME'
     exit 65
@@ -10,5 +16,5 @@ if [ -f ~/.ssh/id_rsa ]; then
 else
     ssh-keygen -t rsa
 fi
-ssh-add
-ssh-copy-id $USER@$HOST
+ssh-add || die "could not add the keys"
+ssh-copy-id $USER@$HOST || "could not copy the keys to $HOST"
