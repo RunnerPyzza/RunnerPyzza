@@ -1,0 +1,1544 @@
+2012-08-04 23:47:21 - [INFO] - Automatic pyzza!
+2012-08-04 23:47:21 - [INFO] - Reading inputs
+2012-08-04 23:47:21 - [INFO] - Reading machines XML...
+2012-08-04 23:47:21 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-04 23:47:21 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-04 23:47:21 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-04 23:47:21 - [INFO] - Open cominication with daemon...
+2012-08-04 23:47:21 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-04 23:47:21 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:47:22 - [INFO] - Pyzza ordered with id Margherita_20120804_144731
+2012-08-04 23:47:23 - [INFO] - Let's put the pyzza in the oven!
+2012-08-04 23:47:25 - [INFO] - Pyzza with id Margherita_20120804_144731 is in the oven!
+2012-08-04 23:47:26 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:47:27 - [ERROR] - The Pyzza with id Margherita_20120804_144731 is burned!
+2012-08-04 23:47:27 - [ERROR] - Problematic slices:
+2012-08-04 23:47:27 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita -q 25 -l 30 ./RunnerPyzza/test/basicNGS/mRNAfor.fastq,./RunnerPyzza/test/basicNGS/mRNArev.fastq, Return code -1
+2012-08-04 23:49:35 - [INFO] - Automatic pyzza!
+2012-08-04 23:49:35 - [INFO] - Reading inputs
+2012-08-04 23:49:35 - [INFO] - Reading machines XML...
+2012-08-04 23:49:35 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-04 23:49:35 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-04 23:49:35 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-04 23:49:35 - [INFO] - Open cominication with daemon...
+2012-08-04 23:49:35 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-04 23:49:35 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:49:36 - [INFO] - Pyzza ordered with id Margherita_20120804_144944
+2012-08-04 23:49:37 - [INFO] - Let's put the pyzza in the oven!
+2012-08-04 23:49:39 - [INFO] - Pyzza with id Margherita_20120804_144944 is in the oven!
+2012-08-04 23:49:40 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:49:41 - [ERROR] - The Pyzza with id Margherita_20120804_144944 is burned!
+2012-08-04 23:49:41 - [ERROR] - Problematic slices:
+2012-08-04 23:49:41 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita -q 25 -l 30 ./RunnerPyzza/test/basicNGS/mRNAfor.fastq,./RunnerPyzza/test/basicNGS/mRNArev.fastq, Return code -1
+2012-08-04 23:51:47 - [INFO] - Automatic pyzza!
+2012-08-04 23:51:47 - [INFO] - Reading inputs
+2012-08-04 23:51:47 - [INFO] - Reading machines XML...
+2012-08-04 23:51:47 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-04 23:51:47 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-04 23:51:47 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-04 23:51:47 - [INFO] - Open cominication with daemon...
+2012-08-04 23:51:47 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-04 23:51:47 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:51:48 - [INFO] - Pyzza ordered with id Margherita_20120804_145156
+2012-08-04 23:51:49 - [INFO] - Let's put the pyzza in the oven!
+2012-08-04 23:51:51 - [INFO] - Pyzza with id Margherita_20120804_145156 is in the oven!
+2012-08-04 23:51:52 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:51:53 - [WARNING] - The Pyzza with id Margherita_20120804_145156 is still in the oven!
+2012-08-04 23:51:53 - [WARNING] - 0 slices cooked!
+2012-08-04 23:51:58 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:52:00 - [WARNING] - The Pyzza with id Margherita_20120804_145156 is still in the oven!
+2012-08-04 23:52:00 - [WARNING] - 0 slices cooked!
+2012-08-04 23:52:05 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:52:06 - [WARNING] - The Pyzza with id Margherita_20120804_145156 is still in the oven!
+2012-08-04 23:52:06 - [WARNING] - 0 slices cooked!
+2012-08-04 23:52:11 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:52:13 - [WARNING] - The Pyzza with id Margherita_20120804_145156 is still in the oven!
+2012-08-04 23:52:13 - [WARNING] - 0 slices cooked!
+2012-08-04 23:52:18 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:52:19 - [WARNING] - The Pyzza with id Margherita_20120804_145156 is still in the oven!
+2012-08-04 23:52:19 - [WARNING] - 0 slices cooked!
+2012-08-04 23:52:24 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:52:26 - [WARNING] - The Pyzza with id Margherita_20120804_145156 is still in the oven!
+2012-08-04 23:52:26 - [WARNING] - 0 slices cooked!
+2012-08-04 23:52:31 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:52:33 - [INFO] - The Pyzza with id Margherita_20120804_145156 is ready!
+2012-08-04 23:52:33 - [INFO] - Let me eat my pyzza!
+2012-08-04 23:52:34 - [INFO] - Eating slice 0
+2012-08-04 23:52:34 - [INFO] - Results for program Clean your Reads
+2012-08-04 23:52:34 - [INFO] - Machine 192.168.3.105
+2012-08-04 23:52:34 - [INFO] - Exit status 0
+2012-08-04 23:52:34 - [INFO] - [1;31m[14:52:01 - findtools - [INFO] - Start findTRIM ./RunnerPyzza/test/basicNGS/mRNAfor.fastq-./RunnerPyzza/test/basicNGS/mRNArev.fastq][0m
+2012-08-04 23:52:34 - [INFO] - [1;31m[14:52:01 - findtools - [INFO] - cmd: /usr/local/bin/findTRIM -j margerita -q 25 -l 30 ./RunnerPyzza/test/basicNGS/mRNAfor.fastq,./RunnerPyzza/test/basicNGS/mRNArev.fastq][0m
+2012-08-04 23:52:34 - [INFO] - [1;31m[14:52:01 - findtools - [INFO] - Total in read (pair)= 12500][0m
+2012-08-04 23:52:34 - [INFO] - [1;31m[14:52:01 - findtools - [INFO] - Total in bp = 2080388][0m
+2012-08-04 23:52:34 - [INFO] - [1;31m[14:52:01 - findtools - [INFO] - Trim in bp = 1040194][0m
+2012-08-04 23:52:34 - [INFO] - [1;31m[14:52:01 - findtools - [INFO] - Trash reads= 12500][0m
+2012-08-04 23:52:34 - [INFO] - [1;31m[14:52:01 - findtools - [INFO] - Done findTRIM ./RunnerPyzza/test/basicNGS/mRNAfor.fastq-./RunnerPyzza/test/basicNGS/mRNArev.fastq][0m
+2012-08-04 23:52:34 - [INFO] - Results for program Build your Genome
+2012-08-04 23:52:34 - [INFO] - Machine 192.168.3.105
+2012-08-04 23:52:34 - [INFO] - Exit status 0
+2012-08-04 23:52:34 - [INFO] - [1;32m[Settings:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Output files: "chr1.*.ebwt"][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Line rate: 6 (line is 64 bytes)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Lines per side: 1 (side is 64 bytes)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Offset rate: 5 (one in 32)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  FTable chars: 10][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Strings: unpacked][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Max bucket size: default][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Max bucket size, sqrt multiplier: default][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Max bucket size, len divisor: 4][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Difference-cover sample period: 1024][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Endianness: little][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Actual local endianness: little][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sanity checking: disabled][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Assertions: disabled][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Random seed: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sizeofs: void*:4, int:4, long:4, size_t:4][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Input files DNA, FASTA:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  ./RunnerPyzza/test/basicNGS/chr1.fa][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Reading reference sizes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Time reading reference sizes: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Calculating joined length][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Writing header][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Reserving space for joined string][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Joining reference sequences][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Time to join reference sequences: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[bmax according to bmaxDivN setting: 5645811][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Using parameters --bmax 4234359 --dcv 1024][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Doing ahead-of-time memory usage test][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Passed!  Constructing with these parameters: --bmax 4234359 --dcv 1024][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Constructing suffix-array element generator][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Building DifferenceCoverSample][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Building sPrime][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Building sPrimeOrder][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  V-Sorting samples][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  V-Sorting samples time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Allocating rank array][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Ranking v-sort output][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Ranking v-sort output time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sanity-checking and returning][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Building samples][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Reserving space for 12 sample suffixes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Generating random suffixes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[QSorting 12 sample offsets, eliminating duplicates][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[QSorting sample offsets, eliminating duplicates time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Multikey QSorting 12 samples][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Multikey QSorting samples time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Calculating bucket sizes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Binary sorting into buckets][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Binary sorting into buckets time: 00:00:02][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Splitting and merging][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Splitting and merging time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Split 1, merged 6; iterating...][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Binary sorting into buckets][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Binary sorting into buckets time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Splitting and merging][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Splitting and merging time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Avg bucket size: 3.22618e+06 (target: 4234358)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Converting suffix-array elements to index image][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Allocating ftab, absorbFtab][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Entering Ebwt loop][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 1 of 7][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 3525562][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 3525563][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 2 of 7][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 2933204][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 2933205][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 3 of 7][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 4221643][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 4221644][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 4 of 7][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 3750874][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 3750875][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 5 of 7][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 3395162][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 3395163][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 6 of 7][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 2325917][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 2325918][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 7 of 7][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 2430878][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 2430879][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Exited Ebwt loop][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[A]: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[C]: 7407748][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[G]: 11289828][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[T]: 15187953][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[$]: 22583246][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Exiting Ebwt::buildToDisk()][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning from initFromVector][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Wrote 10651906 bytes to primary EBWT file: chr1.1.ebwt][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Wrote 2822912 bytes to secondary EBWT file: chr1.2.ebwt][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Re-opening _in1 and _in2 as input streams][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning from Ebwt constructor][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Headers:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    len: 22583246][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    bwtLen: 22583247][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sz: 5645812][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    bwtSz: 5645812][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    lineRate: 6][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    linesPerSide: 1][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offRate: 5][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offMask: 0xffffffe0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaRate: -1][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaMask: 0xffffffff][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ftabChars: 10][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    eftabLen: 20][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    eftabSz: 80][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ftabLen: 1048577][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ftabSz: 4194308][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offsLen: 705727][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offsSz: 2822908][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaLen: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaSz: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    lineSz: 64][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sideSz: 64][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sideBwtSz: 56][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sideBwtLen: 224][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    numSidePairs: 50410][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    numSides: 100820][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    numLines: 100820][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ebwtTotLen: 6452480][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ebwtTotSz: 6452480][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    reverse: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Total time for call to driver() for forward index: 00:00:18][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Reading reference sizes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Time reading reference sizes: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Calculating joined length][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Writing header][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Reserving space for joined string][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Joining reference sequences][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Time to join reference sequences: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[bmax according to bmaxDivN setting: 5645811][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Using parameters --bmax 4234359 --dcv 1024][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Doing ahead-of-time memory usage test][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Passed!  Constructing with these parameters: --bmax 4234359 --dcv 1024][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Constructing suffix-array element generator][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Building DifferenceCoverSample][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Building sPrime][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Building sPrimeOrder][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  V-Sorting samples][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  V-Sorting samples time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Allocating rank array][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Ranking v-sort output][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Ranking v-sort output time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sanity-checking and returning][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Building samples][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Reserving space for 12 sample suffixes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Generating random suffixes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[QSorting 12 sample offsets, eliminating duplicates][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[QSorting sample offsets, eliminating duplicates time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Multikey QSorting 12 samples][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Multikey QSorting samples time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Calculating bucket sizes][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Binary sorting into buckets][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Binary sorting into buckets time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Splitting and merging][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Splitting and merging time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Avg bucket size: 2.8229e+06 (target: 4234358)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Converting suffix-array elements to index image][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Allocating ftab, absorbFtab][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Entering Ebwt loop][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 1 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 2262462][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 2262463][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 2 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 2950089][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 2950090][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 3 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 1613931][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 1613932][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 4 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 3715185][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 3715186][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 5 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 4204839][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 4204840][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 6 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 1666138][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 1666139][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 7 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 2715685][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 2715686][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Getting block 8 of 8][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  10%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  20%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  30%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  40%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  50%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  60%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  70%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  80%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  90%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  100%][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block of length 3454910][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning block of 3454911][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Exited Ebwt loop][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[A]: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[C]: 7407748][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[G]: 11289828][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[T]: 15187953][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[fchr[$]: 22583246][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Exiting Ebwt::buildToDisk()][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning from initFromVector][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Wrote 10651906 bytes to primary EBWT file: chr1.rev.1.ebwt][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Wrote 2822912 bytes to secondary EBWT file: chr1.rev.2.ebwt][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Re-opening _in1 and _in2 as input streams][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Returning from Ebwt constructor][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Headers:][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    len: 22583246][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    bwtLen: 22583247][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sz: 5645812][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    bwtSz: 5645812][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    lineRate: 6][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    linesPerSide: 1][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offRate: 5][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offMask: 0xffffffe0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaRate: -1][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaMask: 0xffffffff][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ftabChars: 10][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    eftabLen: 20][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    eftabSz: 80][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ftabLen: 1048577][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ftabSz: 4194308][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offsLen: 705727][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    offsSz: 2822908][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaLen: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    isaSz: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    lineSz: 64][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sideSz: 64][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sideBwtSz: 56][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    sideBwtLen: 224][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    numSidePairs: 50410][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    numSides: 100820][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    numLines: 100820][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ebwtTotLen: 6452480][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    ebwtTotSz: 6452480][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[    reverse: 0][0m
+2012-08-04 23:52:34 - [INFO] - [1;32m[Total time for backward call to driver() for mirror index: 00:00:17][0m
+2012-08-04 23:52:34 - [INFO] - Let's clean the table and go home!
+2012-08-04 23:53:20 - [INFO] - Automatic pyzza!
+2012-08-04 23:53:20 - [INFO] - Reading inputs
+2012-08-04 23:53:20 - [INFO] - Reading machines XML...
+2012-08-04 23:53:20 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-04 23:53:20 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-04 23:53:20 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-04 23:53:20 - [INFO] - Open cominication with daemon...
+2012-08-04 23:53:20 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-04 23:53:20 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:53:20 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:53:22 - [INFO] - Pyzza ordered with id Margherita_20120804_145330
+2012-08-04 23:53:23 - [INFO] - Let's put the pyzza in the oven!
+2012-08-04 23:53:24 - [INFO] - Pyzza with id Margherita_20120804_145330 is in the oven!
+2012-08-04 23:53:25 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:53:27 - [ERROR] - The Pyzza with id Margherita_20120804_145330 is burned!
+2012-08-04 23:53:27 - [ERROR] - Problematic slices:
+2012-08-04 23:53:27 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita -q 25 -l 30 ./RunnerPyzza/test/basicNGS/mRNAfor.fastq,./RunnerPyzza/test/basicNGS/mRNArev.fastq, Return code -1
+2012-08-04 23:53:58 - [INFO] - Automatic pyzza!
+2012-08-04 23:53:58 - [INFO] - Reading inputs
+2012-08-04 23:53:58 - [INFO] - Reading machines XML...
+2012-08-04 23:53:58 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-04 23:53:58 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-04 23:53:58 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-04 23:53:58 - [INFO] - Open cominication with daemon...
+2012-08-04 23:53:58 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-04 23:53:58 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:53:58 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:53:59 - [INFO] - Pyzza ordered with id Margherita_20120804_145408
+2012-08-04 23:54:00 - [INFO] - Let's put the pyzza in the oven!
+2012-08-04 23:54:02 - [INFO] - Pyzza with id Margherita_20120804_145408 is in the oven!
+2012-08-04 23:54:03 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:54:05 - [WARNING] - The Pyzza with id Margherita_20120804_145408 is still in the oven!
+2012-08-04 23:54:05 - [WARNING] - 0 slices cooked!
+2012-08-04 23:54:10 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:54:11 - [WARNING] - The Pyzza with id Margherita_20120804_145408 is still in the oven!
+2012-08-04 23:54:11 - [WARNING] - 0 slices cooked!
+2012-08-04 23:54:16 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:54:18 - [WARNING] - The Pyzza with id Margherita_20120804_145408 is still in the oven!
+2012-08-04 23:54:18 - [WARNING] - 0 slices cooked!
+2012-08-04 23:54:23 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:54:25 - [WARNING] - The Pyzza with id Margherita_20120804_145408 is still in the oven!
+2012-08-04 23:54:25 - [WARNING] - 0 slices cooked!
+2012-08-04 23:54:30 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:54:31 - [WARNING] - The Pyzza with id Margherita_20120804_145408 is still in the oven!
+2012-08-04 23:54:31 - [WARNING] - 0 slices cooked!
+2012-08-04 23:54:36 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:54:38 - [WARNING] - The Pyzza with id Margherita_20120804_145408 is still in the oven!
+2012-08-04 23:54:38 - [WARNING] - 0 slices cooked!
+2012-08-04 23:54:43 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:54:44 - [ERROR] - The Pyzza with id Margherita_20120804_145408 is burned!
+2012-08-04 23:54:44 - [ERROR] - Problematic slices:
+2012-08-04 23:54:44 - [ERROR] - Slice 1, Status FAIL, Ingredients tophat -r 0 chr1 margerita_1.fastq margerita_2.fastq, Return code -1
+2012-08-04 23:56:37 - [INFO] - Automatic pyzza!
+2012-08-04 23:56:37 - [INFO] - Reading inputs
+2012-08-04 23:56:37 - [INFO] - Reading machines XML...
+2012-08-04 23:56:37 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-04 23:56:37 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-04 23:56:37 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-04 23:56:37 - [INFO] - Open cominication with daemon...
+2012-08-04 23:56:37 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-04 23:56:37 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:56:37 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-04 23:56:38 - [INFO] - Pyzza ordered with id Margherita_20120804_145646
+2012-08-04 23:56:39 - [INFO] - Let's put the pyzza in the oven!
+2012-08-04 23:56:41 - [INFO] - Pyzza with id Margherita_20120804_145646 is in the oven!
+2012-08-04 23:56:42 - [INFO] - Let's check if the pyzza is ready!
+2012-08-04 23:56:43 - [ERROR] - The Pyzza with id Margherita_20120804_145646 is burned!
+2012-08-04 23:56:43 - [ERROR] - Problematic slices:
+2012-08-04 23:56:43 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita -q 5 -l 10 ./RunnerPyzza/test/basicNGS/mRNAfor.fastq,./RunnerPyzza/test/basicNGS/mRNArev.fastq, Return code -1
+2012-08-05 00:01:42 - [INFO] - Automatic pyzza!
+2012-08-05 00:01:42 - [INFO] - Reading inputs
+2012-08-05 00:01:42 - [INFO] - Reading machines XML...
+2012-08-05 00:01:42 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-05 00:01:42 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-05 00:01:42 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:01:42 - [INFO] - Open cominication with daemon...
+2012-08-05 00:01:42 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:01:42 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:01:42 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:01:44 - [INFO] - Pyzza ordered with id Margherita_20120804_150152
+2012-08-05 00:01:45 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:01:46 - [INFO] - Pyzza with id Margherita_20120804_150152 is in the oven!
+2012-08-05 00:01:47 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:01:49 - [ERROR] - The Pyzza with id Margherita_20120804_150152 is burned!
+2012-08-05 00:01:49 - [ERROR] - Problematic slices:
+2012-08-05 00:01:49 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita -q 5 -l 10 ./RunnerPyzza/test/basicNGS/mRNAfor.fastq,./RunnerPyzza/test/basicNGS/mRNArev.fastq, Return code -1
+2012-08-05 00:09:27 - [INFO] - Automatic pyzza!
+2012-08-05 00:09:27 - [INFO] - Reading inputs
+2012-08-05 00:09:27 - [INFO] - Reading machines XML...
+2012-08-05 00:09:27 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-05 00:09:27 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-05 00:09:27 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:09:27 - [INFO] - Open cominication with daemon...
+2012-08-05 00:09:27 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:09:27 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:09:27 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:09:29 - [INFO] - Pyzza ordered with id Margherita_20120804_150937
+2012-08-05 00:09:30 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:09:31 - [INFO] - Pyzza with id Margherita_20120804_150937 is in the oven!
+2012-08-05 00:09:32 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:09:34 - [ERROR] - The Pyzza with id Margherita_20120804_150937 is burned!
+2012-08-05 00:09:34 - [ERROR] - Problematic slices:
+2012-08-05 00:09:34 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita -q 5 -l 10 ./RunnerPyzza/test/basicNGS/mRNAfor.fastq, Return code -1
+2012-08-05 00:11:00 - [INFO] - Automatic pyzza!
+2012-08-05 00:11:00 - [INFO] - Reading inputs
+2012-08-05 00:11:00 - [INFO] - Reading machines XML...
+2012-08-05 00:11:00 - [INFO] - Added "Server 1", with hostname 192.168.3.104 and user runnerpyzza
+2012-08-05 00:11:00 - [INFO] - Added "Server 2", with hostname 192.168.3.105 and user runnerpyzza
+2012-08-05 00:11:00 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:11:00 - [INFO] - Open cominication with daemon...
+2012-08-05 00:11:00 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:11:00 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:11:00 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:11:01 - [INFO] - Pyzza ordered with id Margherita_20120804_151110
+2012-08-05 00:11:02 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:11:04 - [INFO] - Pyzza with id Margherita_20120804_151110 is in the oven!
+2012-08-05 00:11:05 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:11:07 - [ERROR] - The Pyzza with id Margherita_20120804_151110 is burned!
+2012-08-05 00:11:07 - [ERROR] - Problematic slices:
+2012-08-05 00:11:07 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita -q 5 -l 10 RunnerPyzza/test/basicNGS/mRNAfor.fastq, Return code -1
+2012-08-05 00:12:37 - [INFO] - Automatic pyzza!
+2012-08-05 00:12:37 - [INFO] - Reading inputs
+2012-08-05 00:12:37 - [INFO] - Reading machines XML...
+2012-08-05 00:12:37 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:12:37 - [INFO] - Open cominication with daemon...
+2012-08-05 00:12:37 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:12:37 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:12:37 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:12:38 - [INFO] - Pyzza ordered with id Margherita_20120804_151246
+2012-08-05 00:12:39 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:12:41 - [INFO] - Pyzza with id Margherita_20120804_151246 is in the oven!
+2012-08-05 00:12:42 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:12:43 - [WARNING] - The Pyzza with id Margherita_20120804_151246 is still in the oven!
+2012-08-05 00:12:43 - [WARNING] - 0 slices cooked!
+2012-08-05 00:12:48 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:12:50 - [WARNING] - The Pyzza with id Margherita_20120804_151246 is still in the oven!
+2012-08-05 00:12:50 - [WARNING] - 0 slices cooked!
+2012-08-05 00:12:55 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:12:56 - [WARNING] - The Pyzza with id Margherita_20120804_151246 is still in the oven!
+2012-08-05 00:12:56 - [WARNING] - 0 slices cooked!
+2012-08-05 00:13:01 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:13:03 - [WARNING] - The Pyzza with id Margherita_20120804_151246 is still in the oven!
+2012-08-05 00:13:03 - [WARNING] - 0 slices cooked!
+2012-08-05 00:13:08 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:13:10 - [WARNING] - The Pyzza with id Margherita_20120804_151246 is still in the oven!
+2012-08-05 00:13:10 - [WARNING] - 0 slices cooked!
+2012-08-05 00:13:15 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:13:16 - [WARNING] - The Pyzza with id Margherita_20120804_151246 is still in the oven!
+2012-08-05 00:13:16 - [WARNING] - 0 slices cooked!
+2012-08-05 00:13:21 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:13:23 - [ERROR] - The Pyzza with id Margherita_20120804_151246 is burned!
+2012-08-05 00:13:23 - [ERROR] - Problematic slices:
+2012-08-05 00:13:23 - [ERROR] - Slice 1, Status FAIL, Ingredients tophat -r 0 chr1 margerita_1.fastq, Return code -1
+2012-08-05 00:32:23 - [INFO] - Automatic pyzza!
+2012-08-05 00:32:23 - [INFO] - Reading inputs
+2012-08-05 00:32:23 - [INFO] - Reading machines XML...
+2012-08-05 00:32:23 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:32:23 - [INFO] - Open cominication with daemon...
+2012-08-05 00:32:23 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:32:23 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:32:23 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:32:25 - [INFO] - Pyzza ordered with id Margherita_20120804_153233
+2012-08-05 00:32:26 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:32:28 - [INFO] - Pyzza with id Margherita_20120804_153233 is in the oven!
+2012-08-05 00:32:29 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:32:30 - [ERROR] - The Pyzza with id Margherita_20120804_153233 is burned!
+2012-08-05 00:32:30 - [ERROR] - Problematic slices:
+2012-08-05 00:32:30 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j margerita RunnerPyzza/test/basicNGS/mRNAfor.fastq./RunnerPyzza/test/basicNGS/mRNAfor.fastq, Return code 154
+2012-08-05 00:33:38 - [INFO] - Automatic pyzza!
+2012-08-05 00:33:38 - [INFO] - Reading inputs
+2012-08-05 00:33:38 - [INFO] - Reading machines XML...
+2012-08-05 00:33:38 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:33:38 - [INFO] - Open cominication with daemon...
+2012-08-05 00:33:38 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:33:38 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:33:38 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:33:39 - [INFO] - Pyzza ordered with id Margherita_20120804_153348
+2012-08-05 00:33:40 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:33:42 - [INFO] - Pyzza with id Margherita_20120804_153348 is in the oven!
+2012-08-05 00:33:43 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:33:44 - [WARNING] - The Pyzza with id Margherita_20120804_153348 is still in the oven!
+2012-08-05 00:33:44 - [WARNING] - 0 slices cooked!
+2012-08-05 00:33:49 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:33:51 - [WARNING] - The Pyzza with id Margherita_20120804_153348 is still in the oven!
+2012-08-05 00:33:51 - [WARNING] - 0 slices cooked!
+2012-08-05 00:33:56 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:33:58 - [WARNING] - The Pyzza with id Margherita_20120804_153348 is still in the oven!
+2012-08-05 00:33:58 - [WARNING] - 0 slices cooked!
+2012-08-05 00:34:03 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:34:04 - [WARNING] - The Pyzza with id Margherita_20120804_153348 is still in the oven!
+2012-08-05 00:34:04 - [WARNING] - 0 slices cooked!
+2012-08-05 00:34:09 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:34:11 - [WARNING] - The Pyzza with id Margherita_20120804_153348 is still in the oven!
+2012-08-05 00:34:11 - [WARNING] - 0 slices cooked!
+2012-08-05 00:34:16 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:34:17 - [WARNING] - The Pyzza with id Margherita_20120804_153348 is still in the oven!
+2012-08-05 00:34:17 - [WARNING] - 0 slices cooked!
+2012-08-05 00:34:22 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:34:25 - [WARNING] - The Pyzza with id Margherita_20120804_153348 is still in the oven!
+2012-08-05 00:34:25 - [WARNING] - 0 slices cooked!
+2012-08-05 00:34:30 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:34:31 - [ERROR] - The Pyzza with id Margherita_20120804_153348 is burned!
+2012-08-05 00:34:31 - [ERROR] - Problematic slices:
+2012-08-05 00:34:31 - [ERROR] - Slice 1, Status FAIL, Ingredients tophat -r 0 chr1 margerita_1.fastq, Return code -1
+2012-08-05 00:35:16 - [INFO] - Automatic pyzza!
+2012-08-05 00:35:16 - [INFO] - Reading inputs
+2012-08-05 00:35:16 - [INFO] - Reading machines XML...
+2012-08-05 00:35:16 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:35:16 - [INFO] - Open cominication with daemon...
+2012-08-05 00:35:16 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:35:16 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:35:16 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:35:17 - [INFO] - Pyzza ordered with id Margherita_20120804_153525
+2012-08-05 00:35:18 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:35:20 - [INFO] - Pyzza with id Margherita_20120804_153525 is in the oven!
+2012-08-05 00:35:21 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:35:22 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:35:22 - [WARNING] - 0 slices cooked!
+2012-08-05 00:35:27 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:35:29 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:35:29 - [WARNING] - 0 slices cooked!
+2012-08-05 00:35:34 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:35:35 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:35:35 - [WARNING] - 0 slices cooked!
+2012-08-05 00:35:40 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:35:42 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:35:42 - [WARNING] - 0 slices cooked!
+2012-08-05 00:35:47 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:35:48 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:35:48 - [WARNING] - 0 slices cooked!
+2012-08-05 00:35:53 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:35:55 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:35:55 - [WARNING] - 0 slices cooked!
+2012-08-05 00:36:00 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:36:02 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:36:02 - [WARNING] - 0 slices cooked!
+2012-08-05 00:36:07 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:36:08 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:36:08 - [WARNING] - 0 slices cooked!
+2012-08-05 00:36:13 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:36:15 - [WARNING] - The Pyzza with id Margherita_20120804_153525 is still in the oven!
+2012-08-05 00:36:15 - [WARNING] - 0 slices cooked!
+2012-08-05 00:36:20 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:36:21 - [ERROR] - The Pyzza with id Margherita_20120804_153525 is burned!
+2012-08-05 00:36:21 - [ERROR] - Problematic slices:
+2012-08-05 00:36:21 - [ERROR] - Slice 1, Status FAIL, Ingredients tophat -r 0 chr1 margerita_1.fastq margerita_2.fastq, Return code -1
+2012-08-05 00:38:42 - [INFO] - Automatic pyzza!
+2012-08-05 00:38:42 - [INFO] - Reading inputs
+2012-08-05 00:38:42 - [INFO] - Reading machines XML...
+2012-08-05 00:38:42 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:38:42 - [INFO] - Open cominication with daemon...
+2012-08-05 00:38:42 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:38:42 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:38:42 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:38:43 - [INFO] - Pyzza ordered with id Margherita_20120804_153851
+2012-08-05 00:38:44 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:38:46 - [INFO] - Pyzza with id Margherita_20120804_153851 is in the oven!
+2012-08-05 00:38:47 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:38:48 - [WARNING] - The Pyzza with id Margherita_20120804_153851 is still in the oven!
+2012-08-05 00:38:48 - [WARNING] - 0 slices cooked!
+2012-08-05 00:38:53 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:38:55 - [WARNING] - The Pyzza with id Margherita_20120804_153851 is still in the oven!
+2012-08-05 00:38:55 - [WARNING] - 0 slices cooked!
+2012-08-05 00:39:00 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:39:01 - [ERROR] - The Pyzza with id Margherita_20120804_153851 is burned!
+2012-08-05 00:39:01 - [ERROR] - Problematic slices:
+2012-08-05 00:39:01 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j pin RunnerPyzza/test/basicNGS/pinot_1.fastq,./RunnerPyzza/test/basicNGS/pinot_2.fastq, Return code -1
+2012-08-05 00:41:40 - [INFO] - Automatic pyzza!
+2012-08-05 00:41:40 - [INFO] - Reading inputs
+2012-08-05 00:41:40 - [INFO] - Reading machines XML...
+2012-08-05 00:41:40 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:41:40 - [INFO] - Open cominication with daemon...
+2012-08-05 00:41:40 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:41:40 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:41:42 - [INFO] - Pyzza ordered with id Margherita_20120804_154150
+2012-08-05 00:41:43 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:41:44 - [INFO] - Pyzza with id Margherita_20120804_154150 is in the oven!
+2012-08-05 00:41:45 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:41:47 - [WARNING] - The Pyzza with id Margherita_20120804_154150 is still in the oven!
+2012-08-05 00:41:47 - [WARNING] - 0 slices cooked!
+2012-08-05 00:41:52 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:41:53 - [WARNING] - The Pyzza with id Margherita_20120804_154150 is still in the oven!
+2012-08-05 00:41:53 - [WARNING] - 0 slices cooked!
+2012-08-05 00:41:58 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:42:00 - [ERROR] - The Pyzza with id Margherita_20120804_154150 is burned!
+2012-08-05 00:42:00 - [ERROR] - Problematic slices:
+2012-08-05 00:42:00 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j pin RunnerPyzza/test/basicNGS/pinot_1.fastq,./RunnerPyzza/test/basicNGS/pinot_2.fastq, Return code -1
+2012-08-05 00:43:23 - [INFO] - Automatic pyzza!
+2012-08-05 00:43:23 - [INFO] - Reading inputs
+2012-08-05 00:43:23 - [INFO] - Reading machines XML...
+2012-08-05 00:43:23 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:43:23 - [INFO] - Open cominication with daemon...
+2012-08-05 00:43:23 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:43:23 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:43:23 - [INFO] - Created program Finito?, using 1 CPUs
+2012-08-05 00:43:25 - [INFO] - Pyzza ordered with id Margherita_20120804_154333
+2012-08-05 00:43:26 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:43:27 - [INFO] - Pyzza with id Margherita_20120804_154333 is in the oven!
+2012-08-05 00:43:28 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:43:30 - [WARNING] - The Pyzza with id Margherita_20120804_154333 is still in the oven!
+2012-08-05 00:43:30 - [WARNING] - 0 slices cooked!
+2012-08-05 00:43:35 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:43:37 - [WARNING] - The Pyzza with id Margherita_20120804_154333 is still in the oven!
+2012-08-05 00:43:37 - [WARNING] - 0 slices cooked!
+2012-08-05 00:43:42 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:43:43 - [ERROR] - The Pyzza with id Margherita_20120804_154333 is burned!
+2012-08-05 00:43:43 - [ERROR] - Problematic slices:
+2012-08-05 00:43:43 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j pin RunnerPyzza/test/basicNGS/pinot_1.fastq,./RunnerPyzza/test/basicNGS/pinot_2.fastq, Return code -1
+2012-08-05 00:44:38 - [INFO] - Automatic pyzza!
+2012-08-05 00:44:38 - [INFO] - Reading inputs
+2012-08-05 00:44:38 - [INFO] - Reading machines XML...
+2012-08-05 00:44:38 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:44:38 - [INFO] - Open cominication with daemon...
+2012-08-05 00:44:38 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:44:38 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:44:38 - [INFO] - Created program Finito?, using 1 CPUs
+2012-08-05 00:44:40 - [INFO] - Pyzza ordered with id Margherita_20120804_154448
+2012-08-05 00:44:41 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:44:42 - [INFO] - Pyzza with id Margherita_20120804_154448 is in the oven!
+2012-08-05 00:44:43 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:44:45 - [ERROR] - The Pyzza with id Margherita_20120804_154448 is burned!
+2012-08-05 00:44:45 - [ERROR] - Problematic slices:
+2012-08-05 00:44:45 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j pin RunnerPyzza/test/basicNGS/pinot_1.fastq,./RunnerPyzza/test/basicNGS/pinot_2.fastq, Return code 154
+2012-08-05 00:46:32 - [INFO] - Automatic pyzza!
+2012-08-05 00:46:32 - [INFO] - Reading inputs
+2012-08-05 00:46:32 - [INFO] - Reading machines XML...
+2012-08-05 00:46:32 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:46:32 - [INFO] - Open cominication with daemon...
+2012-08-05 00:46:32 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:46:32 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:46:32 - [INFO] - Created program Finito?, using 1 CPUs
+2012-08-05 00:46:34 - [INFO] - Pyzza ordered with id Margherita_20120804_154642
+2012-08-05 00:46:35 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:46:36 - [INFO] - Pyzza with id Margherita_20120804_154642 is in the oven!
+2012-08-05 00:46:37 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:46:39 - [ERROR] - The Pyzza with id Margherita_20120804_154642 is burned!
+2012-08-05 00:46:39 - [ERROR] - Problematic slices:
+2012-08-05 00:46:39 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j pin RunnerPyzza/test/basicNGS/pinot_1.fastq,./RunnerPyzza/test/basicNGS/pinot_2.fastq, Return code 154
+2012-08-05 00:47:28 - [INFO] - Automatic pyzza!
+2012-08-05 00:47:28 - [INFO] - Reading inputs
+2012-08-05 00:47:28 - [INFO] - Reading machines XML...
+2012-08-05 00:47:28 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:47:28 - [INFO] - Open cominication with daemon...
+2012-08-05 00:47:28 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:47:28 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:47:28 - [INFO] - Created program Finito?, using 1 CPUs
+2012-08-05 00:47:29 - [INFO] - Pyzza ordered with id Margherita_20120804_154738
+2012-08-05 00:47:30 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:47:32 - [INFO] - Pyzza with id Margherita_20120804_154738 is in the oven!
+2012-08-05 00:47:33 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:47:34 - [WARNING] - The Pyzza with id Margherita_20120804_154738 is still in the oven!
+2012-08-05 00:47:34 - [WARNING] - 0 slices cooked!
+2012-08-05 00:47:44 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:47:46 - [ERROR] - The Pyzza with id Margherita_20120804_154738 is burned!
+2012-08-05 00:47:46 - [ERROR] - Problematic slices:
+2012-08-05 00:47:46 - [ERROR] - Slice 0, Status FAIL, Ingredients findTRIM -j pin RunnerPyzza/test/basicNGS/pinot_1.fastq,./RunnerPyzza/test/basicNGS/pinot_2.fastq, Return code -1
+2012-08-05 00:50:34 - [INFO] - Automatic pyzza!
+2012-08-05 00:50:34 - [INFO] - Reading inputs
+2012-08-05 00:50:34 - [INFO] - Reading machines XML...
+2012-08-05 00:50:34 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:50:34 - [INFO] - Open cominication with daemon...
+2012-08-05 00:50:34 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:50:34 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:50:34 - [INFO] - Created program Finito?, using 1 CPUs
+2012-08-05 00:50:35 - [INFO] - Pyzza ordered with id Margherita_20120804_155043
+2012-08-05 00:50:36 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:50:38 - [INFO] - Pyzza with id Margherita_20120804_155043 is in the oven!
+2012-08-05 00:50:39 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:50:40 - [WARNING] - The Pyzza with id Margherita_20120804_155043 is still in the oven!
+2012-08-05 00:50:40 - [WARNING] - 0 slices cooked!
+2012-08-05 00:50:50 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:50:52 - [WARNING] - The Pyzza with id Margherita_20120804_155043 is still in the oven!
+2012-08-05 00:50:52 - [WARNING] - 0 slices cooked!
+2012-08-05 00:51:02 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:51:03 - [WARNING] - The Pyzza with id Margherita_20120804_155043 is still in the oven!
+2012-08-05 00:51:03 - [WARNING] - 0 slices cooked!
+2012-08-05 00:51:13 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:51:15 - [WARNING] - The Pyzza with id Margherita_20120804_155043 is still in the oven!
+2012-08-05 00:51:15 - [WARNING] - 0 slices cooked!
+2012-08-05 00:51:25 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:51:26 - [INFO] - The Pyzza with id Margherita_20120804_155043 is ready!
+2012-08-05 00:51:26 - [INFO] - Let me eat my pyzza!
+2012-08-05 00:51:28 - [INFO] - Eating slice 0
+2012-08-05 00:51:28 - [INFO] - Results for program Clean your Reads
+2012-08-05 00:51:28 - [INFO] - Machine 192.168.3.106
+2012-08-05 00:51:28 - [INFO] - Exit status -1
+2012-08-05 00:51:28 - [INFO] - [1;32m[None][0m
+2012-08-05 00:51:28 - [INFO] - [1;31m[15:50:47 - findtools - [INFO] - Start findTRIM][0m
+2012-08-05 00:51:28 - [INFO] - [1;31m[15:50:47 - findtools - [INFO] - cmd: /usr/local/bin/findTRIM -j pin RunnerPyzza/test/basicNGS/pinot_1.fastq,./RunnerPyzza/test/basicNGS/pinot_2.fastq][0m
+2012-08-05 00:51:28 - [INFO] - [1;31m[15:50:56 - findtools - [INFO] - Total in read (pair)= 125000][0m
+2012-08-05 00:51:28 - [INFO] - [1;31m[15:50:56 - findtools - [INFO] - Total in bp = 21250000][0m
+2012-08-05 00:51:28 - [INFO] - [1;31m[15:50:56 - findtools - [INFO] - Trim in bp = 2535378][0m
+2012-08-05 00:51:28 - [INFO] - [1;31m[15:50:56 - findtools - [INFO] - Trash reads= 7844][0m
+2012-08-05 00:51:28 - [INFO] - [1;31m[15:50:56 - findtools - [INFO] - Done findTRIM][0m
+2012-08-05 00:51:28 - [INFO] - Results for program Build your Genome
+2012-08-05 00:51:28 - [INFO] - Machine 192.168.3.106
+2012-08-05 00:51:28 - [INFO] - Exit status 0
+2012-08-05 00:51:28 - [INFO] - [1;32m[Settings:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Output files: "chr1.*.ebwt"][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Line rate: 6 (line is 64 bytes)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Lines per side: 1 (side is 64 bytes)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Offset rate: 5 (one in 32)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  FTable chars: 10][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Strings: unpacked][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Max bucket size: default][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Max bucket size, sqrt multiplier: default][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Max bucket size, len divisor: 4][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Difference-cover sample period: 1024][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Endianness: little][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Actual local endianness: little][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sanity checking: disabled][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Assertions: disabled][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Random seed: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sizeofs: void*:4, int:4, long:4, size_t:4][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Input files DNA, FASTA:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  ./RunnerPyzza/test/basicNGS/chr1.fa][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Reading reference sizes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Time reading reference sizes: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Calculating joined length][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Writing header][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Reserving space for joined string][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Joining reference sequences][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Time to join reference sequences: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[bmax according to bmaxDivN setting: 5645811][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Using parameters --bmax 4234359 --dcv 1024][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Doing ahead-of-time memory usage test][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Passed!  Constructing with these parameters: --bmax 4234359 --dcv 1024][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Constructing suffix-array element generator][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Building DifferenceCoverSample][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Building sPrime][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Building sPrimeOrder][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  V-Sorting samples][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  V-Sorting samples time: 00:00:02][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Allocating rank array][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Ranking v-sort output][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Ranking v-sort output time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sanity-checking and returning][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Building samples][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Reserving space for 12 sample suffixes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Generating random suffixes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[QSorting 12 sample offsets, eliminating duplicates][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[QSorting sample offsets, eliminating duplicates time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Multikey QSorting 12 samples][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Multikey QSorting samples time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Calculating bucket sizes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Binary sorting into buckets][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Binary sorting into buckets time: 00:00:03][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Splitting and merging][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Splitting and merging time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Split 1, merged 6; iterating...][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Binary sorting into buckets][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Binary sorting into buckets time: 00:00:02][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Splitting and merging][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Splitting and merging time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Avg bucket size: 3.22618e+06 (target: 4234358)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Converting suffix-array elements to index image][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Allocating ftab, absorbFtab][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Entering Ebwt loop][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 1 of 7][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 3525562][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:02][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 3525563][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 2 of 7][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 2933204][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 2933205][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 3 of 7][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 4221643][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 4221644][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 4 of 7][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 3750874][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:02][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 3750875][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 5 of 7][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 3395162][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 3395163][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 6 of 7][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 2325917][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 2325918][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 7 of 7][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 2430878][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 2430879][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Exited Ebwt loop][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[A]: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[C]: 7407748][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[G]: 11289828][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[T]: 15187953][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[$]: 22583246][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Exiting Ebwt::buildToDisk()][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning from initFromVector][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Wrote 10651906 bytes to primary EBWT file: chr1.1.ebwt][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Wrote 2822912 bytes to secondary EBWT file: chr1.2.ebwt][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Re-opening _in1 and _in2 as input streams][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning from Ebwt constructor][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Headers:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    len: 22583246][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    bwtLen: 22583247][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sz: 5645812][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    bwtSz: 5645812][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    lineRate: 6][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    linesPerSide: 1][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offRate: 5][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offMask: 0xffffffe0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaRate: -1][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaMask: 0xffffffff][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ftabChars: 10][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    eftabLen: 20][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    eftabSz: 80][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ftabLen: 1048577][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ftabSz: 4194308][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offsLen: 705727][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offsSz: 2822908][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaLen: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaSz: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    lineSz: 64][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sideSz: 64][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sideBwtSz: 56][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sideBwtLen: 224][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    numSidePairs: 50410][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    numSides: 100820][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    numLines: 100820][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ebwtTotLen: 6452480][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ebwtTotSz: 6452480][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    reverse: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Total time for call to driver() for forward index: 00:00:22][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Reading reference sizes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Time reading reference sizes: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Calculating joined length][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Writing header][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Reserving space for joined string][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Joining reference sequences][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Time to join reference sequences: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[bmax according to bmaxDivN setting: 5645811][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Using parameters --bmax 4234359 --dcv 1024][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Doing ahead-of-time memory usage test][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Passed!  Constructing with these parameters: --bmax 4234359 --dcv 1024][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Constructing suffix-array element generator][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Building DifferenceCoverSample][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Building sPrime][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Building sPrimeOrder][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  V-Sorting samples][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  V-Sorting samples time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Allocating rank array][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Ranking v-sort output][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Ranking v-sort output time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Invoking Larsson-Sadakane on ranks time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sanity-checking and returning][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Building samples][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Reserving space for 12 sample suffixes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Generating random suffixes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[QSorting 12 sample offsets, eliminating duplicates][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[QSorting sample offsets, eliminating duplicates time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Multikey QSorting 12 samples][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Multikey QSorting samples time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Calculating bucket sizes][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Binary sorting into buckets][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Binary sorting into buckets time: 00:00:02][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Splitting and merging][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Splitting and merging time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Avg bucket size: 2.8229e+06 (target: 4234358)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Converting suffix-array elements to index image][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Allocating ftab, absorbFtab][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Entering Ebwt loop][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 1 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 2262462][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 2262463][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 2 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 2950089][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 2950090][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 3 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 1613931][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 1613932][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 4 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 3715185][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 3715186][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 5 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 4204839][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:02][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 4204840][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 6 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 1666138][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 1666139][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 7 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 2715685][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 2715686][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Getting block 8 of 8][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Reserving size (4234359) for bucket][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Calculating Z arrays time: 00:00:00][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Entering block accumulator loop:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  10%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  20%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  30%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  40%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  50%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  60%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  70%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  80%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  90%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  100%][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Block accumulator loop time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block of length 3454910][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  (Using difference cover)][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[  Sorting block time: 00:00:01][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning block of 3454911][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Exited Ebwt loop][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[A]: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[C]: 7407748][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[G]: 11289828][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[T]: 15187953][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[fchr[$]: 22583246][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Exiting Ebwt::buildToDisk()][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning from initFromVector][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Wrote 10651906 bytes to primary EBWT file: chr1.rev.1.ebwt][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Wrote 2822912 bytes to secondary EBWT file: chr1.rev.2.ebwt][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Re-opening _in1 and _in2 as input streams][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Returning from Ebwt constructor][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Headers:][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    len: 22583246][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    bwtLen: 22583247][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sz: 5645812][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    bwtSz: 5645812][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    lineRate: 6][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    linesPerSide: 1][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offRate: 5][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offMask: 0xffffffe0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaRate: -1][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaMask: 0xffffffff][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ftabChars: 10][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    eftabLen: 20][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    eftabSz: 80][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ftabLen: 1048577][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ftabSz: 4194308][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offsLen: 705727][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    offsSz: 2822908][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaLen: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    isaSz: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    lineSz: 64][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sideSz: 64][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sideBwtSz: 56][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    sideBwtLen: 224][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    numSidePairs: 50410][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    numSides: 100820][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    numLines: 100820][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ebwtTotLen: 6452480][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    ebwtTotSz: 6452480][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[    reverse: 0][0m
+2012-08-05 00:51:28 - [INFO] - [1;32m[Total time for backward call to driver() for mirror index: 00:00:17][0m
+2012-08-05 00:51:28 - [INFO] - Eating slice 1
+2012-08-05 00:51:28 - [INFO] - Results for program Finito?
+2012-08-05 00:51:28 - [INFO] - Machine 192.168.3.106
+2012-08-05 00:51:28 - [INFO] - Exit status 0
+2012-08-05 00:51:28 - [INFO] - [1;32m[Sat Aug  4 15:51:27 PDT 2012][0m
+2012-08-05 00:51:28 - [INFO] - Let's clean the table and go home!
+2012-08-05 00:53:16 - [INFO] - Automatic pyzza!
+2012-08-05 00:53:16 - [INFO] - Reading inputs
+2012-08-05 00:53:16 - [INFO] - Reading machines XML...
+2012-08-05 00:53:16 - [INFO] - Added "Server 3", with hostname 192.168.3.106 and user runnerpyzza
+2012-08-05 00:53:16 - [INFO] - Open cominication with daemon...
+2012-08-05 00:53:16 - [INFO] - Created program Clean your Reads, using 1 CPUs
+2012-08-05 00:53:16 - [INFO] - Created program Build your Genome, using 1 CPUs
+2012-08-05 00:53:16 - [INFO] - Created program Mapping, using 1 CPUs
+2012-08-05 00:53:16 - [INFO] - Created program Finito?, using 1 CPUs
+2012-08-05 00:53:18 - [INFO] - Pyzza ordered with id Margherita_20120804_155326
+2012-08-05 00:53:19 - [INFO] - Let's put the pyzza in the oven!
+2012-08-05 00:53:20 - [INFO] - Pyzza with id Margherita_20120804_155326 is in the oven!
+2012-08-05 00:53:21 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:53:23 - [WARNING] - The Pyzza with id Margherita_20120804_155326 is still in the oven!
+2012-08-05 00:53:23 - [WARNING] - 0 slices cooked!
+2012-08-05 00:53:33 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:53:34 - [WARNING] - The Pyzza with id Margherita_20120804_155326 is still in the oven!
+2012-08-05 00:53:34 - [WARNING] - 0 slices cooked!
+2012-08-05 00:53:44 - [INFO] - Let's check if the pyzza is ready!
+2012-08-05 00:53:46 - [WARNING] - The Pyzza with id Margherita_20120804_155326 is still in the oven!
+2012-08-05 00:53:46 - [WARNING] - 0 slices cooked!
