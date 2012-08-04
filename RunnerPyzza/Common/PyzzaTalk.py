@@ -76,8 +76,8 @@ class PyzzaTalk(object):
         Automatically converted with the PyzzaProtocol
         True if it worked, False otherwise
         '''
-        if hasattr(obj, 'body'):
-            logger.warning('--> %s'%obj.body)
+        #if hasattr(obj, 'body'):
+        #    logger.warning('--> %s'%obj.body)
         msg = self.oprtcl.interpretate(obj)
         try:
             self.socket.send( str(msg) )
@@ -100,13 +100,13 @@ class PyzzaTalk(object):
                 if msg[-2:] == '}\n' :
                     break
             obj = self.iprtcl.interpretate(msg)
-            if hasattr(obj, 'body'):
-                logger.warning('<-- %s'%obj.body)
-            elif  self.iprtcl.type != 'system':
-                logger.warning('<-- %s'%self.iprtcl.type)
-            else:
-                print obj
-                print msg
+            #if hasattr(obj, 'body'):
+            #    logger.warning('<-- %s'%obj.body)
+            #elif  self.iprtcl.type != 'system':
+            #    logger.warning('<-- %s'%self.iprtcl.type)
+            #else:
+            #    print obj
+            #    print msg
             return obj, self.iprtcl.type
         except Exception, e:
             logger.warning('Receive error! %s'
@@ -127,13 +127,13 @@ class PyzzaTalk(object):
                 if msg[-2:] == '}\n' :
                     break
             obj = self.iprtcl.interpretate(msg)
-            if hasattr(obj, 'body'):
-                logger.warning('<-- %s'%obj.body)
-            elif  'values' in msg:
-                logger.warning('<-- %s'%msg.type)
-            else:
-                print obj
-                print msg
+            #if hasattr(obj, 'body'):
+            #    logger.warning('<-- %s'%obj.body)
+            #elif  'values' in msg:
+            #    logger.warning('<-- %s'%msg.type)
+            #else:
+            #    print obj
+            #    print msg
             return obj
         except Exception, e:
             logger.warning('Receive error! %s'
