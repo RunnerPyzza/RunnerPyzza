@@ -21,6 +21,7 @@ class runner_build_py(build_py):
         except:
             pass
         shutil.copy2("RPdaemon.conf", "/etc/runnerpyzza/RPdaemon.conf")
+        shutil.copy2("runnerpyzza", "/etc/runnerpyzza/runnerpyzza")
         print "RunnerPyzza basic configuration ... Done!"
 
     def run(self):
@@ -33,7 +34,7 @@ setup(
     author = 'Marco Galardina - Emilio Potenza',
     author_email = 'marco.galardini@gmail.com - emilio.potenza@gmail.com',
     packages = ['RunnerPyzza','RunnerPyzza.ClientCommon', 'RunnerPyzza.Common', 'RunnerPyzza.LauncherManager', 'RunnerPyzza.ServerCommon'], 
-    scripts = ['RPdaemon','RPlauncher'],  
+    scripts = ['RPdaemon','RPlauncher','RPaddservice','RPadduser','RPpreparedir','RPsshkeys'],  
     #url = 'http://RunnerPyzza', 
     license = 'LICENSE.txt',
     description = 'Baciammo le mane',
