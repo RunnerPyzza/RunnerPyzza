@@ -3,10 +3,7 @@ from distutils.command.build_py import build_py
 import os
 import shutil
 import stat
-__version__ ='0.1.2'
-### Change also __init__.py 
-
-
+from RunnerPyzza import __version__ 
 
 class runner_build_py(build_py):
     def runner_install(self):
@@ -31,7 +28,7 @@ class runner_build_py(build_py):
 setup(
     name = 'RunnerPyzza',
     version = __version__,
-    author = 'Marco Galardina - Emilio Potenza',
+    author = 'Marco Galardini - Emilio Potenza',
     author_email = 'marco.galardini@gmail.com - emilio.potenza@gmail.com',
     packages = ['RunnerPyzza','RunnerPyzza.ClientCommon', 'RunnerPyzza.Common', 'RunnerPyzza.LauncherManager', 'RunnerPyzza.ServerCommon'], 
     scripts = ['RPdaemon','RPlauncher','RPaddservice','RPadduser','RPpreparedir','RPsshkeys'],  
