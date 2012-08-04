@@ -322,6 +322,8 @@ formatter = logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s',
 fh.setFormatter(formatter)
 logger.addHandler(fh)
 
+options.func(options)
+
 ################################################################################
 # Implementation
 
@@ -339,17 +341,6 @@ def launcherQuit(client_socket = None, quit_msg = None, exit = True):
         logging.info("Bye Bye!")
     if exit:
         sys.exit()
-
-################################################################################
-# Main
-
-def main():
-    logger.info('Starting...')
-    
-    options.func(options)
-
-if __name__ == '__main__':
-    main()
 
 
 
