@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Machine configuration file example -->
+
+<machinesSetup xmlns="RunnerPyzza"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="RunnerPyzza MachinesSetup.xsd">
+  
+  <!-- Machine section used for each machine/user -->
+  <machine>
+    <name>Test machine</name>
+    <hostname>127.0.0.1</hostname>
+    <user>runnerpyzza</user>
+  </machine>
+
+  <!-- Add more machines here -->
+  
+</machinesSetup>
