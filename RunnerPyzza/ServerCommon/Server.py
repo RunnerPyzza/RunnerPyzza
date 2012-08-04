@@ -327,10 +327,6 @@ class Server():
         job=Job(jobID)
         logger.info("Server : Initialize Job %s"%(jobID))
         
-        # If we have default machines just ad them!
-        if len(self.defaultMachines) > 0:
-            job.defaultMachine(self.defaultMachines)
-        
         ###
         #set local
         obj, mtype = self.PyzzaOven.getExtendedMessage()
@@ -357,6 +353,17 @@ class Server():
                 self.PyzzaOven.send(self.fail)
         else:
             self.PyzzaOven.send(self.fail)
+            return
+        
+        # If it is a local job, remove all the machines and put just myself
+        if not job.isNFS:
+            logger.info('Local job: the only machine is me')
+            job.defaultMachine([ Machine('DaemonMachine', '127.0.0.1', 'runnerpyzza') ])
+        else:
+            # If we have default machines just ad them!
+            if len(self.defaultMachines) > 0:
+                job.defaultMachine(self.defaultMachines)
+            
         #
         ###
         ###
@@ -364,8 +371,11 @@ class Server():
         while 1:
             obj, mtype = self.PyzzaOven.getExtendedMessage()
             if mtype == "machine":
-                logger.debug("Machine : %s"%(obj))
-                job.addMachine(obj)
+                if not job.isNFS:
+                    logger.warning('Local job, ignoring machine %s'%(obj))
+                else:
+                    logger.debug("Machine : %s"%(obj))
+                    job.addMachine(obj)
                 self.PyzzaOven.send(self.ok)
 
             elif mtype == "program":    
