@@ -1,0 +1,7 @@
+include *.txt *.sh *.xml
+esclude MANIFEST
+esclude MANIFEST.in
+prune build
+prune dist
+graft test
+
