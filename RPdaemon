@@ -51,7 +51,7 @@ logger.addHandler(ch)'''
 
 
 # create file handler
-fh = logging.FileHandler('RPdaemon.log')
+fh = logging.FileHandler('/etc/runnerpyzza/log/RPdaemon.log')
 # Set log level
 # The file handler by default print all the levels but DEBUG
 fh.setLevel(logging.DEBUG)

@@ -13,19 +13,14 @@ class runner_build_py(build_py):
         print "RunnerPyzza basic configuration ..."
         try:
             os.mkdir("/etc/runnerpyzza/")
-            os.system("chmod 777 /etc/runnerpyzza/")
-            #os.chmod("/etc/runnerpyzza/", stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
         except:
             pass
         try:
             os.mkdir("/etc/runnerpyzza/log")
             os.system("chmod 777 /etc/runnerpyzza/log")
-            #os.chmod("/etc/runnerpyzza/log", stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
         except:
             pass
         shutil.copy2("RPdaemon.conf", "/etc/runnerpyzza/RPdaemon.conf")
-        os.system("chmod 777 /etc/runnerpyzza/RPdaemon.conf")
-        #os.chmod("/etc/runnerpyzza/RPdaemon.conf", stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IWGRP | stat.S_IROTH | stat.S_IWOTH)
         print "RunnerPyzza basic configuration ... Done!"
 
     def run(self):
