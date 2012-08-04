@@ -10,6 +10,7 @@ from RunnerPyzza import __version__
 from RunnerPyzza.ClientCommon.PyzzaTalk import OrderPyzza, OvenPyzza, CheckPyzza, \
     EatPyzza, CleanPyzza
 from RunnerPyzza.LauncherManager.XMLHandler import MachinesSetup, ScriptChain
+from RunnerPyzza.Common.ColorLog import ColorFormatter
 import argparse
 import getpass
 import logging
@@ -300,8 +301,7 @@ else:
     ch.setLevel(logging.INFO)
 
 # create formatter for console handler
-formatter = logging.Formatter('%(asctime)s - %(message)s',
-                            '%H:%M:%S')
+formatter = ColorFormatter('%(asctime)s - $COLOR%(message)s$RESET','%H:%M:%S')
 # add formatter to console handler
 ch.setFormatter(formatter)
 
