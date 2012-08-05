@@ -22,6 +22,4 @@ if [ $UID -ne 0 ]; then
    die "Must be run as root"
 fi
 
-EXEC=/usr/local/bin/RPdaemon
-
-su - runnerpyzza -c '$EXEC $1' && echo "Runnerpyzza: Ok!" || die "could not touch runnerpyzza"
+su - runnerpyzza -c "/usr/local/bin/RPdaemon $1" && echo "Runnerpyzza: Ok!" || die "could not touch runnerpyzza"
