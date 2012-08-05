@@ -19,6 +19,10 @@ class runner_build_py(build_py):
             pass
         shutil.copy2("RPdaemon.conf", "/etc/runnerpyzza/RPdaemon.conf")
         shutil.copy2("runnerpyzza", "/etc/runnerpyzza/runnerpyzza")
+        try:
+            os.system("chmod 755 /etc/runnerpyzza/runnerpyzza")
+        except:
+            pass
         print "RunnerPyzza basic configuration ... Done!"
 
     def run(self):
