@@ -152,6 +152,17 @@ def results(options):
         logger.error('Could not eat the pyzza! %s'%options.jobID)
         return False
     else:
+        # Open the output file
+        if options.out == '':
+            fname = options.jobID + '.tsv'
+        else:
+            fname = options.out
+        logger.info('Saving slices outputs to %s'%fname)
+        fout = open(fname,'w')
+        fout.write( '\t'.join( ['# Slice', 'Name', 'Machine', 'Exit code',
+                                'stdout', 'stderr'] ) )
+        fout.write('\n')
+        
         for pyzzaslice in eater.getSlices():
             logger.info('Eating slice %d'%pyzzaslice)
             for program in eater.eatSlice(pyzzaslice):
@@ -159,10 +170,20 @@ def results(options):
                 logger.info('Machine %s'%program.getHost())
                 logger.info('Exit status %d'%program.getExit())
                 for line in program.getStdOut().splitlines():
+                    fout.write( '\t'.join( [str(pyzzaslice), program.name,
+                                    program.getHost(), str(program.getExit()),
+                                    line, ''] ) )
+                    fout.write('\n')
                     logger.info('\033[1;32m[%s]\033[0m'%line)
                 for line in program.getStdErr().splitlines():
+                    fout.write( '\t'.join( [str(pyzzaslice), program.name,
+                                    program.getHost(), str(program.getExit()),
+                                    '', line] ) )
+                    fout.write('\n')
                     logger.info('\033[1;31m[%s]\033[0m'%line)
-    
+        
+        fout.close()
+        
     return True
 
 def clean(options):
@@ -202,6 +223,10 @@ def getOptions():
     parser_auto.add_argument('-t', '--tag', action="store",
                              default='Margherita',
                             help='Pyzza tag')
+    parser_auto.add_argument('-o', '--out', action="store",
+            default='',
+            dest='out',
+            help='Results file name [Default: job ID]')
     parser_auto.add_argument('-l', '--local', action="store_true",
             default=False,
             help='Make a copy of the local input files on the main server (if NFS is not available)')
@@ -258,6 +283,10 @@ def getOptions():
     parser_results = subparsers.add_parser('results', help='Eat the pyzza')
     parser_results.add_argument('jobID', action="store",
                             help='Job ID')
+    parser_results.add_argument('-o', '--out', action="store",
+            default='',
+            dest='out',
+            help='Results file name [Default: job ID]')
     parser_results.add_argument('-l', '--local', action="store_true",
             default=False,
             help='Make a copy of the results files from the main server (if NFS is not available)')
