@@ -38,7 +38,7 @@ setup(
     scripts = ['RPdaemon','RPlauncher','RPaddservice','RPadduser','RPpreparedir','RPsshkeys'],  
     #url = 'http://RunnerPyzza', 
     license = 'LICENSE.txt',
-    description = 'Baciammo le mane',
+    description = 'An easy to use queue system for laboratory networks',
     long_description = open('README.txt').read(),
     install_requires = ["paramiko >= 1.7.7.2", "argparse >= 1.1"],
     cmdclass = {"build_py" : runner_build_py}
