@@ -16,5 +16,5 @@ if [ -f ~/.ssh/id_rsa ]; then
 else
     ssh-keygen -t rsa
 fi
-ssh-add || die "could not add the keys"
+#ssh-add || die "could not add the keys"
 ssh-copy-id $USER@$HOST || "could not copy the keys to $HOST"
